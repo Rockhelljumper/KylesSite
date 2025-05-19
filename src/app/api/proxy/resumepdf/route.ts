@@ -6,20 +6,45 @@ export const revalidate = 3600; // Cache for 1 hour
 export async function GET(request: NextRequest) {
   try {
     const url = new URL(request.url);
-    const pdfUrl = url.searchParams.get("url");
+    const filename = url.searchParams.get("filename");
 
-    if (!pdfUrl) {
+    if (!filename) {
       return NextResponse.json(
-        { error: "No PDF URL provided" },
+        { error: "No PDF filename provided" },
         { status: 400 }
       );
     }
 
+    // Get and sanitize the API base URL
+    let apiBaseUrl =
+      process.env.NEXT_PUBLIC_BACKEND_API_URL || "https://api.kylesimmons.tech";
+
+    // Remove trailing slash if present
+    if (apiBaseUrl.endsWith("/")) {
+      apiBaseUrl = apiBaseUrl.slice(0, -1);
+    }
+
+    // Remove @ symbol if it was accidentally included
+    if (apiBaseUrl.startsWith("@")) {
+      apiBaseUrl = apiBaseUrl.substring(1);
+    }
+
+    const pdfUrl = `${apiBaseUrl}/api/ResumePDF/${filename}`;
+
+    console.log("Fetching PDF from:", pdfUrl);
+
     const response = await fetch(pdfUrl);
 
     if (!response.ok) {
+      console.error(
+        "Failed to fetch PDF:",
+        response.status,
+        response.statusText
+      );
       return NextResponse.json(
-        { error: "Failed to fetch PDF" },
+        {
+          error: `Failed to fetch PDF: ${response.status} ${response.statusText}`,
+        },
         { status: response.status }
       );
     }
@@ -29,7 +54,7 @@ export async function GET(request: NextRequest) {
     return new NextResponse(pdfBuffer, {
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": "attachment; filename=resume.pdf",
+        "Content-Disposition": `attachment; filename=${filename}`,
         "Cache-Control": "public, max-age=3600",
       },
     });
