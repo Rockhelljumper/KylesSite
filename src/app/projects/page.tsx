@@ -58,9 +58,9 @@ export default function ProjectsPage() {
           <span className='text-gradient'>Projects</span>
         </h1>
         <p className='text-xl text-secondary max-w-2xl leading-relaxed transition-colors mb-8'>
-          A collection of technical projects and leadership accomplishments I've
-          contributed to throughout my career. Each represents a unique
-          challenge and learning opportunity.
+          A collection of technical projects and leadership accomplishments
+          I&apos;ve contributed to throughout my career. Each represents a
+          unique challenge and learning opportunity.
           <br />
           <br />
           *** Please Note! Not all projects are listed here. Most are private

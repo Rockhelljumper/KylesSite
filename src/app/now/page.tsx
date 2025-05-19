@@ -19,8 +19,8 @@ export default function NowPage() {
         </h1>
 
         <p className='text-xl text-secondary max-w-2xl leading-relaxed transition-colors mb-6'>
-          This is what I'm focused on right now — a snapshot of my current work,
-          interests, and priorities.
+          This is what I&apos;m focused on right now — a snapshot of my current
+          work, interests, and priorities.
         </p>
 
         <div
