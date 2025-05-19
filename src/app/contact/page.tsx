@@ -6,6 +6,7 @@ import { homeData } from "@/lib/data/homeData";
 import FormInput from "@/components/ui/FormInput";
 import Toast from "@/components/ui/Toast";
 import { submitContactForm } from "@/lib/api/emailService";
+import { Turnstile } from "@marsidev/react-turnstile";
 import {
   contactFormSchema,
   type ContactFormData,
@@ -26,6 +27,7 @@ export default function ContactPage() {
     email: "",
     subject: "",
     message: "",
+    turnstileToken: "",
   });
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -90,12 +92,20 @@ export default function ContactPage() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
+    if (!formValues.turnstileToken) {
+      setToastMessage("Please complete the Turnstile verification");
+      setToastVisible(true);
+      return;
+    }
+
     if (validateForm()) {
       setIsSubmitting(true);
 
       try {
         // Use our client-side utility to submit the form
-        const result = await submitContactForm(formValues);
+        const result = await submitContactForm({
+          ...formValues,
+        });
 
         if (!result.success) {
           throw new Error(result.error || "Failed to send message");
@@ -107,6 +117,7 @@ export default function ContactPage() {
           email: "",
           subject: "",
           message: "",
+          turnstileToken: "",
         });
 
         // Show success message
@@ -321,10 +332,18 @@ export default function ContactPage() {
                       required
                     ></textarea>
                     {formErrors.message && (
-                      <p className='text-red-500 text-xs mt-1'>
+                      <p className='mt-1 text-sm text-red-500'>
                         {formErrors.message}
                       </p>
                     )}
+                  </div>
+
+                  {/* Turnstile Widget */}
+                  <div className="flex justify-center my-4">
+                    <Turnstile
+                      siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ""}
+                      onSuccess={(token) => setFormValues(prev => ({ ...prev, turnstileToken: token }))}
+                    />
                   </div>
 
                   {/* Submit Button */}

@@ -11,6 +11,26 @@ const getPostmarkClient = () => {
   return new postmark.ServerClient(token);
 };
 
+// Verify Turnstile token
+async function verifyTurnstileToken(token: string) {
+  const response = await fetch(
+    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        secret: process.env.TURNSTILE_SECRET_KEY,
+        response: token,
+      }),
+    }
+  );
+
+  const data = await response.json();
+  return data.success;
+}
+
 // Format contact form data into HTML email
 const formatContactEmail = (
   fullName: string,
@@ -42,7 +62,7 @@ const formatAutoReplyEmail = (fullName: string, senderEmail: string) => {
       <h2 style="color: #333;">Thank You for Your Message</h2>
       <p>Dear ${fullName},</p>
       <p>Thank you for contacting me. I have received your message and will get back to you as soon as possible.</p>
-      <p>Best regards,<br/>${senderEmail}</p>
+      <p>Thank you,<br/>Kyle Simmons</p>
     </div>
   `;
 };
@@ -60,7 +80,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { fullName, email, subject, message } = result.data;
+    // Verify Turnstile token
+    const { turnstileToken, ...formData } = result.data;
+    if (!turnstileToken) {
+      return NextResponse.json(
+        { error: "Turnstile verification required" },
+        { status: 400 }
+      );
+    }
+
+    const isValidToken = await verifyTurnstileToken(turnstileToken);
+    if (!isValidToken) {
+      return NextResponse.json(
+        { error: "Invalid Turnstile token" },
+        { status: 400 }
+      );
+    }
+
+    const { fullName, email, subject, message } = formData;
     const senderEmail = process.env.POSTMARK_FROM_EMAIL;
     const receiverEmail = process.env.CONTACT_RECEIVER_EMAIL || senderEmail;
 

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@google-cloud/local-auth": "^3.0.1",
+    "@marsidev/react-turnstile": "^1.1.0",
     "@react-oauth/google": "^0.12.2",
     "@types/nodemailer": "^6.4.17",
     "next": "15.3.2",
