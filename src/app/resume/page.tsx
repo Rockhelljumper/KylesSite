@@ -32,49 +32,17 @@ export default function ResumePage() {
       const pdfFileName = variant.pdfFileName;
       console.log("Requesting PDF:", pdfFileName);
 
-      let response;
-      const isDevelopment = process.env.NODE_ENV === "development";
-
-      if (isDevelopment) {
-        // Use proxy endpoint in development
-        console.log("Using proxy endpoint (development)");
-        response = await fetch(
-          `/api/proxy/resumepdf?filename=${encodeURIComponent(pdfFileName)}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/pdf",
-            },
-          }
-        );
-      } else {
-        // Use direct API call in production
-        console.log("Using direct API call (production)");
-        // Get and sanitize the API base URL
-        let apiBaseUrl =
-          process.env.NEXT_PUBLIC_BACKEND_API_URL ||
-          "https://api.kylesimmons.tech";
-
-        // Remove trailing slash if present
-        if (apiBaseUrl.endsWith("/")) {
-          apiBaseUrl = apiBaseUrl.slice(0, -1);
-        }
-
-        // Remove @ symbol if it was accidentally included
-        if (apiBaseUrl.startsWith("@")) {
-          apiBaseUrl = apiBaseUrl.substring(1);
-        }
-
-        const pdfUrl = `${apiBaseUrl}/api/ResumePDF/${pdfFileName}`;
-        console.log("Fetching PDF directly from:", pdfUrl);
-
-        response = await fetch(pdfUrl, {
+      // Always use proxy endpoint to avoid CORS issues
+      console.log("Using proxy endpoint");
+      const response = await fetch(
+        `/api/proxy/resumepdf?filename=${encodeURIComponent(pdfFileName)}`,
+        {
           method: "GET",
           headers: {
             Accept: "application/pdf",
           },
-        });
-      }
+        }
+      );
 
       console.log("Response status:", response.status);
       console.log(
