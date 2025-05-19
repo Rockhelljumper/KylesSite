@@ -3,6 +3,7 @@ const nextConfig = {
   output: 'standalone',
   experimental: {
     outputFileTracingRoot: undefined, // Ensures proper file tracing
+    serverComponentsExternalPackages: ['postmark'], // Handle postmark package properly
   },
   // Enable static optimization where possible
   reactStrictMode: true,

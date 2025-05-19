@@ -2,8 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { contactFormSchema } from "@/lib/validation/contactSchema";
 import * as postmark from "postmark";
 
-// Initialize Postmark client
-const client = new postmark.ServerClient(process.env.POSTMARK_API_TOKEN || "");
+// Initialize Postmark client lazily to avoid build issues
+const getPostmarkClient = () => {
+  const token = process.env.POSTMARK_API_TOKEN;
+  if (!token) {
+    throw new Error("Postmark API token not configured");
+  }
+  return new postmark.ServerClient(token);
+};
 
 // Format contact form data into HTML email
 const formatContactEmail = (
@@ -59,8 +65,14 @@ export async function POST(request: NextRequest) {
     const receiverEmail = process.env.CONTACT_RECEIVER_EMAIL || senderEmail;
 
     if (!senderEmail) {
-      throw new Error("Sender email not configured");
+      return NextResponse.json(
+        { error: "Contact form not properly configured" },
+        { status: 503 }
+      );
     }
+
+    // Initialize client only when needed
+    const client = getPostmarkClient();
 
     // Send notification email to receiver
     await client.sendEmail({
@@ -84,8 +96,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error processing contact form:", error);
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
-      { error: "Failed to send message. Please try again later." },
+      {
+        error: "Failed to send message. Please try again later.",
+        details:
+          process.env.NODE_ENV === "development" ? errorMessage : undefined,
+      },
       { status: 500 }
     );
   }
