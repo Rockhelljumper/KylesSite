@@ -79,6 +79,7 @@ export const homeData: HomeData = {
       "Current focus areas and ongoing professional development through the Now page",
       "Comprehensive overview of my technical expertise and professional experience",
       "Multiple resume variants tailored to different roles and opportunities",
+      "This site is constantly evolving, so check back often to see the latest updates!",
     ],
   },
 };
