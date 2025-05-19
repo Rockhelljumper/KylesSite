@@ -5,25 +5,26 @@ import Link from "next/link";
 import { homeData } from "@/lib/data/homeData";
 import FormInput from "@/components/ui/FormInput";
 import Toast from "@/components/ui/Toast";
+import { submitContactForm } from "@/lib/api/emailService";
+import {
+  contactFormSchema,
+  type ContactFormData,
+} from "@/lib/validation/contactSchema";
 
 // Form validation types
-type FormValues = {
-  fullName: string;
-  email: string;
-  message: string;
-};
-
 type FormErrors = {
   fullName?: string;
   email?: string;
+  subject?: string;
   message?: string;
 };
 
 export default function ContactPage() {
   // Form state
-  const [formValues, setFormValues] = useState<FormValues>({
+  const [formValues, setFormValues] = useState<ContactFormData>({
     fullName: "",
     email: "",
+    subject: "",
     message: "",
   });
   const [formErrors, setFormErrors] = useState<FormErrors>({});
@@ -33,7 +34,7 @@ export default function ContactPage() {
   const [formVisible, setFormVisible] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
-  // Animate form on page load
+  // Initialize form animation
   useEffect(() => {
     setFormVisible(true);
   }, []);
@@ -53,66 +54,58 @@ export default function ContactPage() {
 
   // Form validation
   const validateForm = (): boolean => {
-    const errors: FormErrors = {};
+    const result = contactFormSchema.safeParse(formValues);
 
-    // Validate name
-    if (!formValues.fullName.trim()) {
-      errors.fullName = "Name is required";
+    if (!result.success) {
+      const errors: FormErrors = {};
+      const formattedErrors = result.error.format();
+
+      if (formattedErrors.fullName?._errors) {
+        errors.fullName = formattedErrors.fullName._errors[0];
+      }
+      if (formattedErrors.email?._errors) {
+        errors.email = formattedErrors.email._errors[0];
+      }
+      if (formattedErrors.subject?._errors) {
+        errors.subject = formattedErrors.subject._errors[0];
+      }
+      if (formattedErrors.message?._errors) {
+        errors.message = formattedErrors.message._errors[0];
+      }
+
+      setFormErrors(errors);
+      return false;
     }
 
-    // Validate email
-    if (!formValues.email.trim()) {
-      errors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formValues.email)) {
-      errors.email = "Please enter a valid email address";
-    }
-
-    // Validate message
-    if (!formValues.message.trim()) {
-      errors.message = "Message is required";
-    } else if (formValues.message.trim().length < 10) {
-      errors.message = "Message must be at least 10 characters";
-    }
-
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
+    return true;
   };
 
   // Check if form is valid for enabling/disabling submit button
   const isFormValid = (): boolean => {
-    return (
-      formValues.fullName.trim() !== "" &&
-      formValues.email.trim() !== "" &&
-      /\S+@\S+\.\S+/.test(formValues.email) &&
-      formValues.message.trim() !== "" &&
-      formValues.message.trim().length >= 10
-    );
+    const result = contactFormSchema.safeParse(formValues);
+    return result.success;
   };
 
   // Form submission handler
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (validateForm()) {
       setIsSubmitting(true);
 
-      // Simulate form submission
-      setTimeout(() => {
-        // Log form values to console
-        console.log("Form values:", formValues);
+      try {
+        // Use our client-side utility to submit the form
+        const result = await submitContactForm(formValues);
 
-        // TODO: Wire to API or Formspree
-        // Example implementation:
-        // fetch('/api/contact', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify(formValues)
-        // })
+        if (!result.success) {
+          throw new Error(result.error || "Failed to send message");
+        }
 
         // Reset form
         setFormValues({
           fullName: "",
           email: "",
+          subject: "",
           message: "",
         });
 
@@ -121,8 +114,15 @@ export default function ContactPage() {
           "Message sent successfully. I'll get back to you soon!"
         );
         setToastVisible(true);
+      } catch (error) {
+        console.error("Error sending message:", error);
+        setToastMessage(
+          "Sorry, there was an error sending your message. Please try again."
+        );
+        setToastVisible(true);
+      } finally {
         setIsSubmitting(false);
-      }, 1000);
+      }
     }
   };
 
@@ -202,189 +202,180 @@ export default function ContactPage() {
   };
 
   return (
-    <div className='container mx-auto px-4 py-24 md:py-32'>
-      <div className='max-w-4xl mx-auto px-4 pt-32 pb-20 sm:pt-40 sm:pb-32'>
-        <h1 className='text-4xl sm:text-5xl font-bold mb-6'>
-          <span className='text-gradient'>Let's Connect</span>
-        </h1>
-        <p className='text-xl text-secondary max-w-2xl leading-relaxed transition-colors mb-8'>
-          Have a question, project idea, or just want to say hello? I'd love to
-          hear from you. Fill out the form below or reach out through any of my
-          social channels.
-        </p>
-      </div>
+    <div className='flex flex-col px-4 min-h-[calc(100vh-4rem)] md:px-8 max-w-7xl mx-auto w-full py-12'>
+      <div className='max-w-4xl mx-auto w-full'>
+        <h1 className='text-3xl md:text-4xl font-bold mb-8'>Get in Touch</h1>
 
-      <div className='max-w-4xl mx-auto'>
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-12'>
-          {/* Contact Form */}
-          <div className='md:col-span-2'>
-            <form
-              ref={formRef}
-              onSubmit={handleSubmit}
-              className={`
-                bg-card rounded-xl p-8 border border-card-border shadow-sm
-                transition-all duration-700 transform
-                ${
-                  formVisible
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-8 opacity-0"
-                }
-              `}
-            >
-              <h2 className='text-2xl font-bold text-primary mb-6 transition-colors'>
-                Send a Message
-              </h2>
+        <div className='grid md:grid-cols-3 gap-10'>
+          {/* Contact Info */}
+          <div className='md:col-span-1 order-2 md:order-1'>
+            <div className='bg-card rounded-xl p-6 shadow-sm'>
+              <h2 className='text-xl font-semibold mb-4'>Contact Info</h2>
 
-              <FormInput
-                id='fullName'
-                name='fullName'
-                label='Full Name'
-                value={formValues.fullName}
-                placeholder='Your name'
-                required
-                error={formErrors.fullName}
-                onChange={handleChange}
-              />
-
-              <FormInput
-                id='email'
-                name='email'
-                type='email'
-                label='Email Address'
-                value={formValues.email}
-                placeholder='your.email@example.com'
-                required
-                error={formErrors.email}
-                onChange={handleChange}
-              />
-
-              <FormInput
-                id='message'
-                name='message'
-                label='Message'
-                value={formValues.message}
-                placeholder='Your message here...'
-                required
-                textarea
-                rows={6}
-                error={formErrors.message}
-                onChange={handleChange}
-              />
-
-              <button
-                type='submit'
-                disabled={isSubmitting || !isFormValid()}
-                className={`
-                  w-full md:w-auto px-6 py-3 rounded-md text-white font-medium shadow-sm
-                  transition-all duration-300
-                  ${
-                    isSubmitting || !isFormValid()
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-brand-primary hover:bg-brand-primary-hover"
-                  }
-                `}
-              >
-                {isSubmitting ? (
-                  <span className='flex items-center justify-center'>
-                    <svg
-                      className='animate-spin -ml-1 mr-2 h-4 w-4 text-white'
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='none'
-                      viewBox='0 0 24 24'
-                    >
-                      <circle
-                        className='opacity-25'
-                        cx='12'
-                        cy='12'
-                        r='10'
-                        stroke='currentColor'
-                        strokeWidth='4'
-                      ></circle>
-                      <path
-                        className='opacity-75'
-                        fill='currentColor'
-                        d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
-                      ></path>
-                    </svg>
-                    Sending...
-                  </span>
-                ) : (
-                  "Send Message"
-                )}
-              </button>
-            </form>
-          </div>
-
-          {/* Connect and Social Links */}
-          <div className='md:col-span-1'>
-            <div className='bg-card rounded-xl p-8 border border-card-border shadow-sm'>
-              <h2 className='text-2xl font-bold text-primary mb-6 transition-colors'>
-                Connect With Me
-              </h2>
-
-              {/* Email with copy functionality */}
-              <div className='mb-6'>
-                <h3 className='text-lg font-semibold text-secondary mb-2 transition-colors'>
-                  Email
-                </h3>
-                <button
-                  onClick={() => copyToClipboard("kyle.simmons@example.com")}
-                  className='flex items-center text-brand-primary hover:underline transition-colors'
+              <div className='space-y-4'>
+                {/* Email */}
+                <div
+                  className='flex items-center cursor-pointer hover:text-blue-500 transition-colors'
+                  onClick={() => copyToClipboard("kyle@example.com")}
                 >
-                  <svg
-                    className='w-5 h-5 mr-2'
-                    fill='none'
-                    stroke='currentColor'
-                    viewBox='0 0 24 24'
-                    xmlns='http://www.w3.org/2000/svg'
-                  >
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      strokeWidth={2}
-                      d='M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'
-                    />
-                  </svg>
-                  kyle.simmons@example.com
-                  <span className='ml-2 text-xs text-tertiary'>
-                    (Click to copy)
-                  </span>
-                </button>
-              </div>
+                  <div className='bg-primary/10 rounded-full p-2 mr-3'>
+                    {renderSocialIcon("email")}
+                  </div>
+                  <div>
+                    <div className='font-medium'>Email</div>
+                    <div className='text-sm text-muted-foreground'>
+                      kyle@example.com
+                    </div>
+                  </div>
+                </div>
 
-              {/* Social links */}
-              <div>
-                <h3 className='text-lg font-semibold text-secondary mb-3 transition-colors'>
-                  Find me on
-                </h3>
-                <div className='flex flex-col space-y-4'>
-                  {homeData.socialLinks.map((social) => (
-                    <a
-                      key={social.name}
-                      href={social.url}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='flex items-center text-tertiary hover:text-brand-primary transition-colors'
-                    >
-                      <span className='mr-3'>
-                        {renderSocialIcon(social.icon)}
-                      </span>
-                      {social.name}
-                    </a>
-                  ))}
+                {/* Social Links */}
+                <div className='pt-4 border-t'>
+                  <h3 className='text-sm font-medium mb-3'>Connect with me</h3>
+                  <div className='flex space-x-3'>
+                    {homeData.socialLinks.map((link) => (
+                      <Link
+                        key={link.icon}
+                        href={link.url}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='bg-card hover:bg-muted rounded-full p-2 transition-colors'
+                        aria-label={`Visit ${link.name}`}
+                      >
+                        {renderSocialIcon(link.icon)}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Contact Form */}
+          <div
+            className={`md:col-span-2 order-1 md:order-2 transition-opacity duration-500 ${
+              formVisible ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <div className='bg-card rounded-xl p-6 shadow-sm'>
+              <h2 className='text-xl font-semibold mb-4'>Send a Message</h2>
+
+              <form ref={formRef} onSubmit={handleSubmit}>
+                <div className='space-y-4'>
+                  {/* Name Input */}
+                  <FormInput
+                    id='fullName'
+                    label='Full Name'
+                    name='fullName'
+                    type='text'
+                    placeholder='Your full name'
+                    value={formValues.fullName}
+                    onChange={handleChange}
+                    error={formErrors.fullName}
+                    required
+                  />
+
+                  {/* Email Input */}
+                  <FormInput
+                    id='email'
+                    label='Email Address'
+                    name='email'
+                    type='email'
+                    placeholder='your.email@example.com'
+                    value={formValues.email}
+                    onChange={handleChange}
+                    error={formErrors.email}
+                    required
+                  />
+
+                  {/* Subject Input */}
+                  <FormInput
+                    id='subject'
+                    label='Subject'
+                    name='subject'
+                    type='text'
+                    value={formValues.subject}
+                    onChange={handleChange}
+                    error={formErrors.subject}
+                    required
+                  />
+
+                  {/* Message Textarea */}
+                  <div className='form-group'>
+                    <label
+                      htmlFor='message'
+                      className='block text-sm font-medium mb-1'
+                    >
+                      Message
+                    </label>
+                    <textarea
+                      id='message'
+                      name='message'
+                      rows={5}
+                      className={`w-full px-4 py-2 border rounded-md bg-background focus:ring-2 focus:ring-primary/50 ${
+                        formErrors.message ? "border-red-500" : "border-input"
+                      }`}
+                      placeholder='Enter your message here...'
+                      value={formValues.message}
+                      onChange={handleChange}
+                      required
+                    ></textarea>
+                    {formErrors.message && (
+                      <p className='text-red-500 text-xs mt-1'>
+                        {formErrors.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Submit Button */}
+                  <div className='pt-2'>
+                    <button
+                      type='submit'
+                      className='w-full py-2.5 px-4 bg-primary hover:bg-primary/90 text-primary-foreground rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:opacity-50 disabled:cursor-not-allowed'
+                      disabled={!isFormValid() || isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <span className='flex items-center justify-center'>
+                          <svg
+                            className='animate-spin -ml-1 mr-2 h-4 w-4'
+                            xmlns='http://www.w3.org/2000/svg'
+                            fill='none'
+                            viewBox='0 0 24 24'
+                          >
+                            <circle
+                              className='opacity-25'
+                              cx='12'
+                              cy='12'
+                              r='10'
+                              stroke='currentColor'
+                              strokeWidth='4'
+                            ></circle>
+                            <path
+                              className='opacity-75'
+                              fill='currentColor'
+                              d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                            ></path>
+                          </svg>
+                          Sending...
+                        </span>
+                      ) : (
+                        "Send Message"
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Toast notification for success message */}
+      {/* Toast Notification */}
       <Toast
         message={toastMessage}
-        type='success'
         visible={toastVisible}
         onClose={() => setToastVisible(false)}
+        type='success'
       />
     </div>
   );

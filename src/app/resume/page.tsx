@@ -14,6 +14,7 @@ export default function ResumePage() {
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [isPageLoaded, setIsPageLoaded] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   // Animation on page load
   useEffect(() => {
@@ -22,11 +23,91 @@ export default function ResumePage() {
 
   const variant = resumeData.variants[selectedVariant];
 
-  // Handle PDF download (placeholder function)
-  const handleDownloadPdf = () => {
-    // In a real implementation, this would generate and download a PDF
-    setToastMessage("PDF download functionality will be implemented soon!");
-    setToastVisible(true);
+  // Handle PDF download
+  const handleDownloadPdf = async () => {
+    try {
+      setIsDownloading(true);
+
+      // Get the PDF filename from the selected variant
+      const pdfFileName = variant.pdfFileName;
+      console.log("Requesting PDF:", pdfFileName);
+
+      // Use our proxy endpoint
+      const response = await fetch(
+        `/api/proxy/resumepdf?filename=${encodeURIComponent(pdfFileName)}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/pdf",
+          },
+        }
+      );
+
+      console.log("Response status:", response.status);
+      console.log(
+        "Response headers:",
+        Object.fromEntries(response.headers.entries())
+      );
+
+      if (!response.ok) {
+        let errorText;
+        try {
+          errorText = await response.text();
+        } catch {
+          errorText = "Failed to read error response";
+        }
+        console.error("Error response:", errorText);
+        throw new Error(errorText || `HTTP error! status: ${response.status}`);
+      }
+
+      // Check content type
+      const contentType = response.headers.get("content-type");
+      if (!contentType?.includes("application/pdf")) {
+        console.warn("Unexpected content type:", contentType);
+        throw new Error(`Unexpected content type: ${contentType}`);
+      }
+
+      // Convert the response to a blob
+      const blob = await response.blob();
+      console.log("Blob size:", blob.size, "bytes");
+      console.log("Blob type:", blob.type);
+
+      if (blob.size === 0) {
+        throw new Error("Received empty PDF file");
+      }
+
+      // Create a URL for the blob
+      const url = window.URL.createObjectURL(blob);
+
+      // Create a temporary link and click it to download
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = pdfFileName;
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      setToastMessage("PDF downloaded successfully!");
+      setToastVisible(true);
+    } catch (error: unknown) {
+      console.error("Download error:", error);
+
+      // Extract the most meaningful error message
+      let errorMessage = "Failed to download PDF. Please try again later.";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === "string") {
+        errorMessage = error;
+      }
+
+      setToastMessage(`Error: ${errorMessage}`);
+      setToastVisible(true);
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   return (
@@ -63,23 +144,38 @@ export default function ResumePage() {
 
           <button
             onClick={handleDownloadPdf}
-            className='bg-brand-primary hover:bg-brand-primary-hover transition-colors px-6 py-3 rounded-md text-white font-medium shadow-sm flex items-center'
+            disabled={isDownloading}
+            className={`
+              bg-brand-primary hover:bg-brand-primary-hover transition-colors 
+              px-6 py-3 rounded-md text-white font-medium shadow-sm 
+              flex items-center
+              ${isDownloading ? "opacity-75 cursor-not-allowed" : ""}
+            `}
           >
             <svg
-              className='w-5 h-5 mr-2'
+              className={`w-5 h-5 mr-2 ${isDownloading ? "animate-spin" : ""}`}
               fill='none'
               stroke='currentColor'
               viewBox='0 0 24 24'
               xmlns='http://www.w3.org/2000/svg'
             >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth={2}
-                d='M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
-              />
+              {isDownloading ? (
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth={2}
+                  d='M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'
+                />
+              ) : (
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth={2}
+                  d='M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
+                />
+              )}
             </svg>
-            Download PDF
+            {isDownloading ? "Downloading..." : "Download PDF"}
           </button>
         </div>
 
@@ -162,50 +258,52 @@ export default function ResumePage() {
           )}
         />
 
-        {/* Education Section */}
-        <ResumeSection
-          title='Education'
-          delay={400}
-          isVisible={isPageLoaded}
-          items={variant.education}
-          renderItem={(item, index) => (
-            <div key={index} className='mb-8 last:mb-0'>
-              <div className='flex flex-col sm:flex-row justify-between mb-2'>
-                <h3 className='text-xl font-bold text-primary transition-colors'>
-                  {item.degree}
-                </h3>
-                <span className='text-tertiary transition-colors text-sm sm:text-base'>
-                  {item.duration}
-                </span>
-              </div>
-              <div className='flex flex-col sm:flex-row justify-between mb-2'>
-                <div className='font-medium text-brand-primary transition-colors'>
-                  {item.institution}
+        {/* Education Section - Only show if there are education items */}
+        {variant.education.length > 0 && (
+          <ResumeSection
+            title='Education'
+            delay={400}
+            isVisible={isPageLoaded}
+            items={variant.education}
+            renderItem={(item, index) => (
+              <div key={index} className='mb-8 last:mb-0'>
+                <div className='flex flex-col sm:flex-row justify-between mb-2'>
+                  <h3 className='text-xl font-bold text-primary transition-colors'>
+                    {item.degree}
+                  </h3>
+                  <span className='text-tertiary transition-colors text-sm sm:text-base'>
+                    {item.duration}
+                  </span>
                 </div>
-                <div className='text-tertiary transition-colors text-sm sm:text-base'>
-                  {item.location}
-                </div>
-              </div>
-              {item.relevantCourses && (
-                <div className='mt-2'>
-                  <h4 className='text-sm font-semibold text-tertiary mb-1 transition-colors'>
-                    Relevant Coursework
-                  </h4>
-                  <div className='flex flex-wrap gap-2'>
-                    {item.relevantCourses.map((course, i) => (
-                      <span
-                        key={i}
-                        className='inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-card-alt text-tertiary border border-card-border'
-                      >
-                        {course}
-                      </span>
-                    ))}
+                <div className='flex flex-col sm:flex-row justify-between mb-2'>
+                  <div className='font-medium text-brand-primary transition-colors'>
+                    {item.institution}
+                  </div>
+                  <div className='text-tertiary transition-colors text-sm sm:text-base'>
+                    {item.location}
                   </div>
                 </div>
-              )}
-            </div>
-          )}
-        />
+                {item.relevantCourses && (
+                  <div className='mt-2'>
+                    <h4 className='text-sm font-semibold text-tertiary mb-1 transition-colors'>
+                      Relevant Coursework
+                    </h4>
+                    <div className='flex flex-wrap gap-2'>
+                      {item.relevantCourses.map((course, i) => (
+                        <span
+                          key={i}
+                          className='inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-card-alt text-tertiary border border-card-border'
+                        >
+                          {course}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          />
+        )}
 
         {/* Certifications Section */}
         <ResumeSection
