@@ -20,6 +20,11 @@ export type HomeData = {
   }>;
   navLinks: NavLink[];
   socialLinks: SocialLink[];
+  siteOverview: {
+    title: string;
+    description: string;
+    highlights: string[];
+  };
 };
 
 export const homeData: HomeData = {
@@ -64,4 +69,16 @@ export const homeData: HomeData = {
       icon: "twitter",
     },
   ],
+  siteOverview: {
+    title: "Beyond the Traditional Resume",
+    description:
+      "This site serves as an interactive extension of my professional resume, offering a comprehensive view of my experience, projects, and community involvement. While a traditional resume provides a snapshot, this platform allows me to share the full scope of my technical journey and professional impact.",
+    highlights: [
+      "Detailed project showcases with technical deep-dives",
+      "In-depth look at my community involvement and leadership in tech spaces",
+      "Current focus areas and ongoing professional development through the Now page",
+      "Comprehensive overview of my technical expertise and professional experience",
+      "Multiple resume variants tailored to different roles and opportunities",
+    ],
+  },
 };

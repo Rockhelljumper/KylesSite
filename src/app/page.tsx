@@ -1,4 +1,5 @@
 import Hero from "@/components/home/Hero";
+import ExplanatorySections from "@/components/home/ExplanatorySections";
 import { homeData } from "@/lib/data/homeData";
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
         shortBio={homeData.shortBio}
         ctaLinks={homeData.ctaLinks}
       />
+      <ExplanatorySections overview={homeData.siteOverview} />
     </>
   );
 }

@@ -1,25 +1,14 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { communityData } from "@/lib/data/community";
 import Section from "@/components/community/Section";
 import ItemCard from "@/components/community/ItemCard";
 
 export default function CommunityPage() {
-  // Calculate total items for the impact counter
-  const totalContributions = useMemo(() => {
-    return (
-      communityData.speaking.length +
-      communityData.mentoring.length +
-      communityData.openSource.length +
-      communityData.leadership.length
-    );
-  }, []);
-
-  // Calculate years of community involvement
   const yearRange = useMemo(() => {
     const currentYear = new Date().getFullYear();
-    const startYear = 2018; // Earliest year from the data
+    const startYear = 2018;
     return `${startYear}-${currentYear}`;
   }, []);
 
@@ -52,7 +41,7 @@ export default function CommunityPage() {
             <div className='text-3xl md:text-4xl font-bold text-brand-primary mb-2'>
               {communityData.openSource.length}+
             </div>
-            <div className='text-tertiary text-sm'>Open Source Projects</div>
+            <div className='text-tertiary text-sm'>Mentoring Projects</div>
           </div>
           <div className='bg-card-alt rounded-lg p-5 text-center border border-card-border'>
             <div className='text-3xl md:text-4xl font-bold text-brand-primary mb-2'>
@@ -91,43 +80,6 @@ export default function CommunityPage() {
         </a>
       </div>
 
-      {/* Speaking Section */}
-      <Section
-        title='Speaking Engagements'
-        description='Sharing knowledge and insights through conference talks, workshops, and panel discussions.'
-        anchor='speaking'
-        icon={
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            className='h-6 w-6'
-            fill='none'
-            viewBox='0 0 24 24'
-            stroke='currentColor'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              strokeWidth={2}
-              d='M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z'
-            />
-          </svg>
-        }
-      >
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          {communityData.speaking.map((item, index) => (
-            <ItemCard
-              key={index}
-              title={item.title}
-              subtitle={item.event}
-              description={item.description}
-              years={item.year.toString()}
-              link={item.link}
-              index={index}
-            />
-          ))}
-        </div>
-      </Section>
-
       {/* Mentoring Section */}
       <Section
         title='Mentoring & Developer Support'
@@ -164,46 +116,10 @@ export default function CommunityPage() {
         </div>
       </Section>
 
-      {/* Open Source Section */}
-      <Section
-        title='Open Source Contributions'
-        description='Contributing to and maintaining open source projects that benefit the broader developer community.'
-        anchor='opensource'
-        icon={
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            className='h-6 w-6'
-            fill='none'
-            viewBox='0 0 24 24'
-            stroke='currentColor'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              strokeWidth={2}
-              d='M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4'
-            />
-          </svg>
-        }
-      >
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          {communityData.openSource.map((item, index) => (
-            <ItemCard
-              key={index}
-              title={item.project}
-              subtitle={item.role}
-              description={item.description}
-              link={item.link}
-              index={index}
-            />
-          ))}
-        </div>
-      </Section>
-
       {/* Leadership Section */}
       <Section
-        title='Community Leadership'
-        description='Taking on leadership roles to organize and grow tech communities and initiatives.'
+        title='Volunteer Work - Makerspace'
+        description='Volunteer work at the local makerspace to help others learn and grow in their technical careers, help the community, and build a better future.'
         anchor='leadership'
         icon={
           <svg
@@ -242,7 +158,7 @@ export default function CommunityPage() {
           Interested in Collaboration?
         </h2>
         <p className='text-secondary mb-6 max-w-2xl mx-auto'>
-          I'm always open to speaking opportunities, mentoring, and
+          I&apos;m always open to speaking opportunities, mentoring, and
           collaborating on open source projects that make a positive impact.
         </p>
         <a

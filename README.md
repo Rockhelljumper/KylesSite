@@ -1,63 +1,195 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Personal Portfolio & Resume Site
 
-## Getting Started
+An interactive extension of my professional resume built with Next.js, offering a comprehensive view of my experience, projects, and community involvement. This platform goes beyond traditional resumes by providing detailed insights into my technical journey and professional impact.
 
-First, run the development server:
+## 🌟 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Dynamic Resume Variants**: Multiple resume versions tailored for different roles
+- **Project Showcase**: Detailed technical deep-dives into various projects
+- **Community Involvement**: Comprehensive overview of speaking engagements and community leadership
+- **Now Page**: Current focus areas and ongoing professional development
+- **PDF Downloads**: Downloadable resume variants
+- **Responsive Design**: Modern, mobile-first interface
+- **Dark/Light Mode**: Theme support for better readability
+
+## 🔧 Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Styling**: Tailwind CSS
+- **Language**: TypeScript
+- **Deployment**: Vercel
+- **PDF Generation**: Custom PDF handling
+- **Icons**: Heroicons
+
+## 📋 Prerequisites
+
+- Node.js 18.x or higher
+- npm or yarn
+- Git
+
+## 🚀 Getting Started
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/yourusername/your-repo-name.git
+   cd your-repo-name
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Set up environment variables**
+
+   ```bash
+   cp .env.example .env.local
+   ```
+
+   Edit `.env.local` with your configuration:
+
+   ```
+   NEXT_PUBLIC_SITE_URL=http://localhost:3000
+   ```
+
+4. **Run the development server**
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+5. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
+## 🗂️ Project Structure
+
+```
+├── src/
+│   ├── app/                 # Next.js app router pages
+│   ├── components/          # Reusable React components
+│   ├── lib/                 # Utilities and data
+│   │   ├── data/           # Content data files
+│   │   └── utils/          # Helper functions
+│   └── styles/             # Global styles
+├── public/                  # Static assets
+│   ├── images/             # Image assets
+│   └── pdfs/               # Resume PDF files
+└── tailwind.config.js      # Tailwind configuration
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔄 Site Workflow
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```mermaid
+graph TD
+    A[Home Page] --> B[Projects]
+    A --> C[About]
+    A --> D[Community]
+    A --> E[Now]
+    A --> F[Contact]
+    A --> G[Resume]
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    G --> H[Resume Variants]
+    H --> I[Download PDF]
 
-## Contact Form Setup
+    B --> J[Project Details]
+    J --> K[Technical Deep-Dives]
 
-The contact form on this site uses Nodemailer to send emails directly to your inbox. To set up the contact form:
+    D --> L[Speaking Engagements]
+    D --> M[Leadership Roles]
+    D --> N[Mentoring]
 
-1. Create a `.env.local` file based on the `env.example` template
-2. Configure your SMTP settings:
-   - `RECIPIENT_EMAIL`: The email address where you want to receive contact form submissions
-   - `SMTP_HOST`: Your email provider's SMTP server (e.g., smtp.gmail.com)
-   - `SMTP_PORT`: SMTP port (typically 587 for TLS or 465 for SSL)
-   - `SMTP_USER`: Your email username/address 
-   - `SMTP_PASS`: Your email password or app password
+    E --> O[Current Focus]
+    E --> P[Recent Updates]
+```
 
-### Using Gmail
+## 🔍 Key Features Implementation
 
-If you're using Gmail, you'll need to:
-1. Set up 2-factor authentication on your Google account
-2. Generate an App Password specifically for your app at https://myaccount.google.com/apppasswords
-3. Use this App Password in the `SMTP_PASS` environment variable
+### Resume Variants
 
-### Architecture Notes
+- Located in `src/lib/data/resume/`
+- Each variant has its own data file
+- PDF downloads handled through API routes
 
-The contact form implementation follows these principles:
-- Client components send form data to a server API route
-- Server-side code handles all email sending via Nodemailer
-- No user authentication required - visitors can immediately send you messages
-- Webpack configuration includes polyfills for Node.js modules
+### Theme Support
 
-## Learn More
+- Uses Tailwind dark mode
+- Custom color variables in `tailwind.config.js`
+- Theme toggle persisted in local storage
 
-To learn more about Next.js, take a look at the following resources:
+### Content Management
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Data stored in TypeScript files under `src/lib/data/`
+- Strongly typed content structure
+- Easy to update and maintain
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📝 Content Updates
 
-## Deploy on Vercel
+### Adding a New Project
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Add project data to `src/lib/data/projects.ts`
+2. Add images to `public/images/projects/`
+3. Create new component if needed in `src/components/projects/`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Updating Resume
+
+1. Modify relevant variant in `src/lib/data/resume/`
+2. Update PDF in `public/pdfs/`
+3. Update download links in resume component
+
+## 🛠️ Development Workflow
+
+1. Create feature branch
+2. Make changes
+3. Run tests: `npm run test`
+4. Check types: `npm run type-check`
+5. Format code: `npm run format`
+6. Create pull request
+
+## 🔒 Security Considerations
+
+- No sensitive data in public files
+- Environment variables for configuration
+- PDF files served through API routes
+- Input sanitization on forms
+
+## 📦 Deployment
+
+The site is configured for deployment on Vercel:
+
+1. Connect repository to Vercel
+2. Configure environment variables
+3. Deploy main branch
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch
+3. Commit changes
+4. Push to branch
+5. Open pull request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🔮 Future Enhancements
+
+- [ ] Blog section for technical writing
+- [ ] Interactive project demos
+- [ ] Automated PDF generation
+- [ ] Analytics dashboard
+- [ ] RSS feed for updates
+
+## 🐛 Known Issues
+
+- None currently documented
+
+## 📞 Support
+
+For questions or issues, please open a GitHub issue or reach out through the contact form on the site.

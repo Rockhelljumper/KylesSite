@@ -61,6 +61,11 @@ export default function ProjectsPage() {
           A collection of technical projects and leadership accomplishments I've
           contributed to throughout my career. Each represents a unique
           challenge and learning opportunity.
+          <br />
+          <br />
+          *** Please Note! Not all projects are listed here. Most are private
+          Repos and I am in the process of converting them slowly to public
+          projects/demos. ***
         </p>
       </div>
 

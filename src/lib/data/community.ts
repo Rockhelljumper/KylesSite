@@ -75,32 +75,18 @@ export const communityData: CommunityData = {
 
   mentoring: [
     {
-      programOrOrg: "Code For Good",
+      programOrOrg: "Friends & Family",
       role: "Technical Mentor",
       description:
-        "Guided teams of junior developers in building applications for nonprofit organizations, focusing on technical architecture and best practices.",
-      years: "2021-Present",
+        "Guided teams of junior developers in building applications that we agreed upon as a starting point, focusing on technical architecture, agile methodologies, and best practices.",
+      years: "2019-Present",
     },
     {
       programOrOrg: "Women Who Code",
       role: "Career Coach",
       description:
         "Provided one-on-one mentoring sessions for women transitioning into tech careers or advancing to senior technical roles.",
-      years: "2020-2022",
-    },
-    {
-      programOrOrg: "University Capstone Projects",
-      role: "Industry Advisor",
-      description:
-        "Advised computer science students on their final-year projects, helping shape requirements and providing technical guidance throughout development.",
-      years: "2019-Present",
-    },
-    {
-      programOrOrg: "Internal Engineering Mentorship",
-      role: "Senior Mentor",
-      description:
-        "Established and led a formal mentorship program within my company, pairing junior engineers with experienced developers.",
-      years: "2020-Present",
+      years: "2022-2025",
     },
   ],
 
@@ -137,32 +123,18 @@ export const communityData: CommunityData = {
 
   leadership: [
     {
-      org: "JavaScript Developers Association",
-      title: "Chapter Lead",
-      years: "2021-Present",
+      org: "Tye Preston Memorial Libary - Makerspace",
+      title: "",
+      years: "2022-Present",
       description:
-        "Founded and grew the local chapter to 500+ members, organizing monthly meetups, workshops, and an annual conference featuring industry experts.",
+        "Working weekly with the local makerspace to help others learn and grow in their technical careers, help the community, and build a better future by providing insites into software development, hardware, and more.",
     },
     {
-      org: "Tech Diversity Initiative",
-      title: "Board Member",
-      years: "2020-Present",
+      org: "Tye Preston Memorial Libary - Makerspace",
+      title: "Presentor",
+      years: "2023-Present",
       description:
-        "Helped establish scholarship programs and inclusive hiring practices to increase representation of underrepresented groups in tech.",
-    },
-    {
-      org: "Hackathon for Social Good",
-      title: "Organizer",
-      years: "2019-2022",
-      description:
-        "Co-organized an annual hackathon focused on creating technology solutions for local nonprofits and community organizations.",
-    },
-    {
-      org: "DevOps Community Forum",
-      title: "Community Manager",
-      years: "2018-2020",
-      description:
-        "Moderated an online community of 10,000+ DevOps professionals, curating educational content and facilitating knowledge sharing.",
+        "Building programs to present to the public about the benefits of software development, docker containerization, AI, security best practices, networking, hardware, and more.",
     },
   ],
 };

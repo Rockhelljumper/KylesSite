@@ -6,25 +6,25 @@ import { homeData } from "@/lib/data/homeData";
 import FormInput from "@/components/ui/FormInput";
 import Toast from "@/components/ui/Toast";
 import { submitContactForm } from "@/lib/api/emailService";
+import {
+  contactFormSchema,
+  type ContactFormData,
+} from "@/lib/validation/contactSchema";
 
 // Form validation types
-type FormValues = {
-  fullName: string;
-  email: string;
-  message: string;
-};
-
 type FormErrors = {
   fullName?: string;
   email?: string;
+  subject?: string;
   message?: string;
 };
 
 export default function ContactPage() {
   // Form state
-  const [formValues, setFormValues] = useState<FormValues>({
+  const [formValues, setFormValues] = useState<ContactFormData>({
     fullName: "",
     email: "",
+    subject: "",
     message: "",
   });
   const [formErrors, setFormErrors] = useState<FormErrors>({});
@@ -54,40 +54,36 @@ export default function ContactPage() {
 
   // Form validation
   const validateForm = (): boolean => {
-    const errors: FormErrors = {};
+    const result = contactFormSchema.safeParse(formValues);
 
-    // Validate name
-    if (!formValues.fullName.trim()) {
-      errors.fullName = "Name is required";
+    if (!result.success) {
+      const errors: FormErrors = {};
+      const formattedErrors = result.error.format();
+
+      if (formattedErrors.fullName?._errors) {
+        errors.fullName = formattedErrors.fullName._errors[0];
+      }
+      if (formattedErrors.email?._errors) {
+        errors.email = formattedErrors.email._errors[0];
+      }
+      if (formattedErrors.subject?._errors) {
+        errors.subject = formattedErrors.subject._errors[0];
+      }
+      if (formattedErrors.message?._errors) {
+        errors.message = formattedErrors.message._errors[0];
+      }
+
+      setFormErrors(errors);
+      return false;
     }
 
-    // Validate email
-    if (!formValues.email.trim()) {
-      errors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formValues.email)) {
-      errors.email = "Please enter a valid email address";
-    }
-
-    // Validate message
-    if (!formValues.message.trim()) {
-      errors.message = "Message is required";
-    } else if (formValues.message.trim().length < 10) {
-      errors.message = "Message must be at least 10 characters";
-    }
-
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
+    return true;
   };
 
   // Check if form is valid for enabling/disabling submit button
   const isFormValid = (): boolean => {
-    return (
-      formValues.fullName.trim() !== "" &&
-      formValues.email.trim() !== "" &&
-      /\S+@\S+\.\S+/.test(formValues.email) &&
-      formValues.message.trim() !== "" &&
-      formValues.message.trim().length >= 10
-    );
+    const result = contactFormSchema.safeParse(formValues);
+    return result.success;
   };
 
   // Form submission handler
@@ -102,13 +98,14 @@ export default function ContactPage() {
         const result = await submitContactForm(formValues);
 
         if (!result.success) {
-          throw new Error(result.error || 'Failed to send message');
+          throw new Error(result.error || "Failed to send message");
         }
 
         // Reset form
         setFormValues({
           fullName: "",
           email: "",
+          subject: "",
           message: "",
         });
 
@@ -118,7 +115,7 @@ export default function ContactPage() {
         );
         setToastVisible(true);
       } catch (error) {
-        console.error('Error sending message:', error);
+        console.error("Error sending message:", error);
         setToastMessage(
           "Sorry, there was an error sending your message. Please try again."
         );
@@ -291,6 +288,18 @@ export default function ContactPage() {
                     required
                   />
 
+                  {/* Subject Input */}
+                  <FormInput
+                    id='subject'
+                    label='Subject'
+                    name='subject'
+                    type='text'
+                    value={formValues.subject}
+                    onChange={handleChange}
+                    error={formErrors.subject}
+                    required
+                  />
+
                   {/* Message Textarea */}
                   <div className='form-group'>
                     <label
@@ -304,9 +313,7 @@ export default function ContactPage() {
                       name='message'
                       rows={5}
                       className={`w-full px-4 py-2 border rounded-md bg-background focus:ring-2 focus:ring-primary/50 ${
-                        formErrors.message
-                          ? "border-red-500"
-                          : "border-input"
+                        formErrors.message ? "border-red-500" : "border-input"
                       }`}
                       placeholder='Enter your message here...'
                       value={formValues.message}
