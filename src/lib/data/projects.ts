@@ -64,7 +64,12 @@ export const projects: Project[] = [
     ],
     links: {
       github: "https://github.com/Rockhelljumper/KylesSiteBackend",
-      other: [{ name: "Swagger UI", url: "https://kylesimmons.tech/swagger" }],
+      other: [
+        {
+          name: "Swagger UI",
+          url: "https://api.kylesimmons.tech/swagger/index.html",
+        },
+      ],
     },
     featured: true,
     image: "/images/portfoliobackend.png",
