@@ -340,26 +340,39 @@ export default function ContactPage() {
                   </div>
 
                   {/* Turnstile Widget */}
-                  <div className="flex justify-center my-4">
+                  <div className='flex justify-center my-4'>
                     {(() => {
-                      const siteKey = getTurnstileSiteKey();
+                      const siteKey = "0x4AAAAAABd79ktcgMBQGBJy";
                       return siteKey ? (
                         <Turnstile
                           siteKey={siteKey}
-                          onSuccess={(token) => setFormValues(prev => ({ ...prev, turnstileToken: token }))}
+                          onSuccess={(token) =>
+                            setFormValues((prev) => ({
+                              ...prev,
+                              turnstileToken: token,
+                            }))
+                          }
                           onError={() => {
-                            setToastMessage("Failed to load Turnstile verification. Please refresh the page.");
+                            setToastMessage(
+                              "Failed to load Turnstile verification. Please refresh the page."
+                            );
                             setToastVisible(true);
                           }}
                           onExpire={() => {
-                            setFormValues(prev => ({ ...prev, turnstileToken: "" }));
-                            setToastMessage("Verification expired. Please verify again.");
+                            setFormValues((prev) => ({
+                              ...prev,
+                              turnstileToken: "",
+                            }));
+                            setToastMessage(
+                              "Verification expired. Please verify again."
+                            );
                             setToastVisible(true);
                           }}
                         />
                       ) : (
-                        <div className="p-4 text-red-500 bg-red-100 rounded-md">
-                          Error: Turnstile site key is not configured. Please check your environment variables.
+                        <div className='p-4 text-red-500 bg-red-100 rounded-md'>
+                          Error: Turnstile site key is not configured. Please
+                          check your environment variables.
                         </div>
                       );
                     })()}
