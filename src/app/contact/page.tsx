@@ -343,6 +343,15 @@ export default function ContactPage() {
                     <Turnstile
                       siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ""}
                       onSuccess={(token) => setFormValues(prev => ({ ...prev, turnstileToken: token }))}
+                      onError={() => {
+                        setToastMessage("Failed to load Turnstile verification. Please refresh the page.");
+                        setToastVisible(true);
+                      }}
+                      onExpire={() => {
+                        setFormValues(prev => ({ ...prev, turnstileToken: "" }));
+                        setToastMessage("Verification expired. Please verify again.");
+                        setToastVisible(true);
+                      }}
                     />
                   </div>
 

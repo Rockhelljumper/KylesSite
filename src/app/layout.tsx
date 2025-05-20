@@ -5,6 +5,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { homeData } from "@/lib/data/homeData";
 import { ThemeProvider } from "@/lib/context/ThemeContext";
+import TurnstileProvider from "@/components/TurnstileProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
         <ThemeProvider>
+          <TurnstileProvider />
           <Header navLinks={homeData.navLinks} />
           <main className='flex-grow'>{children}</main>
           <Footer
