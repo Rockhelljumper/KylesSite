@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { contactFormSchema } from "@/lib/validation/contactSchema";
 import * as postmark from "postmark";
+import { getTurnstileSecretKey } from "@/lib/utils/env";
 
 // Initialize Postmark client lazily to avoid build issues
 const getPostmarkClient = () => {
@@ -13,6 +14,12 @@ const getPostmarkClient = () => {
 
 // Verify Turnstile token
 async function verifyTurnstileToken(token: string) {
+  const secretKey = getTurnstileSecretKey();
+  if (!secretKey) {
+    console.error("Turnstile secret key not configured");
+    return false;
+  }
+
   const response = await fetch(
     "https://challenges.cloudflare.com/turnstile/v0/siteverify",
     {
@@ -21,7 +28,7 @@ async function verifyTurnstileToken(token: string) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        secret: process.env.TURNSTILE_SECRET_KEY,
+        secret: secretKey,
         response: token,
       }),
     }

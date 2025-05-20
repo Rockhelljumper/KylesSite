@@ -11,6 +11,7 @@ import {
   contactFormSchema,
   type ContactFormData,
 } from "@/lib/validation/contactSchema";
+import { getTurnstileSiteKey } from "@/lib/utils/env";
 
 // Form validation types
 type FormErrors = {
@@ -340,19 +341,28 @@ export default function ContactPage() {
 
                   {/* Turnstile Widget */}
                   <div className="flex justify-center my-4">
-                    <Turnstile
-                      siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ""}
-                      onSuccess={(token) => setFormValues(prev => ({ ...prev, turnstileToken: token }))}
-                      onError={() => {
-                        setToastMessage("Failed to load Turnstile verification. Please refresh the page.");
-                        setToastVisible(true);
-                      }}
-                      onExpire={() => {
-                        setFormValues(prev => ({ ...prev, turnstileToken: "" }));
-                        setToastMessage("Verification expired. Please verify again.");
-                        setToastVisible(true);
-                      }}
-                    />
+                    {(() => {
+                      const siteKey = getTurnstileSiteKey();
+                      return siteKey ? (
+                        <Turnstile
+                          siteKey={siteKey}
+                          onSuccess={(token) => setFormValues(prev => ({ ...prev, turnstileToken: token }))}
+                          onError={() => {
+                            setToastMessage("Failed to load Turnstile verification. Please refresh the page.");
+                            setToastVisible(true);
+                          }}
+                          onExpire={() => {
+                            setFormValues(prev => ({ ...prev, turnstileToken: "" }));
+                            setToastMessage("Verification expired. Please verify again.");
+                            setToastVisible(true);
+                          }}
+                        />
+                      ) : (
+                        <div className="p-4 text-red-500 bg-red-100 rounded-md">
+                          Error: Turnstile site key is not configured. Please check your environment variables.
+                        </div>
+                      );
+                    })()}
                   </div>
 
                   {/* Submit Button */}
