@@ -1,12 +1,13 @@
 export type SocialLink = {
-  name: string;
+  platform: string;
   url: string;
   icon: string;
 };
 
 export type NavLink = {
-  name: string;
-  path: string;
+  label: string;
+  href: string;
+  isExternal?: boolean;
 };
 
 export type HomeData = {
@@ -44,28 +45,27 @@ export const homeData: HomeData = {
     },
   ],
   navLinks: [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Projects", path: "/projects" },
-    { name: "Community", path: "/community" },
-    { name: "Now", path: "/now" },
-    { name: "Contact", path: "/contact" },
-    { name: "Resume", path: "/resume" },
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Projects", href: "/projects" },
+    { label: "Resume", href: "/resume" },
+    { label: "Community", href: "/community" },
+    { label: "Contact", href: "/contact" },
   ],
   socialLinks: [
     {
-      name: "GitHub",
-      url: "https://github.com/rockhelljumper7",
+      platform: "GitHub",
+      url: "https://github.com/rockhelljumper",
       icon: "github",
     },
     {
-      name: "LinkedIn",
-      url: "https://linkedin.com/in/kyle-simmons19478",
+      platform: "LinkedIn",
+      url: "https://linkedin.com/in/kyle-simmons-tx",
       icon: "linkedin",
     },
     {
-      name: "Twitter",
-      url: "https://twitter.com/yourusername",
+      platform: "Twitter",
+      url: "https://twitter.com/kylesimmons",
       icon: "twitter",
     },
   ],

@@ -45,12 +45,12 @@ export default function Header({ navLinks }: HeaderProps) {
           <nav className='hidden md:flex md:items-center md:space-x-8'>
             <ul className='flex space-x-8'>
               {navLinks.map((link) => (
-                <li key={link.path}>
+                <li key={link.href}>
                   <Link
-                    href={link.path}
+                    href={link.href}
                     className='text-sm font-medium nav-link transition-colors hover:opacity-80 relative after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-current after:transition-all hover:after:w-full'
                   >
-                    {link.name}
+                    {link.label}
                   </Link>
                 </li>
               ))}
@@ -98,13 +98,13 @@ export default function Header({ navLinks }: HeaderProps) {
           <nav className='px-4 py-6'>
             <ul className='flex flex-col space-y-4'>
               {navLinks.map((link) => (
-                <li key={link.path}>
+                <li key={link.href}>
                   <Link
-                    href={link.path}
+                    href={link.href}
                     className='block text-lg font-medium py-2 nav-link transition-colors hover:opacity-80'
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    {link.name}
+                    {link.label}
                   </Link>
                 </li>
               ))}

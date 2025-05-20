@@ -11,7 +11,6 @@ import {
   contactFormSchema,
   type ContactFormData,
 } from "@/lib/validation/contactSchema";
-import { getTurnstileSiteKey } from "@/lib/utils/env";
 
 // Form validation types
 type FormErrors = {
@@ -252,7 +251,7 @@ export default function ContactPage() {
                         target='_blank'
                         rel='noopener noreferrer'
                         className='bg-card hover:bg-muted rounded-full p-2 transition-colors'
-                        aria-label={`Visit ${link.name}`}
+                        aria-label={`Visit ${link.platform}`}
                       >
                         {renderSocialIcon(link.icon)}
                       </Link>

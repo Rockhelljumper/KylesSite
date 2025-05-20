@@ -78,12 +78,12 @@ export default function Footer({ navLinks, socialLinks }: FooterProps) {
             </h3>
             <ul className='space-y-2'>
               {navLinks.map((link) => (
-                <li key={link.path}>
+                <li key={link.href}>
                   <Link
-                    href={link.path}
+                    href={link.href}
                     className='text-sm text-tertiary hover:text-primary transition-colors'
                   >
-                    {link.name}
+                    {link.label}
                   </Link>
                 </li>
               ))}
@@ -98,12 +98,12 @@ export default function Footer({ navLinks, socialLinks }: FooterProps) {
             <div className='flex space-x-4'>
               {socialLinks.map((social) => (
                 <a
-                  key={social.name}
+                  key={social.platform}
                   href={social.url}
                   target='_blank'
                   rel='noopener noreferrer'
                   className='text-tertiary hover:text-primary transition-colors'
-                  aria-label={social.name}
+                  aria-label={social.platform}
                 >
                   {renderSocialIcon(social.icon)}
                 </a>
