@@ -27,12 +27,21 @@ export type CommunityLeadership = {
   description: string;
 };
 
+export type CommunityItem = {
+  title: string;
+  subtitle: string;
+  description: string;
+  years?: string;
+  link?: string;
+};
+
 export type CommunityData = {
   intro: string;
-  speaking: SpeakingEngagement[];
-  mentoring: MentoringProgram[];
-  openSource: OpenSourceContribution[];
-  leadership: CommunityLeadership[];
+  mentoring: CommunityItem[];
+  speaking: CommunityItem[];
+  writing: CommunityItem[];
+  openSource: CommunityItem[];
+  leadership: CommunityItem[];
 };
 
 export const communityData: CommunityData = {
@@ -42,99 +51,116 @@ export const communityData: CommunityData = {
   speaking: [
     {
       title: "Building Scalable React Applications with State Machines",
-      event: "React Conf",
-      year: 2023,
-      link: "https://example.com/react-conf-talk",
+      subtitle: "React Conf",
       description:
         "Presented a deep dive into using XState and state machines to create predictable, maintainable React applications that scale well in complex domains.",
+      years: "2023",
+      link: "https://example.com/react-conf-talk"
     },
     {
       title: "The Future of Web Development: AI Pair Programming",
-      event: "Future Web Summit",
-      year: 2022,
-      link: "https://example.com/future-web-summit",
+      subtitle: "Future Web Summit",
       description:
         "Explored how AI coding assistants are transforming developer workflows and the implications for team productivity and code quality.",
+      years: "2022",
+      link: "https://example.com/future-web-summit"
     },
     {
       title: "Accessible UIs by Default: A Component Library Journey",
-      event: "A11y Meetup",
-      year: 2022,
+      subtitle: "A11y Meetup",
       description:
         "Shared lessons learned from building an accessible component library and how to embed accessibility into development workflows.",
+      years: "2022"
     },
     {
       title: "TypeScript: Beyond the Basics",
-      event: "TypeScript Conf",
-      year: 2021,
-      link: "https://example.com/typescript-conf",
+      subtitle: "TypeScript Conf",
       description:
         "Advanced TypeScript techniques for ensuring type safety in complex applications, including generics, conditional types, and mapped types.",
-    },
+      years: "2021",
+      link: "https://example.com/typescript-conf"
+    }
   ],
 
   mentoring: [
     {
-      programOrOrg: "Friends & Family",
-      role: "Technical Mentor",
+      title: "Friends & Family",
+      subtitle: "Technical Mentor",
       description:
         "Guided teams of junior developers in building applications that we agreed upon as a starting point, focusing on technical architecture, agile methodologies, and best practices.",
-      years: "2019-Present",
+      years: "2019-Present"
     },
     {
-      programOrOrg: "Women Who Code",
-      role: "Career Coach",
+      title: "Women Who Code",
+      subtitle: "Career Coach",
       description:
         "Provided one-on-one mentoring sessions for women transitioning into tech careers or advancing to senior technical roles.",
-      years: "2022-2025",
+      years: "2022-2025"
+    }
+  ],
+
+  writing: [
+    {
+      title: "Building Accessible React Applications",
+      subtitle: "Medium Publication",
+      description: "A comprehensive guide to implementing accessibility best practices in React applications.",
+      years: "2023",
+      link: "https://medium.com/@yourusername"
     },
+    {
+      title: "TypeScript Tips and Tricks",
+      subtitle: "Dev.to Series",
+      description: "A series of articles sharing advanced TypeScript techniques and patterns.",
+      years: "2022-2023",
+      link: "https://dev.to/yourusername"
+    }
   ],
 
   openSource: [
     {
-      project: "React Component Library",
-      role: "Maintainer",
-      link: "https://github.com/yourusername/react-components",
+      title: "React Component Library",
+      subtitle: "Maintainer",
       description:
         "Created and maintained a library of accessible, customizable React components with comprehensive documentation and TypeScript support.",
+      link: "https://github.com/yourusername/react-components"
     },
     {
-      project: "NextJS Starter Template",
-      role: "Creator",
-      link: "https://github.com/yourusername/next-starter",
+      title: "NextJS Starter Template",
+      subtitle: "Creator",
       description:
         "Developed a production-ready starter template for NextJS applications with TypeScript, testing setup, and CI/CD configuration.",
+      link: "https://github.com/yourusername/next-starter"
     },
     {
-      project: "TypeScript ESLint",
-      role: "Contributor",
-      link: "https://github.com/typescript-eslint/typescript-eslint",
+      title: "TypeScript ESLint",
+      subtitle: "Contributor",
       description:
         "Contributed rules and bug fixes to improve TypeScript linting and code quality automation.",
+      link: "https://github.com/typescript-eslint/typescript-eslint"
     },
     {
-      project: "Open AI Documentation",
-      role: "Documentation Contributor",
-      link: "https://github.com/openai/openai-cookbook",
+      title: "Open AI Documentation",
+      subtitle: "Documentation Contributor",
       description:
         "Contributed examples and tutorials to help developers effectively use AI models in production applications.",
-    },
+      link: "https://github.com/openai/openai-cookbook"
+    }
   ],
 
   leadership: [
     {
-      org: "Tye Preston Memorial Libary - Makerspace",
-      title: "",
-      years: "2022-Present",
+      title: "Tye Preston Memorial Library - Makerspace",
+      subtitle: "Technical Mentor",
       description:
-        "Working weekly with the local makerspace to help others learn and grow in their technical careers, help the community, and build a better future by providing insites into software development, hardware, and more.",
+        "Working weekly with the local makerspace to help others learn and grow in their technical careers, help the community, and build a better future by providing insights into software development, hardware, and more.",
+      years: "2022-Present"
     },
     {
-      org: "Tye Preston Memorial Libary - Makerspace",
-      title: "Presentor",
-      years: "2023-Present",
+      title: "Tye Preston Memorial Library - Makerspace",
+      subtitle: "Presenter",
       description:
         "Building programs to present to the public about the benefits of software development, docker containerization, AI, security best practices, networking, hardware, and more.",
-    },
-  ],
+      years: "2023-Present"
+    }
+  ]
 };

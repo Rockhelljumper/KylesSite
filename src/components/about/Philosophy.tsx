@@ -1,51 +1,47 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 
 type PhilosophyProps = {
   title: string;
   description: string;
+  index: number;
 };
 
-export default function Philosophy({ title, description }: PhilosophyProps) {
+export default function Philosophy({ title, description, index }: PhilosophyProps) {
   const philosophyRef = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setIsVisible(true);
+            setTimeout(() => {
+              entry.target.classList.add("opacity-100", "translate-y-0");
+              entry.target.classList.remove("opacity-0", "translate-y-8");
+            }, index * 150);
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
 
-    if (philosophyRef.current) {
-      observer.observe(philosophyRef.current);
+    const currentRef = philosophyRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
-    // Force visibility after a delay in case the observer doesn't trigger
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 1000);
-
     return () => {
-      if (philosophyRef.current) {
-        observer.unobserve(philosophyRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
-      clearTimeout(timer);
     };
-  }, []);
+  }, [index]);
 
   return (
     <section
       ref={philosophyRef}
-      className={`mt-12 md:mt-16 mb-8 transition-opacity duration-1000 ${
-        isVisible ? "opacity-100" : "opacity-70"
-      }`}
+      className='mt-12 md:mt-16 mb-8 opacity-0 translate-y-8 transition-all duration-1000'
     >
       <h2 className='text-2xl md:text-3xl font-bold mb-6 text-primary transition-colors inline-block border-b-2 border-brand-primary pb-2'>
         {title}

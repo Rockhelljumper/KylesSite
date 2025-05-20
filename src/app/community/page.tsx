@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { communityData } from "@/lib/data/community";
 import Section from "@/components/community/Section";
 import ItemCard from "@/components/community/ItemCard";
+import { MentoringIcon, SpeakingIcon, WritingIcon, OpenSourceIcon, LeadershipIcon } from "@/components/icons/Icons";
 
 export default function CommunityPage() {
   const yearRange = useMemo(() => {
@@ -85,31 +86,87 @@ export default function CommunityPage() {
         title='Mentoring & Developer Support'
         description='Helping others grow in their technical careers through structured mentorship and guidance.'
         anchor='mentoring'
-        icon={
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            className='h-6 w-6'
-            fill='none'
-            viewBox='0 0 24 24'
-            stroke='currentColor'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              strokeWidth={2}
-              d='M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z'
-            />
-          </svg>
-        }
+        icon={<MentoringIcon />}
+        index={0}
       >
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
           {communityData.mentoring.map((item, index) => (
             <ItemCard
               key={index}
-              title={item.programOrOrg}
-              subtitle={item.role}
+              title={item.title}
+              subtitle={item.subtitle}
               description={item.description}
               years={item.years}
+              link={item.link}
+              index={index}
+            />
+          ))}
+        </div>
+      </Section>
+
+      {/* Speaking Section */}
+      <Section
+        title='Speaking & Events'
+        description='Sharing knowledge and experiences through public speaking and community events.'
+        anchor='speaking'
+        icon={<SpeakingIcon />}
+        index={1}
+      >
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+          {communityData.speaking.map((item, index) => (
+            <ItemCard
+              key={index}
+              title={item.title}
+              subtitle={item.subtitle}
+              description={item.description}
+              years={item.years}
+              link={item.link}
+              index={index}
+            />
+          ))}
+        </div>
+      </Section>
+
+      {/* Writing Section */}
+      <Section
+        title='Writing & Content'
+        description='Creating educational content and sharing insights through various platforms.'
+        anchor='writing'
+        icon={<WritingIcon />}
+        index={2}
+      >
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+          {communityData.writing.map((item, index) => (
+            <ItemCard
+              key={index}
+              title={item.title}
+              subtitle={item.subtitle}
+              description={item.description}
+              years={item.years}
+              link={item.link}
+              index={index}
+            />
+          ))}
+        </div>
+      </Section>
+
+      {/* Open Source Section */}
+      <Section
+        title='Open Source & Projects'
+        description='Contributing to and maintaining open source projects that benefit the community.'
+        anchor='open-source'
+        icon={<OpenSourceIcon />}
+        index={3}
+      >
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+          {communityData.openSource.map((item, index) => (
+            <ItemCard
+              key={index}
+              title={item.title}
+              subtitle={item.subtitle}
+              description={item.description}
+              years={item.years}
+              link={item.link}
               index={index}
             />
           ))}
@@ -118,34 +175,21 @@ export default function CommunityPage() {
 
       {/* Leadership Section */}
       <Section
-        title='Volunteer Work - Makerspace'
-        description='Volunteer work at the local makerspace to help others learn and grow in their technical careers, help the community, and build a better future.'
+        title='Community Leadership'
+        description='Taking on leadership roles to help grow and support developer communities.'
         anchor='leadership'
-        icon={
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            className='h-6 w-6'
-            fill='none'
-            viewBox='0 0 24 24'
-            stroke='currentColor'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              strokeWidth={2}
-              d='M13 10V3L4 14h7v7l9-11h-7z'
-            />
-          </svg>
-        }
+        icon={<LeadershipIcon />}
+        index={4}
       >
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
           {communityData.leadership.map((item, index) => (
             <ItemCard
               key={index}
-              title={item.org}
-              subtitle={item.title}
+              title={item.title}
+              subtitle={item.subtitle}
               description={item.description}
               years={item.years}
+              link={item.link}
               index={index}
             />
           ))}

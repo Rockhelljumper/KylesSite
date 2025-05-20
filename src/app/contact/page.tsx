@@ -227,7 +227,7 @@ export default function ContactPage() {
                 {/* Email */}
                 <div
                   className='flex items-center cursor-pointer hover:text-blue-500 transition-colors'
-                  onClick={() => copyToClipboard("kyle@example.com")}
+                  onClick={() => copyToClipboard("kyle7simmons1994@gmail.com")}
                 >
                   <div className='bg-primary/10 rounded-full p-2 mr-3'>
                     {renderSocialIcon("email")}
@@ -235,7 +235,7 @@ export default function ContactPage() {
                   <div>
                     <div className='font-medium'>Email</div>
                     <div className='text-sm text-muted-foreground'>
-                      kyle@example.com
+                      kyle7simmons1994@gmail.com
                     </div>
                   </div>
                 </div>

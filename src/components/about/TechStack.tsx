@@ -16,10 +16,10 @@ export default function TechStack({ techCategories }: TechStackProps) {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const skills = entry.target.querySelectorAll(".skill-badge");
-            skills.forEach((skill, index) => {
+            skills.forEach((skill, idx) => {
               setTimeout(() => {
                 skill.classList.add("opacity-100", "translate-y-0");
-              }, 100 * index);
+              }, 100 * idx);
             });
           }
         });
@@ -27,13 +27,14 @@ export default function TechStack({ techCategories }: TechStackProps) {
       { threshold: 0.1 }
     );
 
-    if (stackRef.current) {
-      observer.observe(stackRef.current);
+    const currentRef = stackRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (stackRef.current) {
-        observer.unobserve(stackRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);

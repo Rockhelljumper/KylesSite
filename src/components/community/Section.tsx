@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import SectionHeader from "@/components/SectionHeader";
 
 type SectionProps = {
@@ -9,6 +9,7 @@ type SectionProps = {
   children: React.ReactNode;
   icon?: React.ReactNode;
   anchor?: string;
+  index: number;
 };
 
 export default function Section({ 
@@ -16,41 +17,43 @@ export default function Section({
   description, 
   children, 
   icon,
-  anchor
+  anchor,
+  index
 }: SectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setIsVisible(true);
+            setTimeout(() => {
+              entry.target.classList.add("opacity-100", "translate-y-0");
+              entry.target.classList.remove("opacity-0", "translate-y-8");
+            }, index * 150);
           }
         });
       },
       { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    const currentRef = sectionRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
-  }, []);
+  }, [index]);
 
   return (
     <section 
       ref={sectionRef}
       id={anchor}
-      className={`mb-16 md:mb-24 transition-opacity duration-1000 ${
-        isVisible ? "opacity-100" : "opacity-0"
-      }`}
+      className='mb-16 md:mb-24 opacity-0 translate-y-8 transition-all duration-1000'
     >
       <SectionHeader 
         title={title} 

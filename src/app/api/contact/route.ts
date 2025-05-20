@@ -63,6 +63,9 @@ const formatAutoReplyEmail = (fullName: string, senderEmail: string) => {
       <p>Dear ${fullName},</p>
       <p>Thank you for contacting me. I have received your message and will get back to you as soon as possible.</p>
       <p>Thank you,<br/>Kyle Simmons</p>
+      <p style="font-size: 12px; color: #999; margin-top: 20px;">
+        This is an automated response from ${senderEmail}
+      </p>
     </div>
   `;
 };

@@ -34,6 +34,7 @@ export default function AboutPage() {
           <Philosophy
             title={aboutData.philosophy.title}
             description={aboutData.philosophy.description}
+            index={0}
           />
         </div>
       </div>

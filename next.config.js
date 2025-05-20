@@ -1,18 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
-  experimental: {
-    outputFileTracingRoot: undefined, // Ensures proper file tracing
-    serverComponentsExternalPackages: ['postmark'], // Handle postmark package properly
-  },
   // Enable static optimization where possible
   reactStrictMode: true,
-  swcMinify: true,
   poweredByHeader: false,
   // Configure image domains if you're using next/image
   images: {
     domains: [],
   },
+  // Handle external packages
+  serverExternalPackages: ['postmark'],
   webpack: (config) => {
     // Polyfills for browser environment
     config.resolve.fallback = {

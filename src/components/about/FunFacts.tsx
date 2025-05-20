@@ -8,7 +8,7 @@ type FunFactsProps = {
 };
 
 export default function FunFacts({ facts }: FunFactsProps) {
-  const factsRef = useRef<HTMLElement>(null);
+  const factsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -16,10 +16,10 @@ export default function FunFacts({ facts }: FunFactsProps) {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const facts = entry.target.querySelectorAll(".fun-fact");
-            facts.forEach((fact, index) => {
+            facts.forEach((fact, idx) => {
               setTimeout(() => {
                 fact.classList.add("opacity-100", "translate-y-0");
-              }, 150 * index);
+              }, 150 * idx);
             });
           }
         });
@@ -27,13 +27,14 @@ export default function FunFacts({ facts }: FunFactsProps) {
       { threshold: 0.1 }
     );
 
-    if (factsRef.current) {
-      observer.observe(factsRef.current);
+    const currentRef = factsRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (factsRef.current) {
-        observer.unobserve(factsRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);
