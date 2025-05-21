@@ -21,8 +21,26 @@ const nextConfig = {
       os: false,
       path: false,
     };
+    
+    // Enhance module resolution
+    config.resolve.alias = {
+      ...config.resolve.alias,
+    };
+    
+    // Ensure all Next.js internals are properly bundled
+    config.module.rules.push({
+      test: /node_modules[\\/]next[\\/]/,
+      sideEffects: false,
+    });
+    
     return config;
   },
+  // Ensure imported packages are transpiled correctly in production
+  transpilePackages: [],
+  experimental: {
+    // Enable app directory features
+    appDir: true,
+  }
 };
 
 module.exports = nextConfig; 
