@@ -27,9 +27,18 @@ COPY . .
 # Create default environment variables if not provided
 RUN if [ ! -f .env ]; then cp env.example .env || touch .env; fi
 
+# Create temporary types directory to store reference files
+RUN mkdir -p /tmp/types
+RUN echo '/// <reference types="estree" />\n/// <reference types="json-schema" />' > /tmp/types/references.d.ts
+RUN mkdir -p src/types
+RUN cp /tmp/types/references.d.ts src/types/ || true
+
 # Set the proper NODE_ENV for build
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED 1
+
+# Ensure TypeScript dependencies are installed
+RUN npm install --save-dev typescript@5.1.6 @types/react@19.0.0 @types/node@20.10.0 @types/react-dom@19.0.0 @types/estree @types/json-schema
 
 # Build the application
 RUN npm run build
