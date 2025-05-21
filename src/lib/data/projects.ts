@@ -40,8 +40,8 @@ export const projects: Project[] = [
     role: "Self-Taught Developer",
     impact: [
       "A good representation of my skills and abilities as a developer.",
-      "I learned a lot about Next.js, Tailwind CSS, and TypeScript by building this website.",
-      "I am still actively updating it to this day.",
+      "This is the website your on. You can see the source code on my GitHub linked below. (Click the GitHub icon in the bottom of any of these cards to see the source code.)",
+      "I have a lot of projects, ideas, and things that I never thought I'd share with the world. This is a place for me to share them with you, but converting all of my projects to a website is a work in progress.",
     ],
     links: {
       github: "https://github.com/Rockhelljumper/KylesSite",
@@ -59,8 +59,8 @@ export const projects: Project[] = [
     role: "Self-Taught Developer",
     impact: [
       "A simple API that I built to retrieve data and provide a RESTful API for my frontend to consume.",
-      "I learned a lot about C# and .NET by building this API.",
-      "I am still actively updating it to this day.",
+      "This API is written in C# .NET. It's still a work in progress, but I am actively updating it to this day.",
+      "This project is a foundation to build my portfolio website on. Checkout my GitHub to see Issues I've crafted for future updates.",
     ],
     links: {
       github: "https://github.com/Rockhelljumper/KylesSiteBackend",
@@ -90,8 +90,8 @@ export const projects: Project[] = [
     impact: [
       "A podcast about the latest in technology, science, and pop culture.",
       "I learned a lot about podcasting and production by building this podcast.",
-      "I am still actively updating it to this day.",
-      "I built the website using Blazor and C# with my co-host mentoring her through web development and hosting.",
+      "Though life has interfered with our ability to record regularly, we are still actively recording and and will be publishing new episodes soon.",
+      "I built the website for the podcast using Blazor and C# with my co-host mentoring her through web development and hosting.",
     ],
     links: {
       github: "https://github.com/Rockhelljumper/IntoTheNerdVerseWebApp",
@@ -104,13 +104,13 @@ export const projects: Project[] = [
     id: "project-4",
     title: "Real-time Analytics Dashboard",
     description:
-      "Designed and implemented a real-time analytics dashboard for monitoring system performance, Network Security Monitoring, and homelab system metrics.",
-    technologies: ["Next.js", "InfluxDB", "Grafana", "Docker"],
+      "Designed and implemented a real-time analytics dashboard for monitoring my home lab systems performance, Network Security Monitoring, and system metrics.",
+    technologies: ["InfluxDB", "Grafana", "Docker"],
     role: "Self-Taught Developer",
     impact: [
-      "Enabled data-driven decision making with 98% accuracy",
+      "This project has been something I have been adding to for a long time. I started it as a way to learn about Grafana and InfluxDB.",
       "Learned how to integrate Grafana with InfluxDB and MSSQL to create a real-time analytics dashboard.",
-      "Realtime data transmission to the dashboard from the InfluxDB database.",
+      "I've taken this technology and applied it to my work to monitor our systems and infrastructure.",
     ],
     links: {},
     image: "/images/GrafanaProd.png",

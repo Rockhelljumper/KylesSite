@@ -150,7 +150,7 @@ export const aboutData: AboutData = {
     },
     {
       emoji: "🎙️",
-      text: "I host a podcast with my wife, where we interview interesting people and discuss their stories, lessons, and advice.",
+      text: "I host a podcast with my co-host, where we interview interesting people and discuss their stories, lessons, and advice. When we don't have guests, we talk about our own experiences and learnings in the world of technology, pop culture, and software development.",
     },
     {
       emoji: "🎮",

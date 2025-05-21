@@ -50,36 +50,26 @@ export const communityData: CommunityData = {
 
   speaking: [
     {
-      title: "Building Scalable React Applications with State Machines",
-      subtitle: "React Conf",
+      title: "How to Build a Desktop Computer",
+      subtitle: "Tye Preston Memorial Library - Makerspace",
       description:
-        "Presented a deep dive into using XState and state machines to create predictable, maintainable React applications that scale well in complex domains.",
+        "A presentation to the public about all of the components that make up a desktop computer, what they do, how they work, and how to build one.",
       years: "2023",
-      link: "https://example.com/react-conf-talk"
     },
     {
-      title: "The Future of Web Development: AI Pair Programming",
-      subtitle: "Future Web Summit",
+      title: "What is Docker?",
+      subtitle: "Tye Preston Memorial Library - Makerspace",
       description:
-        "Explored how AI coding assistants are transforming developer workflows and the implications for team productivity and code quality.",
-      years: "2022",
-      link: "https://example.com/future-web-summit"
+        "A presentation to the public about Docker, what it is, how it works, and how to use it.",
+      years: "2023",
     },
     {
-      title: "Accessible UIs by Default: A Component Library Journey",
-      subtitle: "A11y Meetup",
+      title: "AI ~ The Buzz Word of Today",
+      subtitle: "Tye Preston Memorial Library - Makerspace",
       description:
-        "Shared lessons learned from building an accessible component library and how to embed accessibility into development workflows.",
-      years: "2022"
+        "A presentation to the public about AI, what it is, how it works, and how to use it. LLMs vs Machine Learning, what's the difference?",
+      years: "2023",
     },
-    {
-      title: "TypeScript: Beyond the Basics",
-      subtitle: "TypeScript Conf",
-      description:
-        "Advanced TypeScript techniques for ensuring type safety in complex applications, including generics, conditional types, and mapped types.",
-      years: "2021",
-      link: "https://example.com/typescript-conf"
-    }
   ],
 
   mentoring: [
@@ -88,64 +78,20 @@ export const communityData: CommunityData = {
       subtitle: "Technical Mentor",
       description:
         "Guided teams of junior developers in building applications that we agreed upon as a starting point, focusing on technical architecture, agile methodologies, and best practices.",
-      years: "2019-Present"
+      years: "2019-Present",
     },
     {
       title: "Women Who Code",
       subtitle: "Career Coach",
       description:
         "Provided one-on-one mentoring sessions for women transitioning into tech careers or advancing to senior technical roles.",
-      years: "2022-2025"
-    }
+      years: "2022-2025",
+    },
   ],
 
-  writing: [
-    {
-      title: "Building Accessible React Applications",
-      subtitle: "Medium Publication",
-      description: "A comprehensive guide to implementing accessibility best practices in React applications.",
-      years: "2023",
-      link: "https://medium.com/@yourusername"
-    },
-    {
-      title: "TypeScript Tips and Tricks",
-      subtitle: "Dev.to Series",
-      description: "A series of articles sharing advanced TypeScript techniques and patterns.",
-      years: "2022-2023",
-      link: "https://dev.to/yourusername"
-    }
-  ],
+  writing: [],
 
-  openSource: [
-    {
-      title: "React Component Library",
-      subtitle: "Maintainer",
-      description:
-        "Created and maintained a library of accessible, customizable React components with comprehensive documentation and TypeScript support.",
-      link: "https://github.com/yourusername/react-components"
-    },
-    {
-      title: "NextJS Starter Template",
-      subtitle: "Creator",
-      description:
-        "Developed a production-ready starter template for NextJS applications with TypeScript, testing setup, and CI/CD configuration.",
-      link: "https://github.com/yourusername/next-starter"
-    },
-    {
-      title: "TypeScript ESLint",
-      subtitle: "Contributor",
-      description:
-        "Contributed rules and bug fixes to improve TypeScript linting and code quality automation.",
-      link: "https://github.com/typescript-eslint/typescript-eslint"
-    },
-    {
-      title: "Open AI Documentation",
-      subtitle: "Documentation Contributor",
-      description:
-        "Contributed examples and tutorials to help developers effectively use AI models in production applications.",
-      link: "https://github.com/openai/openai-cookbook"
-    }
-  ],
+  openSource: [],
 
   leadership: [
     {
@@ -153,14 +99,14 @@ export const communityData: CommunityData = {
       subtitle: "Technical Mentor",
       description:
         "Working weekly with the local makerspace to help others learn and grow in their technical careers, help the community, and build a better future by providing insights into software development, hardware, and more.",
-      years: "2022-Present"
+      years: "2022-Present",
     },
     {
       title: "Tye Preston Memorial Library - Makerspace",
       subtitle: "Presenter",
       description:
         "Building programs to present to the public about the benefits of software development, docker containerization, AI, security best practices, networking, hardware, and more.",
-      years: "2023-Present"
-    }
-  ]
+      years: "2023-Present",
+    },
+  ],
 };

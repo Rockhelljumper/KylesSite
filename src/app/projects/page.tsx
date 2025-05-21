@@ -63,9 +63,19 @@ export default function ProjectsPage() {
           unique challenge and learning opportunity.
           <br />
           <br />
-          *** Please Note! Not all projects are listed here. Most are private
-          Repos and I am in the process of converting them slowly to public
-          projects/demos. ***
+          These projects are a part of my passion that I can currently share.
+          There is a lot more behind the scenes that I am working on updating to
+          be able to share here with you. Everything from my home automation
+          project (Built with Proxmox, Homeassistant, Docker, Frigate, and many
+          other tools), to pet projects for my family. A photo viewer that ties
+          to Google Drive and runs on a raspberry pi for my mom. My 3D printer
+          farm, a Minecraft server that runs on Kubernetes, and a lot of other
+          things.
+          <br />
+          <br />
+          *** Not all projects are listed here. Most are private Repos and I am
+          in the process of converting them slowly to public projects/demos for
+          others to enjoy. ***
         </p>
       </div>
 

@@ -155,10 +155,10 @@ export const resumeData: ResumeData = {
       education: [],
       certifications: [
         {
-          name: "PCIP Certification",
+          name: "PCIP Certification - Cert ID 1008-350",
           issuer: "PCI Security Standards Council",
-          date: "2023",
-          link: "https://www.pcisecuritystandards.org/program_training_and_qualification/",
+          date: "2024",
+          link: "https://www.pcisecuritystandards.org/assessors_and_solutions/professionals_lookup/",
         },
       ],
     },
@@ -289,10 +289,10 @@ export const resumeData: ResumeData = {
       education: [],
       certifications: [
         {
-          name: "PCIP Certification",
+          name: "PCIP Certification - Cert ID 1008-350",
           issuer: "PCI Security Standards Council",
-          date: "2023",
-          link: "https://www.pcisecuritystandards.org/program_training_and_qualification/",
+          date: "2024",
+          link: "https://www.pcisecuritystandards.org/assessors_and_solutions/professionals_lookup/",
         },
       ],
     },

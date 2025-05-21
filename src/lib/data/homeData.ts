@@ -49,6 +49,7 @@ export const homeData: HomeData = {
     { label: "About", href: "/about" },
     { label: "Projects", href: "/projects" },
     { label: "Resume", href: "/resume" },
+    { label: "Now", href: "/now" },
     { label: "Community", href: "/community" },
     { label: "Contact", href: "/contact" },
   ],
@@ -60,13 +61,8 @@ export const homeData: HomeData = {
     },
     {
       platform: "LinkedIn",
-      url: "https://linkedin.com/in/kyle-simmons-tx",
+      url: "https://www.linkedin.com/in/kyle-simmons19478/",
       icon: "linkedin",
-    },
-    {
-      platform: "Twitter",
-      url: "https://twitter.com/kylesimmons",
-      icon: "twitter",
     },
   ],
   siteOverview: {
