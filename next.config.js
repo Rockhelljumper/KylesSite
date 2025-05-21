@@ -11,7 +11,7 @@ const nextConfig = {
   // Handle external packages
   serverExternalPackages: ['postmark'],
   webpack: (config) => {
-    // Polyfills for browser environment
+    // Handle external package polyfills
     config.resolve.fallback = {
       ...config.resolve.fallback,
       fs: false,
@@ -21,17 +21,6 @@ const nextConfig = {
       os: false,
       path: false,
     };
-    
-    // Enhance module resolution
-    config.resolve.alias = {
-      ...config.resolve.alias,
-    };
-    
-    // Ensure all Next.js internals are properly bundled
-    config.module.rules.push({
-      test: /node_modules[\\/]next[\\/]/,
-      sideEffects: false,
-    });
     
     return config;
   },

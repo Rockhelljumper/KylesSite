@@ -7,9 +7,10 @@ WORKDIR /app
 
 # Copy both package files
 COPY package.json package-lock.json* ./
+COPY jsconfig.json tsconfig.json* ./
 
-# Clean install dependencies - do not use --only=production because we need the dev dependencies for building
-RUN npm ci && npm cache clean --force
+# Install all dependencies including dev dependencies
+RUN npm ci
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -17,8 +18,10 @@ WORKDIR /app
 
 # Copy dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/jsconfig.json ./jsconfig.json
+COPY --from=deps /app/tsconfig.json ./tsconfig.json
 
-# Copy all files
+# Copy all source files
 COPY . .
 
 # Create default environment variables if not provided
@@ -27,10 +30,6 @@ RUN if [ ! -f .env ]; then cp env.example .env || touch .env; fi
 # Set the proper NODE_ENV for build
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED 1
-ENV NODE_PATH=.
-
-# Create tsconfig.json if it doesn't exist
-RUN if [ ! -f tsconfig.json ]; then echo '{"compilerOptions":{"baseUrl":".","paths":{"@/*":["./src/*"]}}}' > tsconfig.json; fi
 
 # Build the application
 RUN npm run build
@@ -41,7 +40,6 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED 1
-ENV NODE_PATH=.
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
