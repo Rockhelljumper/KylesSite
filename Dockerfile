@@ -8,8 +8,8 @@ WORKDIR /app
 # Copy both package files
 COPY package.json package-lock.json* ./
 
-# Clean install dependencies with exact versions
-RUN npm ci --only=production && npm cache clean --force
+# Clean install dependencies - do not use --only=production because we need the dev dependencies for building
+RUN npm ci && npm cache clean --force
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -27,9 +27,10 @@ RUN if [ ! -f .env ]; then cp env.example .env || touch .env; fi
 # Set the proper NODE_ENV for build
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_PATH=.
 
-# Install dev dependencies for build time
-RUN npm i tailwindcss postcss autoprefixer --save-exact
+# Create tsconfig.json if it doesn't exist
+RUN if [ ! -f tsconfig.json ]; then echo '{"compilerOptions":{"baseUrl":".","paths":{"@/*":["./src/*"]}}}' > tsconfig.json; fi
 
 # Build the application
 RUN npm run build
@@ -40,6 +41,7 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_PATH=.
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs

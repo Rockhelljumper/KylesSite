@@ -36,11 +36,7 @@ const nextConfig = {
     return config;
   },
   // Ensure imported packages are transpiled correctly in production
-  transpilePackages: [],
-  experimental: {
-    // Enable app directory features
-    appDir: true,
-  }
+  transpilePackages: []
 };
 
 module.exports = nextConfig; 
