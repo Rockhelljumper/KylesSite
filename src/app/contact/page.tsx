@@ -11,6 +11,10 @@ import {
   contactFormSchema,
   type ContactFormData,
 } from "@/lib/validation/contactSchema";
+import {
+  trackFormSubmission,
+  trackExternalLinkClick,
+} from "@/lib/utils/googleAnalytics";
 
 // Form validation types
 type FormErrors = {
@@ -111,6 +115,9 @@ export default function ContactPage() {
           throw new Error(result.error || "Failed to send message");
         }
 
+        // Track successful form submission
+        trackFormSubmission("contact_form", true);
+
         // Reset form
         setFormValues({
           fullName: "",
@@ -127,6 +134,10 @@ export default function ContactPage() {
         setToastVisible(true);
       } catch (error) {
         console.error("Error sending message:", error);
+
+        // Track failed form submission
+        trackFormSubmission("contact_form", false);
+
         setToastMessage(
           "Sorry, there was an error sending your message. Please try again."
         );
@@ -241,6 +252,9 @@ export default function ContactPage() {
                         rel='noopener noreferrer'
                         className='bg-card hover:bg-muted rounded-full p-2 transition-colors'
                         aria-label={`Visit ${link.platform}`}
+                        onClick={() =>
+                          trackExternalLinkClick(link.url, link.platform)
+                        }
                       >
                         {renderSocialIcon(link.icon)}
                       </Link>

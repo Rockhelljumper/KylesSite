@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { NavLink, SocialLink } from "@/lib/data/homeData";
+import { trackExternalLinkClick } from "@/lib/utils/googleAnalytics";
 
 type FooterProps = {
   navLinks: NavLink[];
@@ -93,6 +94,9 @@ export default function Footer({ navLinks, socialLinks }: FooterProps) {
                   rel='noopener noreferrer'
                   className='text-tertiary hover:text-primary transition-colors'
                   aria-label={social.platform}
+                  onClick={() =>
+                    trackExternalLinkClick(social.url, social.platform)
+                  }
                 >
                   {renderSocialIcon(social.icon)}
                 </a>

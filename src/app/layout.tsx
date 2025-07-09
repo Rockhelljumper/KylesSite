@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import { homeData } from "@/lib/data/homeData";
 import { ThemeProvider } from "@/lib/context/ThemeContext";
 import TurnstileProvider from "@/components/TurnstileProvider";
+import GoogleAnalyticsProvider from "@/components/analytics/GoogleAnalytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <TurnstileProvider />
+          <GoogleAnalyticsProvider />
           <Header navLinks={homeData.navLinks} />
           <main className='flex-grow'>{children}</main>
           <Footer

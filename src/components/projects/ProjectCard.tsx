@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRef, useEffect } from "react";
 import TechBadge from "@/components/ui/TechBadge";
 import { Project } from "@/lib/data/projects";
+import { trackExternalLinkClick } from "@/lib/utils/googleAnalytics";
 
 type ProjectCardProps = {
   project: Project;
@@ -119,6 +120,12 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
                   target='_blank'
                   rel='noopener noreferrer'
                   className='inline-flex items-center text-sm text-tertiary hover:text-brand-primary transition-colors'
+                  onClick={() =>
+                    trackExternalLinkClick(
+                      project.links.github!,
+                      `${project.title} GitHub`
+                    )
+                  }
                 >
                   <svg
                     className='w-4 h-4 mr-1'
@@ -142,6 +149,12 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
                   target='_blank'
                   rel='noopener noreferrer'
                   className='inline-flex items-center text-sm text-tertiary hover:text-brand-primary transition-colors'
+                  onClick={() =>
+                    trackExternalLinkClick(
+                      project.links.demo!,
+                      `${project.title} Demo`
+                    )
+                  }
                 >
                   <svg
                     className='w-4 h-4 mr-1'
@@ -174,6 +187,12 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
                   target='_blank'
                   rel='noopener noreferrer'
                   className='inline-flex items-center text-sm text-tertiary hover:text-brand-primary transition-colors'
+                  onClick={() =>
+                    trackExternalLinkClick(
+                      link.url,
+                      `${project.title} ${link.name}`
+                    )
+                  }
                 >
                   <svg
                     className='w-4 h-4 mr-1'

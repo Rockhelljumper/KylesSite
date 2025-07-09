@@ -7,6 +7,7 @@ import ResumeSection from "@/components/resume/ResumeSection";
 import ResumeVariantSelector from "@/components/resume/ResumeVariantSelector";
 import SkillsList from "@/components/resume/SkillsList";
 import Toast from "@/components/ui/Toast";
+import { trackFileDownload } from "@/lib/utils/googleAnalytics";
 
 export default function ResumePage() {
   const [selectedVariant, setSelectedVariant] =
@@ -90,6 +91,9 @@ export default function ResumePage() {
       // Clean up
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
+
+      // Track the successful download
+      trackFileDownload(pdfFileName, "pdf");
 
       setToastMessage("PDF downloaded successfully!");
       setToastVisible(true);
