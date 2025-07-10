@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRef, useEffect } from "react";
+import { trackExternalLinkClick } from "@/lib/utils/googleAnalytics";
 
 type ItemCardProps = {
   title: string;
@@ -80,6 +81,7 @@ export default function ItemCard({
             target='_blank'
             rel='noopener noreferrer'
             className='text-sm text-brand-primary hover:underline flex items-center gap-1'
+            onClick={() => trackExternalLinkClick(link, `Community: ${title}`)}
           >
             <svg
               xmlns='http://www.w3.org/2000/svg'

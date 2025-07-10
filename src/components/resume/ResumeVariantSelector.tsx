@@ -1,4 +1,5 @@
 import { ResumeData } from "@/lib/data/resume";
+import { trackButtonClick } from "@/lib/utils/googleAnalytics";
 
 type ResumeVariantSelectorProps = {
   variants: ResumeData["variants"];
@@ -20,7 +21,13 @@ export default function ResumeVariantSelector({
         return (
           <button
             key={variantKey}
-            onClick={() => onVariantChange(variantKey)}
+            onClick={() => {
+              trackButtonClick(
+                `resume_variant_${variantKey}`,
+                "resume"
+              );
+              onVariantChange(variantKey);
+            }}
             className={`
               px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300
               ${

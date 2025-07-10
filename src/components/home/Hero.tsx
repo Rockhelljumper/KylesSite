@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { trackButtonClick } from "@/lib/utils/googleAnalytics";
 
 type HeroProps = {
   name: string;
@@ -49,6 +50,7 @@ export default function Hero({ name, tagline, shortBio, ctaLinks }: HeroProps) {
                     inline-flex items-center justify-center rounded-md px-6 py-3 text-base font-medium shadow-sm transition-all
                     ${link.isPrimary ? "btn-primary" : "btn-secondary"}
                   `}
+                  onClick={() => trackButtonClick(link.text, "hero")}
                 >
                   {link.text}
                 </Link>

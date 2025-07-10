@@ -2,6 +2,7 @@
 
 import TechBadge from "@/components/ui/TechBadge";
 import { ProjectCategory } from "@/lib/data/projects";
+import { trackButtonClick } from "@/lib/utils/googleAnalytics";
 
 type ProjectFiltersProps = {
   categories: ProjectCategory[];
@@ -32,7 +33,13 @@ export default function ProjectFilters({
             {categories.map((category) => (
               <button
                 key={category.id}
-                onClick={() => onCategoryChange(category.id)}
+                onClick={() => {
+                  trackButtonClick(
+                    `filter_category_${category.id}`,
+                    "projects"
+                  );
+                  onCategoryChange(category.id);
+                }}
                 className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
                   selectedCategory === category.id
                     ? "bg-brand-gradient text-text-inverted shadow-sm"
@@ -51,7 +58,10 @@ export default function ProjectFilters({
             <span>Technologies</span>
             {selectedTech && (
               <button
-                onClick={() => onTechChange(null)}
+                onClick={() => {
+                  trackButtonClick("filter_tech_clear", "projects");
+                  onTechChange(null);
+                }}
                 className='text-xs text-brand-primary hover:underline normal-case font-normal'
               >
                 Clear filter
@@ -65,9 +75,18 @@ export default function ProjectFilters({
                 tech={tech}
                 isActive={selectedTech === tech}
                 isFilter={true}
-                onClick={() =>
-                  onTechChange(selectedTech === tech ? null : tech)
-                }
+                onClick={() => {
+                  const newTech = selectedTech === tech ? null : tech;
+                  trackButtonClick(
+                    `filter_tech_${
+                      newTech
+                        ? newTech.toLowerCase().replace(/\s+/g, "_")
+                        : "clear"
+                    }`,
+                    "projects"
+                  );
+                  onTechChange(newTech);
+                }}
               />
             ))}
           </div>

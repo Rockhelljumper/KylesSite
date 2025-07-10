@@ -1,14 +1,21 @@
 "use client";
 
 import { useTheme } from "@/lib/context/ThemeContext";
+import { trackButtonClick } from "@/lib/utils/googleAnalytics";
 
 export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
   const isDarkMode = theme === "dark";
 
+  const handleThemeToggle = () => {
+    const newTheme = isDarkMode ? "light" : "dark";
+    trackButtonClick(`theme_toggle_${newTheme}`, "header");
+    toggleTheme();
+  };
+
   return (
     <button
-      onClick={toggleTheme}
+      onClick={handleThemeToggle}
       aria-label={
         theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
       }

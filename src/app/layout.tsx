@@ -7,7 +7,7 @@ import { homeData } from "@/lib/data/homeData";
 import { ThemeProvider } from "@/lib/context/ThemeContext";
 import TurnstileProvider from "@/components/TurnstileProvider";
 
-import GoogleAnalytics from "@/components/GoogleAnalytics";
+import GoogleAnalyticsProvider from "@/components/analytics/GoogleAnalytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,7 +35,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        <GoogleAnalytics />
         <ThemeProvider>
           <TurnstileProvider />
           <GoogleAnalyticsProvider />

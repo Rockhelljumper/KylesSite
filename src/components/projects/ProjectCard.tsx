@@ -122,7 +122,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
                   className='inline-flex items-center text-sm text-tertiary hover:text-brand-primary transition-colors'
                   onClick={() =>
                     trackExternalLinkClick(
-                      project.links.github!,
+                      project.links?.github || "",
                       `${project.title} GitHub`
                     )
                   }
@@ -151,7 +151,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
                   className='inline-flex items-center text-sm text-tertiary hover:text-brand-primary transition-colors'
                   onClick={() =>
                     trackExternalLinkClick(
-                      project.links.demo!,
+                      project.links?.demo || "",
                       `${project.title} Demo`
                     )
                   }
