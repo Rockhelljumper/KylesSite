@@ -4,7 +4,7 @@ import {
   usePageTracking,
   useScrollDepthTracking,
   useTimeOnPageTracking,
-} from "@/lib/utils/googleAnalytics";
+} from "@/lib/hooks/useAnalytics";
 
 type PageTrackerProps = {
   pageName: string;

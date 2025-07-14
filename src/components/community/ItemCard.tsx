@@ -52,6 +52,12 @@ export default function ItemCard({
     };
   }, [index]);
 
+  const handleLinkClick = () => {
+    if (link) {
+      trackExternalLinkClick(link, `Community: ${title}`);
+    }
+  };
+
   const content = (
     <div
       ref={cardRef}
@@ -81,7 +87,7 @@ export default function ItemCard({
             target='_blank'
             rel='noopener noreferrer'
             className='text-sm text-brand-primary hover:underline flex items-center gap-1'
-            onClick={() => trackExternalLinkClick(link, `Community: ${title}`)}
+            onClick={handleLinkClick}
           >
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -104,9 +110,5 @@ export default function ItemCard({
     </div>
   );
 
-  if (link) {
-    return <div className='group h-full'>{content}</div>;
-  }
-
-  return content;
+  return <div className='group h-full'>{content}</div>;
 }

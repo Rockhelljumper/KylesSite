@@ -1,6 +1,4 @@
 import { sendGAEvent } from "@next/third-parties/google";
-import { useEffect } from "react";
-import { usePathname } from "next/navigation";
 
 /**
  * Track a custom event in Google Analytics
@@ -139,78 +137,6 @@ export function trackUserEngagement(
 }
 
 /**
- * Custom hook for tracking page views with custom dimensions
- * @param customDimensions - Additional custom dimensions for the page
- */
-export function usePageTracking(
-  customDimensions?: Record<string, string | number | boolean | undefined>
-) {
-  const pathname = usePathname();
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const pageTitle = document.title;
-      trackPageViewWithDimensions(pathname, pageTitle, customDimensions);
-    }
-  }, [pathname, customDimensions]);
-}
-
-/**
- * Custom hook for tracking scroll depth
- * Tracks when users scroll to 25%, 50%, 75%, and 100% of the page
- */
-export function useScrollDepthTracking() {
-  const pathname = usePathname();
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const scrollDepths = [25, 50, 75, 100];
-    const trackedDepths = new Set<number>();
-
-    const handleScroll = () => {
-      const scrollTop =
-        window.pageYOffset || document.documentElement.scrollTop;
-      const documentHeight =
-        document.documentElement.scrollHeight -
-        document.documentElement.clientHeight;
-      const scrollPercent = Math.round((scrollTop / documentHeight) * 100);
-
-      scrollDepths.forEach((depth) => {
-        if (scrollPercent >= depth && !trackedDepths.has(depth)) {
-          trackedDepths.add(depth);
-          trackUserEngagement("scroll_depth", depth, {
-            page_path: pathname,
-            scroll_percent: depth,
-          });
-        }
-      });
-    };
-
-    const throttledHandleScroll = throttle(handleScroll, 1000);
-    window.addEventListener("scroll", throttledHandleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", throttledHandleScroll);
-    };
-  }, [pathname]);
-}
-
-/**
- * Simple throttle function for scroll events
- */
-function throttle(func: Function, limit: number) {
-  let inThrottle: boolean;
-  return function (this: any, ...args: any[]) {
-    if (!inThrottle) {
-      func.apply(this, args);
-      inThrottle = true;
-      setTimeout(() => (inThrottle = false), limit);
-    }
-  };
-}
-
-/**
  * Track section interactions (when users view different sections of a page)
  * @param sectionName - Name of the section being viewed
  * @param pagePath - Current page path
@@ -282,32 +208,4 @@ export function trackError(
     error_message: errorMessage,
     page_path: pagePath,
   });
-}
-
-/**
- * Custom hook for tracking time on page
- * @param pageName - Name of the page for identification
- */
-export function useTimeOnPageTracking(pageName: string) {
-  const pathname = usePathname();
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const startTime = Date.now();
-
-    const handleBeforeUnload = () => {
-      const timeSpent = Math.round((Date.now() - startTime) / 1000);
-      trackUserEngagement("time_on_page", timeSpent, {
-        page_name: pageName,
-        page_path: pathname,
-      });
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [pageName, pathname]);
 }
