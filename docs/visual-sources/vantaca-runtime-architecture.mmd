@@ -1,0 +1,52 @@
+flowchart LR
+    Customer["Customer"]
+    Identity["Vantaca identity and tenant context<br/>platform dependency"]
+
+    subgraph Vantaca["Vantaca application boundary"]
+        Web["Next.js web application"]
+
+        subgraph Go["Go modular application — one deployable"]
+            HTTP["HTTP API"]
+            Account["Account and transaction services"]
+            Transfer["Transfer domain service"]
+            Jobs["Sync and reconciliation workers"]
+            Hook["Webhook ingress and processor"]
+            Adapter["Northwind adapter"]
+            Repo["Repository boundary"]
+            Publisher["Read-model outbox publisher"]
+
+            HTTP --> Account
+            HTTP --> Transfer
+            Jobs --> Account
+            Jobs --> Transfer
+            Hook --> Transfer
+            Account --> Adapter
+            Transfer --> Adapter
+            Account --> Repo
+            Transfer --> Repo
+        end
+
+        SQL[("SQL Server 2022<br/>read model, secure values, state, outbox")]
+        Repo --> SQL
+        SQL --> Publisher
+    end
+
+    Customer --> Web
+    Identity --> Web
+    Identity --> HTTP
+    Web -->|"HTTPS / JSON"| HTTP
+
+    Adapter -->|"Production partner calls"| Northwind["Northwind Connect API"]
+    Adapter -.->|"Local substitute"| Mock["Northwind mock container"]
+    Northwind -->|"transfer.updated"| Hook
+    Mock -.->|"Simulated webhook"| Hook
+
+    N8N["n8n or approved scheduler<br/>optional trigger"] -.-> Jobs
+    Secrets["Secrets platform<br/>production dependency"] -.-> Adapter
+    Keys["Encryption key service<br/>policy dependency"] -.-> Repo
+    Publisher -.->|"Publish after commit"| Notify["Frontend invalidation transport<br/>technology TBD"]
+    Notify -.->|"Invalidate"| Web
+
+    HTTP -.-> Observability["Logs, metrics, traces, alerts"]
+    Jobs -.-> Observability
+    Hook -.-> Observability

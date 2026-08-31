@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { resumeData } from "@/lib/data/resume";
 import Link from "next/link";
 import ResumeSection from "@/components/resume/ResumeSection";
 import ResumeVariantSelector from "@/components/resume/ResumeVariantSelector";
 import SkillsList from "@/components/resume/SkillsList";
 import Toast from "@/components/ui/Toast";
+import PageKinetic from "@/components/layout/PageKinetic";
+import RemoteRolePanel from "@/components/career/RemoteRolePanel";
 import { trackFileDownload } from "@/lib/utils/googleAnalytics";
 
 export default function ResumePage() {
@@ -14,13 +16,9 @@ export default function ResumePage() {
     useState<string>("engineeringLeader");
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const [isPageLoaded, setIsPageLoaded] = useState(false);
+  const [isPageLoaded] = useState(true);
   const [isDownloading, setIsDownloading] = useState(false);
 
-  // Animation on page load
-  useEffect(() => {
-    setIsPageLoaded(true);
-  }, []);
 
   const variant = resumeData.variants[selectedVariant];
 
@@ -29,12 +27,8 @@ export default function ResumePage() {
     try {
       setIsDownloading(true);
 
-      // Get the PDF filename from the selected variant
       const pdfFileName = variant.pdfFileName;
-      console.log("Requesting PDF:", pdfFileName);
 
-      // Always use proxy endpoint to avoid CORS issues
-      console.log("Using proxy endpoint");
       const response = await fetch(
         `/api/proxy/resumepdf?filename=${encodeURIComponent(pdfFileName)}`,
         {
@@ -43,12 +37,6 @@ export default function ResumePage() {
             Accept: "application/pdf",
           },
         }
-      );
-
-      console.log("Response status:", response.status);
-      console.log(
-        "Response headers:",
-        Object.fromEntries(response.headers.entries())
       );
 
       if (!response.ok) {
@@ -62,37 +50,28 @@ export default function ResumePage() {
         throw new Error(errorText || `HTTP error! status: ${response.status}`);
       }
 
-      // Check content type
       const contentType = response.headers.get("content-type");
       if (!contentType?.includes("application/pdf")) {
-        console.warn("Unexpected content type:", contentType);
         throw new Error(`Unexpected content type: ${contentType}`);
       }
 
-      // Convert the response to a blob
       const blob = await response.blob();
-      console.log("Blob size:", blob.size, "bytes");
-      console.log("Blob type:", blob.type);
 
       if (blob.size === 0) {
         throw new Error("Received empty PDF file");
       }
 
-      // Create a URL for the blob
       const url = window.URL.createObjectURL(blob);
 
-      // Create a temporary link and click it to download
       const link = document.createElement("a");
       link.href = url;
       link.download = pdfFileName;
       document.body.appendChild(link);
       link.click();
 
-      // Clean up
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
 
-      // Track the successful download
       trackFileDownload(pdfFileName, "pdf");
 
       setToastMessage("PDF downloaded successfully!");
@@ -116,16 +95,19 @@ export default function ResumePage() {
   };
 
   return (
-    <div className='container mx-auto px-4 py-24 md:py-32'>
+    <div className='page-stage'>
+      <PageKinetic variant="resume" />
+      <div className='container mx-auto px-4 py-24 md:py-32'>
       <div className='max-w-4xl mx-auto px-4 pt-32 pb-20 sm:pt-40 sm:pb-24'>
         <h1 className='text-4xl sm:text-5xl font-bold mb-6'>
-          <span className='text-gradient'>Resume</span>
+          <span className='text-gradient'>Leadership résumé</span>
         </h1>
         <p className='text-xl text-secondary max-w-2xl leading-relaxed transition-colors mb-8'>
-          My professional experience, skills, and qualifications. Select a
-          resume variant below to see different aspects of my career and
-          expertise.
+          Select the version that matches the role you are evaluating. I am focused
+          on remote leadership roles across platform engineering, engineering
+          management, director-level scope, and technical team leadership.
         </p>
+        <RemoteRolePanel compact />
       </div>
 
       <div className='max-w-5xl mx-auto mb-16'>
@@ -151,11 +133,10 @@ export default function ResumePage() {
             onClick={handleDownloadPdf}
             disabled={isDownloading}
             className={`
-              bg-brand-primary hover:bg-brand-primary-hover transition-colors 
-              px-6 py-3 rounded-md text-white font-medium shadow-sm 
-              flex items-center
+              button-primary flex items-center
               ${isDownloading ? "opacity-75 cursor-not-allowed" : ""}
             `}
+            data-cta
           >
             <svg
               className={`w-5 h-5 mr-2 ${isDownloading ? "animate-spin" : ""}`}
@@ -334,7 +315,7 @@ export default function ResumePage() {
                   href={item.link}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='text-sm inline-flex items-center text-tertiary hover:text-brand-primary transition-colors mt-1'
+                  className='text-link mt-2 inline-flex text-sm'
                 >
                   <svg
                     className='w-4 h-4 mr-1'
@@ -359,12 +340,13 @@ export default function ResumePage() {
       </div>
 
       {/* Toast notification */}
-      <Toast
-        message={toastMessage}
-        type='info'
-        visible={toastVisible}
-        onClose={() => setToastVisible(false)}
-      />
+        <Toast
+          message={toastMessage}
+          type='info'
+          visible={toastVisible}
+          onClose={() => setToastVisible(false)}
+        />
+      </div>
     </div>
   );
 }

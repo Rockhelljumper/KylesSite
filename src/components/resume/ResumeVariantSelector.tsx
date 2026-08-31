@@ -21,6 +21,8 @@ export default function ResumeVariantSelector({
         return (
           <button
             key={variantKey}
+            type="button"
+            aria-pressed={isSelected}
             onClick={() => {
               trackButtonClick(
                 `resume_variant_${variantKey}`,
@@ -29,11 +31,11 @@ export default function ResumeVariantSelector({
               onVariantChange(variantKey);
             }}
             className={`
-              px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300
+              px-4 py-2 text-sm font-medium transition-colors border
               ${
                 isSelected
-                  ? "bg-brand-gradient text-white shadow-md"
-                  : "bg-card-alt text-tertiary hover:bg-card-border hover:text-primary border border-card-border"
+                  ? "bg-brand-primary text-white border-brand-primary"
+                  : "bg-card text-tertiary hover:text-primary border-card-border"
               }
             `}
           >

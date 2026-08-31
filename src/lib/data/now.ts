@@ -10,48 +10,43 @@ export type NowData = {
 };
 
 export const nowData: NowData = {
-  updated: "May 2025",
+  updated: "August 2026",
   sections: [
     {
-      title: "Professional",
-      icon: "💼",
+      title: "On the desk",
+      icon: "Build",
       items: [
-        "Leading engineering initiatives in crypto/finance to generate revenue.",
-        "Scaling Dockerized infrastructure for infrastructure as cost reduction.",
-        "Refactoring legacy code to improve maintainability and scalability.",
-        "Working on creating new and fun retrospectives for my team.",
-        "Creating new processes and documentation automations to improve my team's productivity.",
-        "Prioritizing my team's backlog to ensure we are always building the right things and maintianing a healthy pace.",
+        "Making this site a better record of real work, side projects, and the people behind both.",
+        "Studying practical AI use in engineering workflows—especially testing, documentation, code review, support automation, and human accountability.",
+        "Keeping an eye on the small platform and process changes that make production work less dramatic.",
       ],
     },
     {
-      title: "Personal",
-      icon: "🌱",
+      title: "In the workshop",
+      icon: "Make",
       items: [
-        "Working on perfecting multiple recipes for my wife. Food is the heart of a home.",
+        "Perfecting recipes for my family. Food is the heart of a home.",
         "Improving my home automation setup to be more efficient and secure.",
-        "Reading: Finishign the Noobtown Serries by Ryan Rimmel.",
-        "Finishing a smoker for summer time BBQs.",
-        "Learning to grow a beard.",
+        "Finishing a smoker for summer BBQs.",
         "Fixing my 3D printer farm.",
       ],
     },
     {
-      title: "Community",
-      icon: "🤝",
+      title: "On the shelf & in the queue",
+      icon: "Read",
       items: [
-        "Mentoring early-career engineers 1:1.",
-        "Working on creating new adult learning programs for the local makerspace.",
-        "Setting up new opportunities for the local makerspace to grow.",
+        "Keeping technical, fiction, and personal-growth books in rotation at the same time.",
+        "Making room for technology, science, pop culture, strategy games, simulations, and RPGs that reward curiosity and good decisions.",
+        "Looking for the next good trail, campsite, mountain bike route, or Renaissance fair with my wife.",
       ],
     },
     {
-      title: "Goals",
-      icon: "🎯",
+      title: "With people",
+      icon: "Share",
       items: [
-        "Soft-launch of Bathroom Buddy Mobile App.",
-        "Fixing Automated update services for my home lab.",
-        "Finding the next milestone in my career.",
+        "Mentoring early-career engineers and creating adult learning opportunities at the local makerspace.",
+        "Keeping the Into the Nerdverse conversation open to technology, science, pop culture, and the stories people learn through their work.",
+        "Continuing to improve Bathroom Buddy with care for product quality, data freshness, and release readiness.",
       ],
     },
   ],

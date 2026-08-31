@@ -3,48 +3,89 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { homeData } from "@/lib/data/homeData";
 import { ThemeProvider } from "@/lib/context/ThemeContext";
-import TurnstileProvider from "@/components/TurnstileProvider";
-
 import GoogleAnalyticsProvider from "@/components/analytics/GoogleAnalytics";
+import { profile } from "@/lib/data/profile";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Kyle Developer | Software Engineer & Community Leader",
-  description:
-    "Software engineer and community leader focused on building impactful solutions and empowering tech communities.",
+  metadataBase: new URL(profile.siteUrl),
+  title: {
+    default: "Kyle Simmons | Engineering Leadership & Platform Systems",
+    template: "%s | Kyle Simmons",
+  },
+  description: profile.shortSummary,
+  keywords: [
+    "Engineering leadership",
+    "Engineering Manager",
+    "Platform Engineering",
+    "Site Reliability Engineering",
+    "SRE",
+    "Software Architecture",
+    "Backend Engineering",
+    "Go",
+    "C#",
+    "SQL",
+    "Azure",
+    "Kubernetes",
+    "Docker",
+    "AI Engineering",
+    "ETL",
+    "Data Integration",
+    "CI/CD",
+    "DevSecOps",
+    "PCI",
+  ],
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: "/",
+    title: "Kyle Simmons | Engineering Leadership & Platform Systems",
+    description: profile.shortSummary,
+    siteName: "Kyle Simmons",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Kyle Simmons engineering leadership portfolio" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kyle Simmons | Engineering Leadership & Platform Systems",
+    description: profile.shortSummary,
+    images: ["/opengraph-image"],
+  },
+  robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  url: profile.siteUrl,
+  jobTitle: "Platform Engineering Manager and Engineering Leader",
+  sameAs: profile.socialLinks.map((link) => link.url),
+  knowsAbout: ["Platform Engineering", "Site Reliability Engineering", "Software Architecture", "Backend Engineering", "Data Integration", "AI Engineering"],
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Kyle Simmons",
+  url: profile.siteUrl,
+  description: profile.shortSummary,
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang='en' className='scroll-smooth'>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
-      >
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}>
         <ThemeProvider>
-          <TurnstileProvider />
+          <a href="#main-content" className="skip-link">Skip to content</a>
           <GoogleAnalyticsProvider />
-          <Header navLinks={homeData.navLinks} />
-          <main className='flex-grow'>{children}</main>
-          <Footer
-            navLinks={homeData.navLinks}
-            socialLinks={homeData.socialLinks}
-          />
+          <Header />
+          <main id="main-content" className="flex-grow">{children}</main>
+          <Footer />
         </ThemeProvider>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([personJsonLd, websiteJsonLd]) }} />
       </body>
     </html>
   );

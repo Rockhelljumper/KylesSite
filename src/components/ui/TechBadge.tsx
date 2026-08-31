@@ -24,14 +24,9 @@ export default function TechBadge({
     return `${baseClasses} bg-brand-gradient-muted text-brand-primary shadow-sm`;
   };
 
-  return (
-    <span
-      className={getClasses()}
-      onClick={onClick}
-      role={onClick ? "button" : undefined}
-      tabIndex={onClick ? 0 : undefined}
-    >
-      {tech}
-    </span>
-  );
+  if (onClick) {
+    return <button type="button" className={getClasses()} onClick={onClick} aria-pressed={isActive}>{tech}</button>;
+  }
+
+  return <span className={getClasses()}>{tech}</span>;
 }

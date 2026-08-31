@@ -1,119 +1,54 @@
-"use client";
+import type { Metadata } from "next";
+import ProjectExplorer from "@/components/projects/ProjectExplorer";
+import PageKinetic from "@/components/layout/PageKinetic";
+import { publishedProjects } from "@/lib/data/projects";
 
-import { useState, useMemo } from "react";
-import { projects, projectCategories } from "@/lib/data/projects";
-import ProjectCard from "@/components/projects/ProjectCard";
-import ProjectFilters from "@/components/projects/ProjectFilters";
+export const metadata: Metadata = {
+  title: "Leadership Case Studies & Engineering Work",
+  description: "NDA-safe leadership case studies in platform engineering, recovery, delivery, reliability, and engineering enablement—plus public products and technical references.",
+  alternates: { canonical: "/projects" },
+};
 
 export default function ProjectsPage() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [selectedTech, setSelectedTech] = useState<string | null>(null);
-
-  // Extract unique technologies from all projects
-  const allTechnologies = useMemo(() => {
-    const techSet = new Set<string>();
-    projects.forEach((project) => {
-      project.technologies.forEach((tech) => {
-        techSet.add(tech);
-      });
-    });
-    return Array.from(techSet).sort();
-  }, []);
-
-  // Filter projects based on selected category and technology
-  const filteredProjects = useMemo(() => {
-    return projects.filter((project) => {
-      // Category filter (engineering, leadership, etc.)
-      if (selectedCategory !== "all") {
-        const categoryMatches =
-          // Engineering projects typically have many technical skills
-          (selectedCategory === "engineering" &&
-            project.technologies.length > 3) ||
-          // Leadership projects typically have roles like Manager, Lead, Director
-          (selectedCategory === "leadership" &&
-            (project.role.includes("Manager") ||
-              project.role.includes("Lead") ||
-              project.role.includes("Director"))) ||
-          // Community projects are those involving community building
-          (selectedCategory === "community" &&
-            (project.technologies.includes("Community Building") ||
-              project.description.toLowerCase().includes("community")));
-
-        if (!categoryMatches) return false;
-      }
-
-      // Technology filter
-      if (selectedTech !== null) {
-        return project.technologies.includes(selectedTech);
-      }
-
-      return true;
-    });
-  }, [selectedCategory, selectedTech]);
+  const leadershipCaseStudies = publishedProjects.filter((project) => project.portfolioLane === "leadership-case-study");
+  const publicAndCommunityWork = publishedProjects.filter((project) => project.portfolioLane === "public-product" || project.portfolioLane === "community");
+  const technicalReferences = publishedProjects.filter((project) => project.portfolioLane === "technical-reference");
 
   return (
-    <div className='container mx-auto px-4 py-24 md:py-32'>
-      <div className='max-w-4xl mx-auto px-4 pt-32 pb-20 sm:pt-40 sm:pb-32'>
-        <h1 className='text-4xl sm:text-5xl font-bold mb-6'>
-          <span className='text-gradient'>Projects</span>
+    <div className="page-stage pt-28 sm:pt-32">
+      <PageKinetic variant="work" />
+      <section className="site-shell py-14 sm:py-20">
+        <p className="eyebrow">Leadership case studies</p>
+        <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.04em] text-primary sm:text-5xl">
+          How I lead the systems—and the teams—that keep critical work moving.
         </h1>
-        <p className='text-xl text-secondary max-w-2xl leading-relaxed transition-colors mb-8'>
-          A collection of technical projects and leadership accomplishments
-          I&apos;ve contributed to throughout my career. Each represents a
-          unique challenge and learning opportunity.
-          <br />
-          <br />
-          These projects are a part of my passion that I can currently share.
-          There is a lot more behind the scenes that I am working on updating to
-          be able to share here with you. Everything from my home automation
-          project (Built with Proxmox, Homeassistant, Docker, Frigate, and many
-          other tools), to pet projects for my family. A photo viewer that ties
-          to Google Drive and runs on a raspberry pi for my mom. My 3D printer
-          farm, a Minecraft server that runs on Kubernetes, and a lot of other
-          things.
-          <br />
-          <br />
-          *** Not all projects are listed here. Most are private Repos and I am
-          in the process of converting them slowly to public projects/demos for
-          others to enjoy. ***
+        <p className="mt-6 max-w-3xl text-lg leading-8 text-secondary">
+          These NDA-safe accounts center the choices, operating habits, and résumé-sourced outcomes I can share responsibly. They are the fastest route to the leadership work behind this portfolio.
         </p>
-      </div>
+        <ProjectExplorer projects={leadershipCaseStudies} showFilters={false} primaryActions />
+      </section>
 
-      <div className='grid grid-cols-1 lg:grid-cols-4 gap-10'>
-        {/* Sidebar with filters */}
-        <div className='lg:col-span-1'>
-          <div className='lg:sticky lg:top-24'>
-            <ProjectFilters
-              categories={projectCategories}
-              technologies={allTechnologies}
-              selectedCategory={selectedCategory}
-              selectedTech={selectedTech}
-              onCategoryChange={setSelectedCategory}
-              onTechChange={setSelectedTech}
-            />
-          </div>
+      <section className="border-y border-card-border bg-card-alt">
+        <div className="site-shell py-14 sm:py-20">
+          <p className="eyebrow">Public products &amp; community</p>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-primary">Things people can actually use, join, and learn from.</h2>
+          <p className="mt-4 max-w-3xl leading-7 text-secondary">Public work stays here as a more personal second act: a real product, a community conversation, and evidence that collaboration matters beyond an org chart.</p>
+          <ProjectExplorer projects={publicAndCommunityWork} showFilters={false} />
         </div>
+      </section>
 
-        {/* Projects grid */}
-        <div className='lg:col-span-3'>
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8'>
-            {filteredProjects.length > 0 ? (
-              filteredProjects.map((project, index) => (
-                <ProjectCard key={project.id} project={project} index={index} />
-              ))
-            ) : (
-              <div className='col-span-full bg-card-alt rounded-xl p-8 text-center'>
-                <h3 className='text-lg font-medium text-secondary mb-2'>
-                  No projects found
-                </h3>
-                <p className='text-tertiary'>
-                  Try adjusting your filters to see more projects.
-                </p>
-              </div>
-            )}
-          </div>
+      <section className="site-shell py-14 sm:py-20">
+        <p className="eyebrow">Technical references &amp; labs</p>
+        <h2 className="mt-3 text-3xl font-semibold tracking-tight text-primary">How I evaluate patterns before recommending them.</h2>
+        <p className="mt-4 max-w-3xl leading-7 text-secondary">These runnable references and learning environments are intentionally labeled as such. They show technical depth without being presented as confidential customer work or primary leadership evidence.</p>
+        <ProjectExplorer projects={technicalReferences} />
+      </section>
+
+      <aside className="border-t border-card-border bg-card-alt">
+        <div className="site-shell py-8 text-sm leading-6 text-secondary">
+          <span className="font-semibold text-primary">Evidence boundaries:</span> this site and its small résumé-file API are implementation notes, not featured portfolio work. Confidential professional work is summarized without customer, system, or security-sensitive details; public labs are clearly marked as references.
         </div>
-      </div>
+      </aside>
     </div>
   );
 }

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Projects | Kyle Simmons",
+  title: "Selected Engineering Work",
   description:
-    "Explore my technical projects and leadership accomplishments in software engineering and community building.",
+    "Evidence-led platform engineering, SRE, architecture, data integration, and AI engineering case studies from Kyle Simmons.",
 };
 
 export default function ProjectsLayout({

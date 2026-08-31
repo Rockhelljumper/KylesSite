@@ -1,217 +1,83 @@
-"use client";
-
-import { useMemo } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { personalData } from "@/lib/data/personal";
 import { communityData } from "@/lib/data/community";
-import Section from "@/components/community/Section";
-import ItemCard from "@/components/community/ItemCard";
-import { MentoringIcon, SpeakingIcon, WritingIcon, OpenSourceIcon, LeadershipIcon } from "@/components/icons/Icons";
+import PageKinetic from "@/components/layout/PageKinetic";
+import PresentationLibrary from "@/components/community/PresentationLibrary";
+
+function CommunityList({ items }: { items: typeof communityData.speaking }) {
+  return (
+    <div className="divide-y divide-card-border border-y border-card-border">
+      {items.map((item) => (
+        <article key={`${item.title}-${item.subtitle}`} className="grid gap-3 py-6 sm:grid-cols-[1fr_auto] sm:gap-8">
+          <div>
+            <h3 className="text-lg font-semibold text-primary">{item.title}</h3>
+            <p className="mt-1 text-sm text-tertiary">{item.subtitle}</p>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-secondary">{item.description}</p>
+          </div>
+          {item.years && <p className="font-mono text-xs text-brand-primary">{item.years}</p>}
+        </article>
+      ))}
+    </div>
+  );
+}
 
 export default function CommunityPage() {
-  const yearRange = useMemo(() => {
-    const currentYear = new Date().getFullYear();
-    const startYear = 2018;
-    return `${startYear}-${currentYear}`;
-  }, []);
-
   return (
-    <div className='container mx-auto px-4 py-24 md:py-32'>
-      {/* Hero Section */}
-      <div className='max-w-4xl mx-auto px-4 pt-32 pb-20 sm:pt-40 sm:pb-32'>
-        <h1 className='text-4xl sm:text-5xl font-bold mb-6'>
-          <span className='text-gradient'>Community Involvement</span>
-        </h1>
-        <p className='text-xl text-secondary max-w-2xl leading-relaxed transition-colors mb-8'>
-          {communityData.intro}
-        </p>
+    <div className="page-stage pt-28 sm:pt-32">
+      <PageKinetic variant="community" />
+      <section className="site-shell grid gap-10 py-14 lg:grid-cols-[1fr_0.75fr] lg:items-end sm:py-20">
+        <div>
+          <p className="eyebrow">Community</p>
+          <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-primary sm:text-5xl">Teaching, mentoring, and a few good side quests.</h1>
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-secondary">{communityData.intro}</p>
+        </div>
+        <figure className="group relative overflow-hidden border border-card-border bg-ink motion-float">
+          <Image src={personalData.podcast.image} alt={personalData.podcast.imageAlt} width={1280} height={720} sizes="(max-width: 1024px) calc(100vw - 2rem), 440px" className="aspect-[16/10] w-full object-cover motion-image" />
+          <figcaption className="absolute inset-x-0 bottom-0 bg-ink/90 px-5 py-4 text-sm text-white">{personalData.podcast.title} · technology, science, and pop culture</figcaption>
+        </figure>
+      </section>
 
-        {/* Impact Stats */}
-        <div className='mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8'>
-          <div className='bg-card-alt rounded-lg p-5 text-center border border-card-border'>
-            <div className='text-3xl md:text-4xl font-bold text-brand-primary mb-2'>
-              {communityData.speaking.length}+
-            </div>
-            <div className='text-tertiary text-sm'>Speaking Engagements</div>
+      <section aria-labelledby="teaching-heading" className="border-y border-card-border bg-card-alt">
+        <div className="site-shell py-14 sm:py-20">
+          <p className="eyebrow">Teaching</p>
+          <h2 id="teaching-heading" className="mt-3 text-3xl font-semibold tracking-tight text-primary">Practical topics for people who are curious.</h2>
+          <div className="mt-10"><CommunityList items={communityData.speaking} /></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="presentations-heading" className="site-shell py-14 sm:py-20">
+        <p className="eyebrow">Makerspace presentation library</p>
+        <h2 id="presentations-heading" className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight text-primary">Take a workshop home.</h2>
+        <p className="mt-4 max-w-2xl text-lg leading-8 text-secondary">The slide decks from these public Makerspace sessions are available as PowerPoint downloads for anyone who wants to revisit the material or share it with a curious friend.</p>
+        <div className="mt-10"><PresentationLibrary presentations={communityData.presentations} /></div>
+      </section>
+
+      <section className="site-shell grid gap-12 py-14 lg:grid-cols-2 sm:py-20">
+        <div>
+          <p className="eyebrow">Mentoring</p>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-primary">Share the map, not just the answer.</h2>
+          <div className="mt-8"><CommunityList items={communityData.mentoring} /></div>
+        </div>
+        <div>
+          <p className="eyebrow">Local involvement</p>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-primary">Make the next experiment less intimidating.</h2>
+          <div className="mt-8"><CommunityList items={communityData.leadership} /></div>
+        </div>
+      </section>
+
+      <section className="border-t border-card-border bg-ink py-14 text-white sm:py-16">
+        <div className="site-shell flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="eyebrow text-accent-light">Keep in touch</p>
+            <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight">Have a class, a community question, or a good story to share?</h2>
           </div>
-          <div className='bg-card-alt rounded-lg p-5 text-center border border-card-border'>
-            <div className='text-3xl md:text-4xl font-bold text-brand-primary mb-2'>
-              {communityData.mentoring.length}+
-            </div>
-            <div className='text-tertiary text-sm'>Mentorship Programs</div>
-          </div>
-          <div className='bg-card-alt rounded-lg p-5 text-center border border-card-border'>
-            <div className='text-3xl md:text-4xl font-bold text-brand-primary mb-2'>
-              {communityData.openSource.length}+
-            </div>
-            <div className='text-tertiary text-sm'>Mentoring Projects</div>
-          </div>
-          <div className='bg-card-alt rounded-lg p-5 text-center border border-card-border'>
-            <div className='text-3xl md:text-4xl font-bold text-brand-primary mb-2'>
-              {yearRange}
-            </div>
-            <div className='text-tertiary text-sm'>Years of Involvement</div>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <a href={personalData.podcast.href} target="_blank" rel="noopener noreferrer" className="button-on-dark">Listen to the podcast <span aria-hidden="true">↗</span></a>
+            <Link href="/contact" className="button-on-dark">Say hello</Link>
           </div>
         </div>
-      </div>
-
-      {/* Navigation Links */}
-      <div className='max-w-4xl mx-auto mb-16 flex flex-wrap gap-4 justify-center'>
-        <a
-          href='#speaking'
-          className='px-4 py-2 bg-card-alt hover:bg-card border border-card-border rounded-md text-primary transition-colors'
-        >
-          Speaking
-        </a>
-        <a
-          href='#mentoring'
-          className='px-4 py-2 bg-card-alt hover:bg-card border border-card-border rounded-md text-primary transition-colors'
-        >
-          Mentoring
-        </a>
-        <a
-          href='#opensource'
-          className='px-4 py-2 bg-card-alt hover:bg-card border border-card-border rounded-md text-primary transition-colors'
-        >
-          Open Source
-        </a>
-        <a
-          href='#leadership'
-          className='px-4 py-2 bg-card-alt hover:bg-card border border-card-border rounded-md text-primary transition-colors'
-        >
-          Leadership
-        </a>
-      </div>
-
-      {/* Mentoring Section */}
-      <Section
-        title='Mentoring & Developer Support'
-        description='Helping others grow in their technical careers through structured mentorship and guidance.'
-        anchor='mentoring'
-        icon={<MentoringIcon />}
-        index={0}
-      >
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          {communityData.mentoring.map((item, index) => (
-            <ItemCard
-              key={index}
-              title={item.title}
-              subtitle={item.subtitle}
-              description={item.description}
-              years={item.years}
-              link={item.link}
-              index={index}
-            />
-          ))}
-        </div>
-      </Section>
-
-      {/* Speaking Section */}
-      <Section
-        title='Speaking & Events'
-        description='Sharing knowledge and experiences through public speaking and community events.'
-        anchor='speaking'
-        icon={<SpeakingIcon />}
-        index={1}
-      >
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          {communityData.speaking.map((item, index) => (
-            <ItemCard
-              key={index}
-              title={item.title}
-              subtitle={item.subtitle}
-              description={item.description}
-              years={item.years}
-              link={item.link}
-              index={index}
-            />
-          ))}
-        </div>
-      </Section>
-
-      {/* Writing Section */}
-      <Section
-        title='Writing & Content'
-        description='Creating educational content and sharing insights through various platforms.'
-        anchor='writing'
-        icon={<WritingIcon />}
-        index={2}
-      >
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          {communityData.writing.map((item, index) => (
-            <ItemCard
-              key={index}
-              title={item.title}
-              subtitle={item.subtitle}
-              description={item.description}
-              years={item.years}
-              link={item.link}
-              index={index}
-            />
-          ))}
-        </div>
-      </Section>
-
-      {/* Open Source Section */}
-      <Section
-        title='Open Source & Projects'
-        description='Contributing to and maintaining open source projects that benefit the community.'
-        anchor='open-source'
-        icon={<OpenSourceIcon />}
-        index={3}
-      >
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          {communityData.openSource.map((item, index) => (
-            <ItemCard
-              key={index}
-              title={item.title}
-              subtitle={item.subtitle}
-              description={item.description}
-              years={item.years}
-              link={item.link}
-              index={index}
-            />
-          ))}
-        </div>
-      </Section>
-
-      {/* Leadership Section */}
-      <Section
-        title='Community Leadership'
-        description='Taking on leadership roles to help grow and support developer communities.'
-        anchor='leadership'
-        icon={<LeadershipIcon />}
-        index={4}
-      >
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          {communityData.leadership.map((item, index) => (
-            <ItemCard
-              key={index}
-              title={item.title}
-              subtitle={item.subtitle}
-              description={item.description}
-              years={item.years}
-              link={item.link}
-              index={index}
-            />
-          ))}
-        </div>
-      </Section>
-
-      {/* Call to Action */}
-      <div className='max-w-4xl mx-auto mt-16 bg-brand-gradient-muted rounded-xl p-8 text-center border border-card-border'>
-        <h2 className='text-2xl font-bold text-primary mb-4'>
-          Interested in Collaboration?
-        </h2>
-        <p className='text-secondary mb-6 max-w-2xl mx-auto'>
-          I&apos;m always open to speaking opportunities, mentoring, and
-          collaborating on open source projects that make a positive impact.
-        </p>
-        <a
-          href='/contact'
-          className='inline-flex items-center justify-center rounded-md px-6 py-3 text-base font-medium btn-primary shadow-md transition-all'
-        >
-          Get in Touch
-        </a>
-      </div>
+      </section>
     </div>
   );
 }

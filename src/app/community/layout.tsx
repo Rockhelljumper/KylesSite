@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Community Involvement | Kyle Simmons",
+  title: "Community",
   description:
-    "Explore my community contributions, speaking engagements, mentoring, and open source projects that give back to the tech community.",
+    "Community teaching, mentoring, makerspace education, and podcasting from Kyle Simmons.",
+  alternates: { canonical: "/community" },
 };
 
 export default function CommunityLayout({

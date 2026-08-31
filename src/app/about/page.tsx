@@ -1,48 +1,77 @@
 import type { Metadata } from "next";
-import { aboutData } from "@/lib/data/about";
-import Headshot from "@/components/about/Headshot";
-import Bio from "@/components/about/Bio";
-import TechStack from "@/components/about/TechStack";
-import Philosophy from "@/components/about/Philosophy";
-import FunFacts from "@/components/about/FunFacts";
+import Image from "next/image";
+import Link from "next/link";
+import PersonalShelf from "@/components/life/PersonalShelf";
+import PageKinetic from "@/components/layout/PageKinetic";
+import { personalData } from "@/lib/data/personal";
+import { profile } from "@/lib/data/profile";
 
 export const metadata: Metadata = {
-  title: "About Me | Kyle Simmons",
-  description:
-    "Learn about my background, skills, and what drives me as a software engineer and community leader.",
+  title: "About",
+  description: "The person behind Kyle Simmons' work in engineering leadership, systems, community teaching, and maker projects.",
+  alternates: { canonical: "/about" },
 };
+
+const workModes = [
+  ["Make the path clearer", "Turn ambiguous needs and operational risk into a practical plan, useful defaults, and a delivery path people can understand."],
+  ["Stay close to the work", "Keep a hand in architecture, code, test design, integration behavior, and the production questions that cannot be answered from a slide deck."],
+  ["Leave things easier to operate", "Improve ownership, documentation, tooling, and incident habits so the next person has more context and fewer surprises."],
+];
 
 export default function AboutPage() {
   return (
-    <div className='container mx-auto px-4 py-24 md:py-32'>
-      <div className='max-w-4xl mx-auto px-4 pt-32 pb-20 sm:pt-40 sm:pb-32'>
-        <h1 className='text-4xl sm:text-5xl font-bold mb-6'>
-          <span className='text-gradient'>About Me</span>
-        </h1>
-      </div>
-
-      <div className='grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-12 lg:gap-16 mb-16'>
-        {/* Left column with headshot */}
-        <div className='flex flex-col justify-start'>
-          <Headshot imageUrl={aboutData.headshotUrl} name='Kyle Simmons' />
+    <div className="page-stage pt-28 sm:pt-32">
+      <PageKinetic variant="about" />
+      <section className="site-shell grid gap-10 py-14 lg:grid-cols-[0.7fr_1.3fr] lg:items-start sm:py-20">
+        <figure className="justify-self-start motion-float lg:sticky lg:top-24">
+          <div className="relative aspect-[4/5] w-56 overflow-hidden border border-card-border bg-card-alt sm:w-72">
+            <Image src={profile.headshotUrl} alt="Kyle Simmons" fill sizes="(max-width: 640px) 224px, 288px" className="object-cover motion-image" priority />
+          </div>
+          <figcaption className="mt-3 font-mono text-xs text-tertiary">Remote · United States · coffee first</figcaption>
+        </figure>
+        <div>
+          <p className="eyebrow">About</p>
+          <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.04em] text-primary sm:text-5xl">The work matters. So does how it feels to do it.</h1>
+          <div className="mt-8 max-w-3xl space-y-5 text-lg leading-8 text-secondary">
+            <p>I lead engineering work where reliability, security, and delivery speed all have real consequences. My path moved through operations, support, infrastructure, fintech platform work, and product development—so I tend to look for the human and operational consequence behind a technical decision.</p>
+            <p>{profile.summary} I like the moment when a vague problem becomes a clear boundary, a practical plan, an observable system, and a team that can improve it without relying on one person&apos;s memory.</p>
+          </div>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Link href="/projects" className="button-primary">Read selected work</Link>
+            <Link href="/now" className="button-secondary">A little life lately</Link>
+          </div>
         </div>
+      </section>
 
-        {/* Right column with content */}
-        <div className='space-y-12 md:space-y-16'>
-          <Bio bioContent={aboutData.bio} />
-          <TechStack techCategories={aboutData.techStack} />
-          <Philosophy
-            title={aboutData.philosophy.title}
-            description={aboutData.philosophy.description}
-            index={0}
-          />
+      <section aria-labelledby="work-heading" className="border-y border-card-border bg-card-alt">
+        <div className="site-shell py-14 sm:py-20">
+          <p className="eyebrow">How I tend to work</p>
+          <h2 id="work-heading" className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight text-primary">A few habits, not an adjective cloud.</h2>
+          <div className="mt-10 grid gap-px border border-card-border bg-card-border md:grid-cols-3">
+            {workModes.map(([title, body]) => (
+              <article key={title} className="bg-card p-6 sm:p-7 motion-card">
+                <h3 className="text-xl font-semibold text-primary">{title}</h3>
+                <p className="mt-3 text-sm leading-6 text-secondary">{body}</p>
+              </article>
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
 
-      {/* Full width fun facts */}
-      <div className='mt-16 md:mt-24'>
-        <FunFacts facts={aboutData.funFacts} />
-      </div>
+      <section id="outside-the-backlog" aria-labelledby="outside-heading" className="site-shell py-14 sm:py-20">
+        <div className="grid gap-8 lg:grid-cols-[0.65fr_1.35fr] lg:items-end">
+          <div>
+            <p className="eyebrow">Outside the backlog</p>
+            <h2 id="outside-heading" className="mt-3 text-3xl font-semibold tracking-tight text-primary">A real person has side quests.</h2>
+          </div>
+          <p className="max-w-2xl leading-7 text-secondary">I make time for maker projects, community teaching, books, games, the outdoors, and an occasional microphone. They are not résumé filler—they are the places I keep learning how to explain, make, and improve things.</p>
+        </div>
+        <div className="mt-10"><PersonalShelf /></div>
+        <div className="mt-8 flex flex-col gap-4 border-t border-card-border pt-7 sm:flex-row sm:items-center sm:justify-between">
+          <p className="max-w-2xl text-sm leading-6 text-secondary">The community thread runs through all of it: makerspace sessions, practical technology classes, mentoring, and a podcast that makes room for technology and culture in the same conversation.</p>
+          <a href={personalData.podcast.href} target="_blank" rel="noopener noreferrer" className="text-link shrink-0 inline-flex">Find Into the Nerdverse <span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
     </div>
   );
 }

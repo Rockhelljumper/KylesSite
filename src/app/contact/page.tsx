@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef, FormEvent, ChangeEvent } from "react";
+import { useState, useRef, FormEvent, ChangeEvent } from "react";
 import Link from "next/link";
-import { homeData } from "@/lib/data/homeData";
+import { profile } from "@/lib/data/profile";
 import FormInput from "@/components/ui/FormInput";
 import Toast from "@/components/ui/Toast";
 import { submitContactForm } from "@/lib/api/emailService";
@@ -15,6 +15,9 @@ import {
   trackFormSubmission,
   trackExternalLinkClick,
 } from "@/lib/utils/googleAnalytics";
+import { getTurnstileSiteKey } from "@/lib/utils/env";
+import PageKinetic from "@/components/layout/PageKinetic";
+import RemoteRolePanel from "@/components/career/RemoteRolePanel";
 
 // Form validation types
 type FormErrors = {
@@ -25,6 +28,8 @@ type FormErrors = {
 };
 
 export default function ContactPage() {
+  const turnstileSiteKey = getTurnstileSiteKey();
+
   // Form state
   const [formValues, setFormValues] = useState<ContactFormData>({
     fullName: "",
@@ -37,13 +42,8 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const [formVisible, setFormVisible] = useState(false);
+  const [formVisible] = useState(true);
   const formRef = useRef<HTMLFormElement>(null);
-
-  // Initialize form animation
-  useEffect(() => {
-    setFormVisible(true);
-  }, []);
 
   // Form field change handler
   const handleChange = (
@@ -95,6 +95,12 @@ export default function ContactPage() {
   // Form submission handler
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    if (!turnstileSiteKey) {
+      setToastMessage("The contact form is unavailable in this environment. Please use the direct email link instead.");
+      setToastVisible(true);
+      return;
+    }
 
     if (!formValues.turnstileToken) {
       setToastMessage("Please complete the Turnstile verification");
@@ -213,21 +219,34 @@ export default function ContactPage() {
   };
 
   return (
-    <div className='flex flex-col px-4 min-h-[calc(100vh-4rem)] md:px-8 max-w-7xl mx-auto w-full py-12'>
+    <div className='page-stage'>
+      <PageKinetic variant="contact" />
+      <div className='flex min-h-[calc(100vh-4rem)] w-full max-w-7xl flex-col px-4 py-24 md:mx-auto md:px-8 md:py-32'>
       <div className='max-w-4xl mx-auto w-full'>
-        <h1 className='text-3xl md:text-4xl font-bold mb-8'>Get in Touch</h1>
+        <h1 className='text-3xl md:text-4xl font-bold mb-4'>
+          Say hello
+        </h1>
+        <p className='mb-8 max-w-2xl text-secondary leading-relaxed'>
+          I&apos;m open to remote-only leadership opportunities. If you want to talk
+          about a role, a tricky systems problem, a makerspace project, or a good
+          book/podcast recommendation, I&apos;d be glad to hear from you.
+        </p>
+        <div className='mb-10 max-w-3xl'>
+          <RemoteRolePanel compact />
+        </div>
 
         <div className='grid md:grid-cols-3 gap-10'>
           {/* Contact Info */}
           <div className='md:col-span-1 order-2 md:order-1'>
             <div className='bg-card rounded-xl p-6 shadow-sm'>
-              <h2 className='text-xl font-semibold mb-4'>Contact Info</h2>
+              <h2 className='text-xl font-semibold mb-4'>A few ways to reach me</h2>
 
               <div className='space-y-4'>
                 {/* Email */}
-                <div
-                  className='flex items-center cursor-pointer hover:text-blue-500 transition-colors'
-                  onClick={() => copyToClipboard("kyle7simmons1994@gmail.com")}
+                <button
+                  type='button'
+                  className='flex min-h-11 w-full items-center text-left transition-colors hover:text-brand-primary'
+                  onClick={() => copyToClipboard(profile.email)}
                 >
                   <div className='bg-primary/10 rounded-full p-2 mr-3'>
                     {renderSocialIcon("email")}
@@ -235,22 +254,22 @@ export default function ContactPage() {
                   <div>
                     <div className='font-medium'>Email</div>
                     <div className='text-sm text-muted-foreground'>
-                      kyle7simmons1994@gmail.com
+                      {profile.email}
                     </div>
                   </div>
-                </div>
+                </button>
 
                 {/* Social Links */}
                 <div className='pt-4 border-t'>
-                  <h3 className='text-sm font-medium mb-3'>Connect with me</h3>
+                  <h3 className='text-sm font-medium mb-3'>Elsewhere on the internet</h3>
                   <div className='flex space-x-3'>
-                    {homeData.socialLinks.map((link) => (
+                    {profile.socialLinks.map((link) => (
                       <Link
                         key={link.icon}
                         href={link.url}
                         target='_blank'
                         rel='noopener noreferrer'
-                        className='bg-card hover:bg-muted rounded-full p-2 transition-colors'
+                        className='inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border-2 border-card-border bg-card p-2 transition-colors hover:border-brand-primary hover:bg-card-alt'
                         aria-label={`Visit ${link.platform}`}
                         onClick={() =>
                           trackExternalLinkClick(link.url, link.platform)
@@ -272,7 +291,7 @@ export default function ContactPage() {
             }`}
           >
             <div className='bg-card rounded-xl p-6 shadow-sm'>
-              <h2 className='text-xl font-semibold mb-4'>Send a Message</h2>
+              <h2 className='text-xl font-semibold mb-4'>Drop a note</h2>
 
               <form ref={formRef} onSubmit={handleSubmit}>
                 <div className='space-y-4'>
@@ -344,10 +363,9 @@ export default function ContactPage() {
                   {/* Turnstile Widget */}
                   <div className='flex justify-center my-4'>
                     {(() => {
-                      const siteKey = "0x4AAAAAABd79ktcgMBQGBJy";
-                      return siteKey ? (
+                      return turnstileSiteKey ? (
                         <Turnstile
-                          siteKey={siteKey}
+                          siteKey={turnstileSiteKey}
                           onSuccess={(token) =>
                             setFormValues((prev) => ({
                               ...prev,
@@ -372,19 +390,21 @@ export default function ContactPage() {
                           }}
                         />
                       ) : (
-                        <div className='p-4 text-red-500 bg-red-100 rounded-md'>
-                          Error: Turnstile site key is not configured. Please
-                          check your environment variables.
+                        <div className='border-l-2 border-brand-primary bg-card-alt p-4 text-sm leading-6 text-secondary' data-contact-form-unavailable>
+                          The form is unavailable in this environment. The quickest way to reach me is email.
+                          <a href={`mailto:${profile.email}`} className='button-secondary button-compact mt-3'>
+                            Email Kyle <span className='ml-2' aria-hidden='true'>→</span>
+                          </a>
                         </div>
                       );
                     })()}
                   </div>
 
                   {/* Submit Button */}
-                  <div className='pt-2'>
+                  {turnstileSiteKey && <div className='pt-2'>
                     <button
                       type='submit'
-                      className='w-full py-2.5 px-4 bg-primary hover:bg-primary/90 text-primary-foreground rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:opacity-50 disabled:cursor-not-allowed'
+                      className='button-primary w-full disabled:cursor-not-allowed disabled:opacity-50'
                       disabled={!isFormValid() || isSubmitting}
                     >
                       {isSubmitting ? (
@@ -415,7 +435,7 @@ export default function ContactPage() {
                         "Send Message"
                       )}
                     </button>
-                  </div>
+                  </div>}
                 </div>
               </form>
             </div>
@@ -424,12 +444,13 @@ export default function ContactPage() {
       </div>
 
       {/* Toast Notification */}
-      <Toast
-        message={toastMessage}
-        visible={toastVisible}
-        onClose={() => setToastVisible(false)}
-        type='success'
-      />
+        <Toast
+          message={toastMessage}
+          visible={toastVisible}
+          onClose={() => setToastVisible(false)}
+          type='success'
+        />
+      </div>
     </div>
   );
 }

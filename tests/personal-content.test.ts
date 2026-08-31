@@ -1,0 +1,43 @@
+import { describe, expect, it } from "vitest";
+import { personalData } from "@/lib/data/personal";
+import { profile } from "@/lib/data/profile";
+import { communityData } from "@/lib/data/community";
+
+describe("person-first portfolio content", () => {
+  it("keeps every public route discoverable without framing contact as a business funnel", () => {
+    expect(profile.navigation).toContainEqual({ label: "Life", href: "/now" });
+    expect(profile.navigation).toContainEqual({ label: "Contact", href: "/contact" });
+    expect(profile.navigation.map((link) => link.label)).toEqual([
+      "Home",
+      "Work",
+      "About",
+      "Life",
+      "Community",
+      "Résumé",
+      "Contact",
+      "GitHub",
+    ]);
+  });
+
+  it("uses the verified public podcast surface and keeps hobbies descriptive rather than fabricated", () => {
+    expect(personalData.podcast.href).toBe("https://open.spotify.com/show/3CwC4tH9Yix6RIPuEo640u");
+    expect(personalData.shelf.map((item) => item.label)).toEqual(["Reading", "Listen", "Watch & play"]);
+    expect(personalData.interests).toHaveLength(3);
+  });
+
+  it("publishes the three Makerspace presentations as browser-native slide viewers", () => {
+    expect(communityData.presentations.map((presentation) => presentation.slug)).toEqual([
+      "computer-building-2023",
+      "what-is-docker",
+      "ai-for-makers-workshop-2026-08-17",
+    ]);
+    expect(communityData.presentations.map((presentation) => presentation.slides)).toEqual([16, 10, 27]);
+    expect(communityData.presentations.every((presentation) => presentation.slideImageDirectory.startsWith("/images/community/presentations/"))).toBe(true);
+    expect(communityData.presentations.every((presentation) => presentation.slideDocumentation.length === presentation.slides)).toBe(true);
+    expect(communityData.presentations.every((presentation) => presentation.guideAudience === "participant")).toBe(true);
+    expect(communityData.presentations.flatMap((presentation) => presentation.slideDocumentation).every((slide) => /^(You|Your)\b/.test(slide.summary))).toBe(true);
+    expect(communityData.presentations.flatMap((presentation) => presentation.slideDocumentation).every((slide) => slide.whyItMatters.length >= 80 && slide.tryThis.length >= 60)).toBe(true);
+    expect(communityData.presentations[0].slideDocumentation.every((slide) => slide.provenance === "Provided workshop notes")).toBe(true);
+    expect(communityData.presentations.slice(1).flatMap((presentation) => presentation.slideDocumentation).every((slide) => slide.provenance === "Draft notes")).toBe(true);
+  });
+});

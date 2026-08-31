@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Connection map for KyleSimmons.tech.",
+  "version": "1.0.0",
+  "workspace": "KyleSimmons.tech",
+  "generated_at": "2026-08-31T00:00:00-05:00",
+  "applications": [
+    {"id": "portfolio-web", "name": "Kyle Simmons Portfolio", "repo": "https://github.com/Rockhelljumper/KylesSite", "language": "TypeScript", "type": "frontend", "description": "Public Next.js leadership portfolio."},
+    {"id": "portfolio-api", "name": "Kyle Site Backend API", "repo": "https://github.com/Rockhelljumper/KylesSiteBackend", "language": "C#", "type": "backend", "description": "Resume PDF delivery service for the portfolio."}
+  ],
+  "connections": [
+    {"from": "portfolio-web", "to": "portfolio-api", "protocol": "http", "direction": "unidirectional", "description": "The web route proxies declared resume PDF downloads to the API.", "criticality": "medium"}
+  ],
+  "external_dependencies": [
+    {"name": "Cloudflare Turnstile", "type": "auth", "url": "https://developers.cloudflare.com/turnstile/", "used_by": ["portfolio-web"]},
+    {"name": "Postmark", "type": "api", "url": "https://postmarkapp.com/developer", "used_by": ["portfolio-web"]},
+    {"name": "Google Analytics", "type": "other", "url": "https://developers.google.com/analytics", "used_by": ["portfolio-web"]}
+  ]
+}

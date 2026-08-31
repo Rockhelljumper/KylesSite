@@ -1,0 +1,10 @@
+flowchart TB
+    Request["Feature request / issue"] --> Triage["1. Triage & Spec\nScope the task, select models, and define acceptance criteria"]
+    Triage --> Scaffold["2. Implementation Scaffold\nGenerate a patch using the affected context"]
+    Scaffold --> Tests
+    Scaffold --> Review
+    subgraph Quality["Quality gate"]
+      direction LR
+      Tests["3. Test Generation\nAdd unit and integration coverage"] --> Review["4. Review\nCheck correctness, completeness, and style"]
+      Review --> Outcome["Review report + human approval decision"]
+    end
