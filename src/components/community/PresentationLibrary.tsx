@@ -38,14 +38,20 @@ export default function PresentationLibrary({ presentations }: PresentationLibra
             <p className="mt-2 text-sm text-tertiary">{presentation.subtitle}</p>
             <p className="mt-4 text-sm leading-6 text-secondary">{presentation.description}</p>
             <p className="mt-5 font-mono text-xs text-tertiary">{presentation.slides} slides · {presentation.fileSize}</p>
-            <a
-              href={presentation.href}
-              download
-              className="button-primary mt-6 w-full justify-center"
-              data-presentation-download={presentation.format}
-            >
-              Download {presentation.format} <span className="ml-2" aria-hidden="true">↓</span>
-            </a>
+            <div className="mt-6 grid gap-3">
+              <a
+                href={presentation.pdfHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="button-primary w-full justify-center"
+                data-presentation-open={presentation.format}
+              >
+                Open slides <span className="ml-2" aria-hidden="true">↗</span>
+              </a>
+              <a href={presentation.href} download className="text-link mx-auto text-sm" data-presentation-download={presentation.format}>
+                Download original {presentation.format} <span className="ml-1" aria-hidden="true">↓</span>
+              </a>
+            </div>
           </div>
         </article>
       ))}

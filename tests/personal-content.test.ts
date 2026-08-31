@@ -32,5 +32,10 @@ describe("person-first portfolio content", () => {
       "/presentations/makerspace/ai-for-makers-workshop-2026-08-17.pptx",
     ]);
     expect(communityData.presentations.map((presentation) => presentation.slides)).toEqual([16, 10, 27]);
+    expect(communityData.presentations.map((presentation) => presentation.pdfHref)).toEqual([
+      "/presentations/makerspace/computer-building-2023.pdf",
+      "/presentations/makerspace/what-is-docker.pdf",
+      "/presentations/makerspace/ai-for-makers-workshop-2026-08-17.pdf",
+    ]);
   });
 });

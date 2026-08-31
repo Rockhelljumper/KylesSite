@@ -37,6 +37,7 @@ export type CommunityItem = {
 
 export type MakerspacePresentation = CommunityItem & {
   href: string;
+  pdfHref: string;
   format: "PPTX" | "PPTM";
   fileSize: string;
   slides: number;
@@ -90,6 +91,7 @@ export const communityData: CommunityData = {
         "A practical tour of desktop components, how they work together, and what to consider when building a computer.",
       years: "2023",
       href: "/presentations/makerspace/computer-building-2023.pptx",
+      pdfHref: "/presentations/makerspace/computer-building-2023.pdf",
       format: "PPTX",
       fileSize: "20.2 MB",
       slides: 16,
@@ -103,6 +105,7 @@ export const communityData: CommunityData = {
         "A beginner-friendly introduction to containers: what Docker is, how it works, and how to start using it.",
       years: "2023",
       href: "/presentations/makerspace/what-is-docker.pptm",
+      pdfHref: "/presentations/makerspace/what-is-docker.pdf",
       format: "PPTM",
       fileSize: "7.3 MB",
       slides: 10,
@@ -116,6 +119,7 @@ export const communityData: CommunityData = {
         "A workshop on how AI and LLMs work, practical prompting, model selection, coding and research uses, safety, and local AI.",
       years: "2026",
       href: "/presentations/makerspace/ai-for-makers-workshop-2026-08-17.pptx",
+      pdfHref: "/presentations/makerspace/ai-for-makers-workshop-2026-08-17.pdf",
       format: "PPTX",
       fileSize: "152 KB",
       slides: 27,
