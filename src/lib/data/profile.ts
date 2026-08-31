@@ -1,7 +1,4 @@
-export type NavLink = {
-  label: string;
-  href: string;
-};
+import { primaryNavigation } from "@/lib/data/siteRoutes";
 
 export type SocialLink = {
   platform: string;
@@ -25,12 +22,7 @@ export const profile = {
   headshotUrl: "/images/headshot.jpeg",
   homePortraitUrl: "/images/HomeHeadshot.jpeg",
   email: "kyle7simmons1994@gmail.com",
-  navigation: [
-    { label: "Work", href: "/projects" },
-    { label: "About", href: "/about" },
-    { label: "Life", href: "/now" },
-    { label: "Résumé", href: "/resume" },
-  ] satisfies NavLink[],
+  navigation: primaryNavigation,
   socialLinks: [
     {
       platform: "GitHub",

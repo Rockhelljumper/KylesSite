@@ -24,21 +24,27 @@ export default function Header() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-card-border bg-card/95 backdrop-blur">
-      <div className="site-shell flex min-h-16 items-center justify-between gap-4">
-        <Link href="/" className="font-semibold tracking-tight text-primary" aria-label="Kyle Simmons home">
+      <div className="site-shell flex min-h-[4.5rem] items-center justify-between gap-5">
+        <Link href="/" className="text-lg font-semibold tracking-tight text-primary" aria-label="Kyle Simmons home">
           Kyle Simmons<span className="text-brand-primary">.</span>
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-7 md:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-5 xl:flex" data-testid="desktop-navigation">
           {profile.navigation.map((link) => (
-            <Link key={link.href} href={link.href} className="text-sm font-medium text-secondary hover:text-primary">
-              {link.label}
-            </Link>
+            link.external ? (
+              <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className="nav-link text-secondary hover:text-primary" data-nav-action>
+                {link.label}
+              </a>
+            ) : (
+              <Link key={link.href} href={link.href} className="nav-link text-secondary hover:text-primary" data-nav-action>
+                {link.label}
+              </Link>
+            )
           ))}
           <ThemeToggle />
         </nav>
 
-        <div className="flex items-center gap-1 md:hidden">
+        <div className="flex items-center gap-1 xl:hidden">
           <ThemeToggle />
           <button
             ref={menuButtonRef}
@@ -64,17 +70,24 @@ export default function Header() {
       </div>
 
       {mobileMenuOpen && (
-        <nav id={menuId} aria-label="Mobile primary" className="border-t border-card-border bg-card md:hidden">
-          <div className="site-shell flex flex-col py-3">
+        <nav id={menuId} aria-label="Mobile primary" className="border-t border-card-border bg-card xl:hidden">
+          <div className="site-shell flex flex-col py-4">
             {profile.navigation.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="py-3 text-base font-medium text-primary"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
+              link.external ? (
+                <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className="flex min-h-11 items-center py-3 text-lg font-medium text-primary" data-nav-action onClick={() => setMobileMenuOpen(false)}>
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="flex min-h-11 items-center py-3 text-lg font-medium text-primary"
+                  data-nav-action
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              )
             ))}
           </div>
         </nav>

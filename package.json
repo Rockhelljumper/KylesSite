@@ -10,7 +10,11 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "check:design": "node scripts/check-design-controls.mjs",
+    "control-plane:refresh": "node scripts/refresh-control-plane.mjs --write-maps",
+    "control-plane:evidence": "node scripts/refresh-control-plane.mjs",
+    "test:visual:evidence": "node scripts/run-design-evidence.mjs"
   },
   "dependencies": {
     "@marsidev/react-turnstile": "^1.1.0",

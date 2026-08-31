@@ -8,6 +8,18 @@ const config: Config = {
   ],
   darkMode: "class", // Use 'class' for manual control with ThemeToggle
   theme: {
+    fontSize: {
+      xs: ["0.875rem", { lineHeight: "1.35rem" }],
+      sm: ["1rem", { lineHeight: "1.55rem" }],
+      base: ["1.125rem", { lineHeight: "1.75rem" }],
+      lg: ["1.25rem", { lineHeight: "1.9rem" }],
+      xl: ["1.5rem", { lineHeight: "2.15rem" }],
+      "2xl": ["1.875rem", { lineHeight: "2.35rem" }],
+      "3xl": ["2.25rem", { lineHeight: "2.75rem" }],
+      "4xl": ["3rem", { lineHeight: "3.35rem" }],
+      "5xl": ["3.75rem", { lineHeight: "4.1rem" }],
+      "6xl": ["4.5rem", { lineHeight: "4.8rem" }],
+    },
     extend: {
       colors: {
         background: "var(--background)",

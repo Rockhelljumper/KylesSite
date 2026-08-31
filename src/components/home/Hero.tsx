@@ -5,17 +5,22 @@ import { profile } from "@/lib/data/profile";
 
 export default function Hero() {
   return (
-    <section className="border-b border-card-border bg-card pt-28 sm:pt-32">
-      <div className="site-shell grid gap-12 py-16 lg:grid-cols-[minmax(0,1.25fr)_minmax(240px,0.55fr)] lg:items-end lg:py-24">
+    <section className="hero-stage border-b border-card-border bg-card pt-28 sm:pt-32">
+      <div className="hero-kinetic" aria-hidden="true" data-testid="hero-kinetic">
+        <span className="hero-orbit hero-orbit-one" />
+        <span className="hero-orbit hero-orbit-two" />
+        <span className="hero-orbit hero-orbit-three" />
+      </div>
+      <div className="site-shell hero-content grid gap-12 py-16 xl:grid-cols-[minmax(0,1.3fr)_minmax(22rem,0.7fr)] xl:items-center xl:py-28">
         <div>
           <p className="eyebrow">Kyle Simmons · {profile.location} · Engineer, maker, mentor</p>
-          <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-[-0.04em] text-primary sm:text-5xl lg:text-6xl">
+          <h1 className="hero-title mt-5 max-w-5xl font-semibold tracking-[-0.05em] text-primary">
             Engineering that works in the real world.
           </h1>
-          <p className="mt-6 max-w-3xl text-xl font-medium leading-8 text-primary sm:text-2xl">
+          <p className="hero-statement mt-8 max-w-4xl font-medium text-primary">
             {homeData.title}
           </p>
-          <p className="mt-5 max-w-3xl text-lg leading-8 text-secondary">
+          <p className="hero-summary mt-5 max-w-3xl text-secondary">
             {homeData.summary}
           </p>
 
@@ -25,6 +30,7 @@ export default function Hero() {
                 key={link.href}
                 href={link.href}
                 className={"isPrimary" in link && link.isPrimary ? "button-primary" : "button-secondary"}
+                data-cta
               >
                 {link.text}
               </Link>
@@ -32,17 +38,18 @@ export default function Hero() {
           </div>
         </div>
 
-        <figure className="justify-self-start lg:justify-self-end motion-float">
-          <div className="relative aspect-[4/5] w-52 overflow-hidden border border-card-border bg-card-alt sm:w-60">
+        <figure className="hero-portrait-wrap hidden justify-self-start motion-float sm:block xl:justify-self-end" data-testid="hero-portrait">
+          <div className="hero-portrait relative aspect-[4/5] overflow-hidden border border-card-border bg-card-alt">
             <Image
-              src={profile.homePortraitUrl}
+              src={profile.headshotUrl}
               alt="Kyle Simmons"
               fill
-              sizes="(max-width: 640px) 208px, 240px"
+              sizes="(max-width: 640px) 288px, (max-width: 1280px) 336px, 384px"
               className="object-cover motion-image"
               priority
             />
           </div>
+          <span className="hero-note" aria-hidden="true">WORK / MAKE / SHARE</span>
           <figcaption className="mt-3 font-mono text-xs text-tertiary">
             Systems, side projects, and a good trail.
           </figcaption>

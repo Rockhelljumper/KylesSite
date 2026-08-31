@@ -13,7 +13,7 @@ export default function PersonalInterlude() {
           </h2>
           <p className="mt-5 max-w-xl leading-7 text-secondary">{personalData.intro}</p>
           <div className="mt-8 divide-y divide-card-border border-y border-card-border">
-            {personalData.interests.map((interest) => (
+            {personalData.interests.slice(0, 2).map((interest) => (
               <article key={interest.label} className="py-5 first:pt-0 last:pb-0">
                 <p className="eyebrow">{interest.label}</p>
                 <h3 className="mt-2 text-lg font-semibold text-primary">{interest.title}</h3>

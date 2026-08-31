@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "owner": "principal-design-review",
+  "intent": "Keep KyleSimmons.tech legible, personal, and route-complete as the portfolio evolves.",
+  "desktop_viewport": { "width": 2540, "height": 1345 },
+  "controls": {
+    "desktop_navigation_labels": ["Home", "Work", "About", "Life", "Community", "Résumé", "Contact", "GitHub"],
+    "content_shell_min_px": 1400,
+    "hero_heading_min_px": 88,
+    "hero_portrait_min_px": 336,
+    "body_copy_min_px": 18,
+    "navigation_copy_min_px": 18,
+    "interactive_target_min_px": 44,
+    "mobile_viewports": [320, 390, 768],
+    "desktop_viewports": [1440, 1920, 2540]
+  },
+  "evidence_routes": ["/", "/projects", "/projects/bathroom-buddy", "/about"],
+  "update_policy": {
+    "automatically_refresh": ["verification manifest", "functionality-map design-governance module", "non-baseline screenshot evidence"],
+    "human_review_required": ["threshold changes", "route inventory changes", "visual baseline approval", "production deployment"],
+    "auto_update_policy": false
+  }
+}

@@ -3,9 +3,19 @@ import { personalData } from "@/lib/data/personal";
 import { profile } from "@/lib/data/profile";
 
 describe("person-first portfolio content", () => {
-  it("keeps the life route in navigation without turning contact into a primary conversion path", () => {
+  it("keeps every public route discoverable without framing contact as a business funnel", () => {
     expect(profile.navigation).toContainEqual({ label: "Life", href: "/now" });
-    expect(profile.navigation.some((link) => link.href === "/contact")).toBe(false);
+    expect(profile.navigation).toContainEqual({ label: "Contact", href: "/contact" });
+    expect(profile.navigation.map((link) => link.label)).toEqual([
+      "Home",
+      "Work",
+      "About",
+      "Life",
+      "Community",
+      "Résumé",
+      "Contact",
+      "GitHub",
+    ]);
   });
 
   it("uses the verified public podcast surface and keeps hobbies descriptive rather than fabricated", () => {

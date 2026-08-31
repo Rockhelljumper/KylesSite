@@ -19,7 +19,7 @@ export default function ThemeToggle() {
       aria-label={
         theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
       }
-      className='p-2 rounded-full hover:bg-card-alt transition-colors'
+      className='inline-flex min-h-11 min-w-11 items-center justify-center rounded-full p-2 transition-colors hover:bg-card-alt'
     >
       {isDarkMode ? (
         <svg

@@ -16,6 +16,7 @@
 /test-results
 /.ai-engineering-output
 /undefined
+/artifacts/design-evidence
 
 # next.js
 /.next/

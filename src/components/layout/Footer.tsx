@@ -19,14 +19,13 @@ export default function Footer() {
           <ul className="mt-4 space-y-2">
             {profile.navigation.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="text-sm text-secondary hover:text-primary">
-                  {link.label}
-                </Link>
+                {link.external ? (
+                  <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-sm text-secondary hover:text-primary">{link.label}</a>
+                ) : (
+                  <Link href={link.href} className="text-sm text-secondary hover:text-primary">{link.label}</Link>
+                )}
               </li>
             ))}
-            <li>
-              <Link href="/community" className="text-sm text-secondary hover:text-primary">Community</Link>
-            </li>
           </ul>
         </div>
         <div>

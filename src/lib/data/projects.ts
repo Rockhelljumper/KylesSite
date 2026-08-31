@@ -146,8 +146,8 @@ export const projects: Project[] = [
     confidentialityNote:
       "Architecture is intentionally shown at a product-boundary level. Private repositories, provider configuration, security controls, admin routes, and operating topology are not published here.",
     image: {
-      src: "/images/bathroom-buddy/mobile-map.png",
-      alt: "Bathroom Buddy mobile map and restroom results interface",
+      src: "/images/bathroom-buddy/mobile-welcome.png",
+      alt: "Bathroom Buddy mobile welcome screen",
     },
     caseStudy: {
       problem:
