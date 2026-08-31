@@ -47,7 +47,7 @@ if (writeMaps) {
     name: "Browser-native Makerspace presentation viewers",
     path: "src/app/community/presentations/[slug], src/components/community/PresentationViewer.tsx, src/lib/data/community.ts",
     type: "ui",
-    description: "Static in-browser slide decks for community presentations. Each deck renders source-slide images with keyboard, button, and range controls instead of asking visitors to download documents.",
+    description: "Static in-browser slide decks for community presentations. Each deck uses normal in-site navigation and renders source-slide images with keyboard, button, range, and per-slide documentation controls instead of asking visitors to download documents.",
     public_api: [
       { name: "/community/presentations/[slug]", signature: "GET /community/presentations/:slug", description: "Renders a browser-native Makerspace slide deck.", inputs: "published presentation slug", outputs: "HTML or 404" }
     ],

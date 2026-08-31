@@ -63,7 +63,7 @@ test("community publishes the Makerspace presentation library as browser-native 
   await expect(opens.nth(0)).toHaveAttribute("href", "/community/presentations/computer-building-2023");
   await expect(opens.nth(1)).toHaveAttribute("href", "/community/presentations/what-is-docker");
   await expect(opens.nth(2)).toHaveAttribute("href", "/community/presentations/ai-for-makers-workshop-2026-08-17");
-  await expect(opens.nth(0)).toHaveAttribute("target", "_blank");
+  expect(await opens.nth(0).getAttribute("target")).toBeNull();
 
   for (const href of [
     "/community/presentations/computer-building-2023",
@@ -74,11 +74,19 @@ test("community publishes the Makerspace presentation library as browser-native 
     expect(response.ok(), `${href} should be served`).toBe(true);
   }
 
-  await page.goto("/community/presentations/computer-building-2023");
+  await opens.nth(0).click();
+  await expect(page).toHaveURL(/\/community\/presentations\/computer-building-2023$/);
   await expect(page.getByRole("heading", { name: "How to Build a Desktop Computer" })).toBeVisible();
   await expect(page.locator("[data-presentation-slide]")).toHaveAttribute("src", /Slide1\.JPG/);
+  await expect(page.locator("[data-presentation-documentation]")).toContainText("Build with a plan");
+  await expect(page.locator("[data-presentation-documentation]")).toContainText("Provided workshop notes");
   await page.getByRole("button", { name: "Next →" }).click();
   await expect(page.locator("[data-presentation-slide]")).toHaveAttribute("src", /Slide2\.JPG/);
+  await expect(page.locator("[data-presentation-documentation]")).toContainText("The core parts list");
+
+  await page.goto("/community/presentations/what-is-docker");
+  await expect(page.locator("[data-presentation-documentation]")).toContainText("Draft notes");
+  await expect(page.locator("[data-presentation-documentation]")).toContainText("Welcome to Docker");
 });
 
 test("personal visual motion yields to reduced-motion preferences", async ({ page }) => {

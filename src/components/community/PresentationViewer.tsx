@@ -18,6 +18,7 @@ export default function PresentationViewer({ presentation }: PresentationViewerP
   const [currentSlide, setCurrentSlide] = useState(0);
   const canGoBack = currentSlide > 0;
   const canGoForward = currentSlide < presentation.slides - 1;
+  const documentation = presentation.slideDocumentation[currentSlide];
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -78,6 +79,31 @@ export default function PresentationViewer({ presentation }: PresentationViewerP
               />
             </label>
           </div>
+          <section
+            key={currentSlide}
+            className="mx-auto mt-6 max-w-6xl border-2 border-card-border bg-card p-6 sm:p-8"
+            data-presentation-documentation
+            aria-live="polite"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p className="eyebrow">Slide guide · {currentSlide + 1}</p>
+              <span className="border border-brand-primary px-2 py-1 font-mono text-xs text-brand-primary">
+                {documentation.provenance}
+              </span>
+            </div>
+            <h2 className="mt-4 text-2xl font-semibold tracking-tight text-primary">{documentation.title}</h2>
+            <p className="mt-3 max-w-4xl text-lg leading-8 text-secondary">{documentation.summary}</p>
+            {documentation.talkingPoints && documentation.talkingPoints.length > 0 ? (
+              <ul className="mt-5 grid gap-2 border-t border-card-border pt-5 text-secondary sm:grid-cols-2">
+                {documentation.talkingPoints.map((point) => (
+                  <li key={point} className="flex gap-3 leading-6"><span className="text-brand-primary" aria-hidden="true">•</span><span>{point}</span></li>
+                ))}
+              </ul>
+            ) : null}
+            {documentation.provenance === "Draft notes" ? (
+              <p className="mt-5 font-mono text-xs leading-5 text-tertiary">Editable working notes—refine these with the presenter’s preferred examples, timing, and phrasing.</p>
+            ) : null}
+          </section>
           <p className="mx-auto mt-5 max-w-6xl text-sm leading-6 text-secondary">Use the previous/next controls, the slide picker, or your left and right arrow keys. This is a web viewer—nothing downloads when you open it.</p>
         </section>
       </article>

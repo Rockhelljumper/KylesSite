@@ -33,5 +33,8 @@ describe("person-first portfolio content", () => {
     ]);
     expect(communityData.presentations.map((presentation) => presentation.slides)).toEqual([16, 10, 27]);
     expect(communityData.presentations.every((presentation) => presentation.slideImageDirectory.startsWith("/images/community/presentations/"))).toBe(true);
+    expect(communityData.presentations.every((presentation) => presentation.slideDocumentation.length === presentation.slides)).toBe(true);
+    expect(communityData.presentations[0].slideDocumentation.every((slide) => slide.provenance === "Provided workshop notes")).toBe(true);
+    expect(communityData.presentations.slice(1).flatMap((presentation) => presentation.slideDocumentation).every((slide) => slide.provenance === "Draft notes")).toBe(true);
   });
 });

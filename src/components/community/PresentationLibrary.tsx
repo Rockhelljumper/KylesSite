@@ -42,12 +42,10 @@ export default function PresentationLibrary({ presentations }: PresentationLibra
             <div className="mt-6">
               <Link
                 href={`/community/presentations/${presentation.slug}`}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="button-primary w-full justify-center"
                 data-presentation-open={presentation.slug}
               >
-                Open slides <span className="ml-2" aria-hidden="true">↗</span>
+                View slides <span className="ml-2" aria-hidden="true">→</span>
               </Link>
             </div>
           </div>

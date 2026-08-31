@@ -83,17 +83,18 @@ if (presentationSlugs.length !== 3) {
   failures.push("Design governance must define all three browser-native Makerspace presentation routes");
 }
 
-if (!presentationLibrary.includes('target="_blank"') || !presentationLibrary.includes("WEB DECK") || presentationLibrary.includes("download")) {
-  failures.push("Presentation library must open an explicit browser-native deck without a document download control");
+if (config.controls.presentation_navigation !== "same-tab" || presentationLibrary.includes('target="_blank"') || !presentationLibrary.includes("WEB DECK") || presentationLibrary.includes("download")) {
+  failures.push("Presentation library must navigate in-page to an explicit browser-native deck without a document download control");
 }
 
-if (!presentationViewer.includes("data-presentation-viewer") || !presentationViewer.includes("ArrowLeft") || !presentationViewer.includes("ArrowRight")) {
-  failures.push("Presentation viewer is missing governed web-native slide controls");
+if (!config.controls.presentation_slide_guides_required || !presentationViewer.includes("data-presentation-viewer") || !presentationViewer.includes("data-presentation-documentation") || !presentationViewer.includes("Slide guide") || !presentationViewer.includes("ArrowLeft") || !presentationViewer.includes("ArrowRight")) {
+  failures.push("Presentation viewer is missing governed web-native slide controls or documentation");
 }
 
 for (const slug of presentationSlugs) {
-  if (!community.includes(`slug: \"${slug}\"`)) {
-    failures.push(`${slug} is missing from canonical Makerspace presentation content`);
+  const presentationIndex = community.indexOf(`slug: \"${slug}\"`);
+  if (presentationIndex === -1 || community.indexOf("slideDocumentation:", presentationIndex) === -1) {
+    failures.push(`${slug} is missing canonical Makerspace presentation documentation`);
   }
 
   try {
