@@ -12,6 +12,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "check:design": "node scripts/check-design-controls.mjs",
+    "check:container": "node scripts/check-container-build.mjs",
     "control-plane:refresh": "node scripts/refresh-control-plane.mjs --write-maps",
     "control-plane:evidence": "node scripts/refresh-control-plane.mjs",
     "test:visual:evidence": "node scripts/run-design-evidence.mjs"

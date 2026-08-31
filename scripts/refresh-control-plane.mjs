@@ -67,11 +67,25 @@ if (writeMaps) {
     dependencies: ["portfolio-routes", "claims-registry", "design-governance"],
     test_coverage: "high"
   };
+  const containerModule = {
+    id: "container-deployment",
+    name: "Reproducible Coolify container deployment",
+    path: "Dockerfile, scripts/check-container-build.mjs, docs/coolify-deployment.md, .github/workflows/quality.yml",
+    type: "deployment-governance",
+    description: "A Node 20, lockfile-only, standalone Next build that retains build dependencies such as Tailwind and verifies the same Docker path Coolify uses.",
+    public_api: [
+      { name: "check:container", signature: "npm run check:container", description: "Rejects unsupported Node versions, mutable installs, and incomplete standalone image output." },
+      { name: "Docker build", signature: "docker build --tag kyles-site:ci .", description: "Builds the production container in CI before deployment." }
+    ],
+    dependencies: ["next", "npm-lockfile", "docker", "coolify"],
+    test_coverage: "high"
+  };
   map.generated_at = now;
-  map.modules = [...map.modules.filter((module) => module.id !== designModule.id && module.id !== presentationModule.id && module.id !== careerModule.id), designModule, presentationModule, careerModule];
+  map.modules = [...map.modules.filter((module) => module.id !== designModule.id && module.id !== presentationModule.id && module.id !== careerModule.id && module.id !== containerModule.id), designModule, presentationModule, careerModule, containerModule];
   if (!map.entry_points.includes("design-governance")) map.entry_points.push("design-governance");
   if (!map.entry_points.includes("community-presentation-viewers")) map.entry_points.push("community-presentation-viewers");
   if (!map.entry_points.includes("career-positioning")) map.entry_points.push("career-positioning");
+  if (!map.entry_points.includes("container-deployment")) map.entry_points.push("container-deployment");
   await writeFile(resolve(root, ".ai-engineering/functionality-map.json"), `${JSON.stringify(map, null, 2)}\n`);
 }
 
