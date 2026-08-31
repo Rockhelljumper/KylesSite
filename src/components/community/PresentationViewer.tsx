@@ -93,8 +93,18 @@ export default function PresentationViewer({ presentation }: PresentationViewerP
             </div>
             <h2 className="mt-4 text-2xl font-semibold tracking-tight text-primary">{documentation.title}</h2>
             <p className="mt-3 max-w-4xl text-lg leading-8 text-secondary">{documentation.summary}</p>
+            <div className="mt-6 grid gap-4 border-t border-card-border pt-5 sm:grid-cols-2">
+              <section className="border border-card-border bg-card-alt p-5" data-presentation-why>
+                <p className="eyebrow">Why it matters</p>
+                <p className="mt-3 leading-7 text-secondary">{documentation.whyItMatters}</p>
+              </section>
+              <section className="border border-brand-primary/40 bg-brand-primary/5 p-5" data-presentation-try>
+                <p className="eyebrow">Try this</p>
+                <p className="mt-3 leading-7 text-secondary">{documentation.tryThis}</p>
+              </section>
+            </div>
             {documentation.talkingPoints && documentation.talkingPoints.length > 0 ? (
-              <ul className="mt-5 grid gap-2 border-t border-card-border pt-5 text-secondary sm:grid-cols-2">
+              <ul className="mt-5 grid gap-2 text-secondary sm:grid-cols-2">
                 {documentation.talkingPoints.map((point) => (
                   <li key={point} className="flex gap-3 leading-6"><span className="text-brand-primary" aria-hidden="true">•</span><span>{point}</span></li>
                 ))}

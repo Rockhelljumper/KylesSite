@@ -87,13 +87,13 @@ if (config.controls.presentation_navigation !== "same-tab" || presentationLibrar
   failures.push("Presentation library must navigate in-page to an explicit browser-native deck without a document download control");
 }
 
-if (!config.controls.presentation_slide_guides_required || config.controls.presentation_guide_audience !== "participant" || !presentationViewer.includes("data-presentation-viewer") || !presentationViewer.includes("data-presentation-documentation") || !presentationViewer.includes("Your slide guide") || !presentationViewer.includes("ArrowLeft") || !presentationViewer.includes("ArrowRight")) {
+if (!config.controls.presentation_slide_guides_required || config.controls.presentation_guide_audience !== "participant" || JSON.stringify(config.controls.presentation_guide_sections) !== JSON.stringify(["summary", "whyItMatters", "tryThis"]) || !presentationViewer.includes("data-presentation-viewer") || !presentationViewer.includes("data-presentation-documentation") || !presentationViewer.includes("data-presentation-why") || !presentationViewer.includes("data-presentation-try") || !presentationViewer.includes("Your slide guide") || !presentationViewer.includes("ArrowLeft") || !presentationViewer.includes("ArrowRight")) {
   failures.push("Presentation viewer is missing participant-facing, governed slide controls or documentation");
 }
 
 for (const slug of presentationSlugs) {
   const presentationIndex = community.indexOf(`slug: \"${slug}\"`);
-  if (presentationIndex === -1 || community.indexOf('guideAudience: "participant"', presentationIndex) === -1 || community.indexOf("slideDocumentation:", presentationIndex) === -1) {
+  if (presentationIndex === -1 || community.indexOf('guideAudience: "participant"', presentationIndex) === -1 || community.indexOf("slideDocumentation:", presentationIndex) === -1 || community.indexOf("whyItMatters:", presentationIndex) === -1 || community.indexOf("tryThis:", presentationIndex) === -1) {
     failures.push(`${slug} is missing participant-facing Makerspace presentation documentation`);
   }
 

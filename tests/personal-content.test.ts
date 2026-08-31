@@ -36,6 +36,7 @@ describe("person-first portfolio content", () => {
     expect(communityData.presentations.every((presentation) => presentation.slideDocumentation.length === presentation.slides)).toBe(true);
     expect(communityData.presentations.every((presentation) => presentation.guideAudience === "participant")).toBe(true);
     expect(communityData.presentations.flatMap((presentation) => presentation.slideDocumentation).every((slide) => /^(You|Your)\b/.test(slide.summary))).toBe(true);
+    expect(communityData.presentations.flatMap((presentation) => presentation.slideDocumentation).every((slide) => slide.whyItMatters.length >= 80 && slide.tryThis.length >= 60)).toBe(true);
     expect(communityData.presentations[0].slideDocumentation.every((slide) => slide.provenance === "Provided workshop notes")).toBe(true);
     expect(communityData.presentations.slice(1).flatMap((presentation) => presentation.slideDocumentation).every((slide) => slide.provenance === "Draft notes")).toBe(true);
   });

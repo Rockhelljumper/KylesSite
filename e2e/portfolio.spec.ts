@@ -81,6 +81,8 @@ test("community publishes the Makerspace presentation library as browser-native 
   await expect(page.locator("[data-presentation-documentation]")).toContainText("Your slide guide");
   await expect(page.locator("[data-presentation-documentation]")).toContainText("Build with a plan");
   await expect(page.locator("[data-presentation-documentation]")).toContainText("Provided workshop notes");
+  await expect(page.locator("[data-presentation-why]")).toContainText("one early choice can narrow your budget");
+  await expect(page.locator("[data-presentation-try]")).toContainText("two jobs your computer must do best");
   await page.getByRole("button", { name: "Next →" }).click();
   await expect(page.locator("[data-presentation-slide]")).toHaveAttribute("src", /Slide2\.JPG/);
   await expect(page.locator("[data-presentation-documentation]")).toContainText("The core parts list");

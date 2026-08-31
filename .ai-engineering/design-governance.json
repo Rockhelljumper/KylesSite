@@ -33,6 +33,7 @@
     "presentation_navigation": "same-tab",
     "presentation_slide_guides_required": true,
     "presentation_guide_audience": "participant",
+    "presentation_guide_sections": ["summary", "whyItMatters", "tryThis"],
     "mobile_viewports": [320, 390, 768],
     "desktop_viewports": [1440, 1920, 2540]
   },

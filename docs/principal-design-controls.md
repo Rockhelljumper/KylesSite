@@ -53,7 +53,8 @@ Measured at a 2540 × 1345 viewport on 2026-08-31:
    navigate directly to the real rendered slides, visible previous/next controls,
    a slide picker, and left/right keyboard navigation. Every active slide also
    has a participant-facing “Your slide guide”; source-grounded notes and
-   editable drafts are visibly distinguished. The public portfolio does not offer PDF, PowerPoint, or
+   editable drafts are visibly distinguished, with a slide-specific “Why it
+   matters” explanation and “Try this” learning prompt. The public portfolio does not offer PDF, PowerPoint, or
    macro-enabled file downloads.
 
 ## Automated checks

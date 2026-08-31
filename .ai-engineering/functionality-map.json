@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "repo": "https://github.com/Rockhelljumper/KylesSite",
   "primary_language": "TypeScript",
-  "generated_at": "2026-08-31T18:51:31.887Z",
+  "generated_at": "2026-08-31T19:05:39.235Z",
   "modules": [
     {
       "id": "portfolio-routes",
@@ -153,7 +153,7 @@
       "name": "Browser-native Makerspace presentation viewers",
       "path": "src/app/community/presentations/[slug], src/components/community/PresentationViewer.tsx, src/lib/data/community.ts",
       "type": "ui",
-      "description": "Static in-browser slide decks for community presentations. Each deck uses normal in-site navigation and renders source-slide images with keyboard, button, range, and per-slide documentation controls instead of asking visitors to download documents.",
+      "description": "Static in-browser slide decks for community presentations. Each deck uses normal in-site navigation and renders source-slide images with keyboard, button, range, and participant-facing per-slide documentation, context, and practice prompts instead of asking visitors to download documents.",
       "public_api": [
         {
           "name": "/community/presentations/[slug]",
