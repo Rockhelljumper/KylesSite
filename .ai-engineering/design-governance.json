@@ -29,12 +29,13 @@
       }
     },
     "bathroom_buddy_carousel_min_screens": 3,
+    "browser_native_presentation_slugs": ["computer-building-2023", "what-is-docker", "ai-for-makers-workshop-2026-08-17"],
     "mobile_viewports": [320, 390, 768],
     "desktop_viewports": [1440, 1920, 2540]
   },
-  "evidence_routes": ["/", "/projects", "/projects/bathroom-buddy", "/about", "/now", "/community", "/resume", "/contact"],
+  "evidence_routes": ["/", "/projects", "/projects/bathroom-buddy", "/about", "/now", "/community", "/community/presentations/computer-building-2023", "/community/presentations/what-is-docker", "/community/presentations/ai-for-makers-workshop-2026-08-17", "/resume", "/contact"],
   "update_policy": {
-    "automatically_refresh": ["verification manifest", "functionality-map design-governance module", "non-baseline screenshot evidence", "page-motion and project-media control checks"],
+    "automatically_refresh": ["verification manifest", "functionality-map governed modules", "non-baseline screenshot evidence", "page-motion and project-media control checks"],
     "human_review_required": ["threshold changes", "route inventory changes", "visual baseline approval", "production deployment"],
     "auto_update_policy": false
   }

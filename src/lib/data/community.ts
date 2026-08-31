@@ -36,13 +36,11 @@ export type CommunityItem = {
 };
 
 export type MakerspacePresentation = CommunityItem & {
-  href: string;
-  pdfHref: string;
-  format: "PPTX" | "PPTM";
-  fileSize: string;
+  slug: string;
   slides: number;
   thumbnail?: string;
   thumbnailAlt?: string;
+  slideImageDirectory: string;
 };
 
 export type CommunityData = {
@@ -90,13 +88,11 @@ export const communityData: CommunityData = {
       description:
         "A practical tour of desktop components, how they work together, and what to consider when building a computer.",
       years: "2023",
-      href: "/presentations/makerspace/computer-building-2023.pptx",
-      pdfHref: "/presentations/makerspace/computer-building-2023.pdf",
-      format: "PPTX",
-      fileSize: "20.2 MB",
+      slug: "computer-building-2023",
       slides: 16,
       thumbnail: "/images/community/presentations/computer-building-2023.jpeg",
       thumbnailAlt: "Thumbnail from the Computer Building 2023 presentation",
+      slideImageDirectory: "/images/community/presentations/computer-building-2023/slides",
     },
     {
       title: "What Is Docker?",
@@ -104,13 +100,11 @@ export const communityData: CommunityData = {
       description:
         "A beginner-friendly introduction to containers: what Docker is, how it works, and how to start using it.",
       years: "2023",
-      href: "/presentations/makerspace/what-is-docker.pptm",
-      pdfHref: "/presentations/makerspace/what-is-docker.pdf",
-      format: "PPTM",
-      fileSize: "7.3 MB",
+      slug: "what-is-docker",
       slides: 10,
       thumbnail: "/images/community/presentations/what-is-docker.jpeg",
       thumbnailAlt: "Thumbnail from the What Is Docker presentation",
+      slideImageDirectory: "/images/community/presentations/what-is-docker/slides",
     },
     {
       title: "AI for Makers: From Prompt to Prototype",
@@ -118,11 +112,9 @@ export const communityData: CommunityData = {
       description:
         "A workshop on how AI and LLMs work, practical prompting, model selection, coding and research uses, safety, and local AI.",
       years: "2026",
-      href: "/presentations/makerspace/ai-for-makers-workshop-2026-08-17.pptx",
-      pdfHref: "/presentations/makerspace/ai-for-makers-workshop-2026-08-17.pdf",
-      format: "PPTX",
-      fileSize: "152 KB",
+      slug: "ai-for-makers-workshop-2026-08-17",
       slides: 27,
+      slideImageDirectory: "/images/community/presentations/ai-for-makers-workshop-2026-08-17/slides",
     },
   ],
 
@@ -164,3 +156,7 @@ export const communityData: CommunityData = {
     },
   ],
 };
+
+export function getMakerspacePresentation(slug: string): MakerspacePresentation | undefined {
+  return communityData.presentations.find((presentation) => presentation.slug === slug);
+}

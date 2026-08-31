@@ -49,6 +49,10 @@ Measured at a 2540 × 1345 viewport on 2026-08-31:
    explicit action away), and the AI Engineering harness flow.
    Mobile app screens are secondary evidence in an accessible, user-controlled
    carousel—never the case-study hero.
+4. **Presentations are webpages, not downloads.** Community presentation cards
+   open a new browser tab with the real rendered slides, visible previous/next
+   controls, a slide picker, and left/right keyboard navigation. The public
+   portfolio does not offer PDF, PowerPoint, or macro-enabled file downloads.
 
 ## Automated checks
 
@@ -59,7 +63,8 @@ Measured at a 2540 × 1345 viewport on 2026-08-31:
 - Playwright measures navigation coverage, desktop typography/shell/image
   thresholds, page-level motion, action hierarchy, mobile overflow, and
   reduced-motion behavior. It also checks all three featured project visuals,
-  the Bathroom Buddy press hero, and carousel controls.
+  the Bathroom Buddy press hero and carousel controls, plus every
+  browser-native Makerspace deck and its slide controls.
 - The GitHub workflow runs these on every PR and feature-branch update, and
   uploads the refreshed control-plane artifact for review.
 

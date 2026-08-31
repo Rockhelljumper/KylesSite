@@ -1,6 +1,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { expect, test } from "@playwright/test";
+import { communityData } from "@/lib/data/community";
 
 type EvidenceCapture = {
   route: string;
@@ -9,6 +10,12 @@ type EvidenceCapture = {
   colorScheme?: "light" | "dark";
   reducedMotion?: "reduce" | "no-preference";
 };
+
+const presentationCaptures: readonly EvidenceCapture[] = communityData.presentations.map((presentation) => ({
+  route: `/community/presentations/${presentation.slug}`,
+  name: `${presentation.slug}-deck-desktop`,
+  viewport: { width: 1440, height: 1000 },
+}));
 
 const captures: readonly EvidenceCapture[] = [
   { route: "/", name: "home-desktop", viewport: { width: 1440, height: 1000 } },
@@ -27,6 +34,7 @@ const captures: readonly EvidenceCapture[] = [
   { route: "/about", name: "about-desktop", viewport: { width: 1440, height: 1000 } },
   { route: "/now", name: "life-desktop", viewport: { width: 1440, height: 1000 } },
   { route: "/community", name: "community-desktop", viewport: { width: 1440, height: 1000 } },
+  ...presentationCaptures,
   { route: "/resume", name: "resume-desktop", viewport: { width: 1440, height: 1000 } },
   { route: "/contact", name: "contact-desktop", viewport: { width: 1440, height: 1000 } },
 ];

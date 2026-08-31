@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 
 const root = process.cwd();
 const read = (path) => readFile(resolve(root, path), "utf8");
-const [configRaw, css, routes, documentation, projects, caseStudy, carousel] = await Promise.all([
+const [configRaw, css, routes, documentation, projects, caseStudy, carousel, community, presentationLibrary, presentationViewer] = await Promise.all([
   read(".ai-engineering/design-governance.json"),
   read("src/app/globals.css"),
   read("src/lib/data/siteRoutes.ts"),
@@ -11,6 +11,9 @@ const [configRaw, css, routes, documentation, projects, caseStudy, carousel] = a
   read("src/lib/data/projects.ts"),
   read("src/components/projects/CaseStudy.tsx"),
   read("src/components/projects/AppScreenshotCarousel.tsx"),
+  read("src/lib/data/community.ts"),
+  read("src/components/community/PresentationLibrary.tsx"),
+  read("src/components/community/PresentationViewer.tsx"),
 ]);
 const config = JSON.parse(configRaw);
 const failures = [];
@@ -73,6 +76,31 @@ if (!caseStudy.includes("data-project-banner") || !caseStudy.includes("data-proj
 
 if (!carousel.includes("Show next app screen") || !carousel.includes("Show previous app screen")) {
   failures.push("App carousel is missing accessible slide controls");
+}
+
+const presentationSlugs = config.controls.browser_native_presentation_slugs ?? [];
+if (presentationSlugs.length !== 3) {
+  failures.push("Design governance must define all three browser-native Makerspace presentation routes");
+}
+
+if (!presentationLibrary.includes('target="_blank"') || !presentationLibrary.includes("WEB DECK") || presentationLibrary.includes("download")) {
+  failures.push("Presentation library must open an explicit browser-native deck without a document download control");
+}
+
+if (!presentationViewer.includes("data-presentation-viewer") || !presentationViewer.includes("ArrowLeft") || !presentationViewer.includes("ArrowRight")) {
+  failures.push("Presentation viewer is missing governed web-native slide controls");
+}
+
+for (const slug of presentationSlugs) {
+  if (!community.includes(`slug: \"${slug}\"`)) {
+    failures.push(`${slug} is missing from canonical Makerspace presentation content`);
+  }
+
+  try {
+    await access(resolve(root, "public", "images", "community", "presentations", slug, "slides", "Slide1.JPG"));
+  } catch {
+    failures.push(`${slug} is missing its first browser-native slide image`);
+  }
 }
 
 for (const label of config.controls.desktop_navigation_labels) {

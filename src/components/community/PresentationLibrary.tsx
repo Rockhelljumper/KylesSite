@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { MakerspacePresentation } from "@/lib/data/community";
 
 type PresentationLibraryProps = {
@@ -9,7 +10,7 @@ export default function PresentationLibrary({ presentations }: PresentationLibra
   return (
     <div className="grid gap-6 lg:grid-cols-3">
       {presentations.map((presentation) => (
-        <article key={presentation.href} className="motion-card overflow-hidden border-2 border-card-border bg-card">
+        <article key={presentation.slug} className="motion-card overflow-hidden border-2 border-card-border bg-card">
           {presentation.thumbnail ? (
             <Image
               src={presentation.thumbnail}
@@ -33,24 +34,21 @@ export default function PresentationLibrary({ presentations }: PresentationLibra
                 <p className="eyebrow">{presentation.years}</p>
                 <h3 className="mt-2 text-xl font-semibold tracking-tight text-primary">{presentation.title}</h3>
               </div>
-              <span className="shrink-0 border border-brand-primary px-2 py-1 font-mono text-xs text-brand-primary">{presentation.format}</span>
+              <span className="shrink-0 border border-brand-primary px-2 py-1 font-mono text-xs text-brand-primary">WEB DECK</span>
             </div>
             <p className="mt-2 text-sm text-tertiary">{presentation.subtitle}</p>
             <p className="mt-4 text-sm leading-6 text-secondary">{presentation.description}</p>
-            <p className="mt-5 font-mono text-xs text-tertiary">{presentation.slides} slides · {presentation.fileSize}</p>
-            <div className="mt-6 grid gap-3">
-              <a
-                href={presentation.pdfHref}
+            <p className="mt-5 font-mono text-xs text-tertiary">{presentation.slides} slides · browser-native viewer</p>
+            <div className="mt-6">
+              <Link
+                href={`/community/presentations/${presentation.slug}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="button-primary w-full justify-center"
-                data-presentation-open={presentation.format}
+                data-presentation-open={presentation.slug}
               >
                 Open slides <span className="ml-2" aria-hidden="true">↗</span>
-              </a>
-              <a href={presentation.href} download className="text-link mx-auto text-sm" data-presentation-download={presentation.format}>
-                Download original {presentation.format} <span className="ml-1" aria-hidden="true">↓</span>
-              </a>
+              </Link>
             </div>
           </div>
         </article>

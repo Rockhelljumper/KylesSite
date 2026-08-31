@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "repo": "https://github.com/Rockhelljumper/KylesSite",
   "primary_language": "TypeScript",
-  "generated_at": "2026-08-31T18:12:48.618Z",
+  "generated_at": "2026-08-31T18:31:02.635Z",
   "modules": [
     {
       "id": "portfolio-routes",
@@ -147,12 +147,36 @@
         "playwright"
       ],
       "test_coverage": "high"
+    },
+    {
+      "id": "community-presentation-viewers",
+      "name": "Browser-native Makerspace presentation viewers",
+      "path": "src/app/community/presentations/[slug], src/components/community/PresentationViewer.tsx, src/lib/data/community.ts",
+      "type": "ui",
+      "description": "Static in-browser slide decks for community presentations. Each deck renders source-slide images with keyboard, button, and range controls instead of asking visitors to download documents.",
+      "public_api": [
+        {
+          "name": "/community/presentations/[slug]",
+          "signature": "GET /community/presentations/:slug",
+          "description": "Renders a browser-native Makerspace slide deck.",
+          "inputs": "published presentation slug",
+          "outputs": "HTML or 404"
+        }
+      ],
+      "dependencies": [
+        "personal-life",
+        "portfolio-components",
+        "next",
+        "react"
+      ],
+      "test_coverage": "high"
     }
   ],
   "entry_points": [
     "portfolio-routes",
     "contact-api",
-    "design-governance"
+    "design-governance",
+    "community-presentation-viewers"
   ],
   "known_limitations": [
     "Resume PDFs are served by a separate backend and require an environment-specific API URL.",

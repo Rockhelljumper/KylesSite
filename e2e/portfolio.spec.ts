@@ -55,35 +55,30 @@ test("home and life surfaces include personal context without hiding the work", 
   await expect(page.getByRole("heading", { name: "A quiet snapshot, not a status feed." })).toBeVisible();
 });
 
-test("community publishes the Makerspace presentation library as downloadable PowerPoint files", async ({ page }) => {
+test("community publishes the Makerspace presentation library as browser-native web decks", async ({ page }) => {
   await page.goto("/community");
   await expect(page.getByRole("heading", { name: "Take a workshop home." })).toBeVisible();
   const opens = page.locator("[data-presentation-open]");
-  const downloads = page.locator("[data-presentation-download]");
   await expect(opens).toHaveCount(3);
-  await expect(downloads).toHaveCount(3);
-  await expect(opens.nth(0)).toHaveAttribute("href", "/presentations/makerspace/computer-building-2023.pdf");
-  await expect(opens.nth(1)).toHaveAttribute("href", "/presentations/makerspace/what-is-docker.pdf");
-  await expect(opens.nth(2)).toHaveAttribute("href", "/presentations/makerspace/ai-for-makers-workshop-2026-08-17.pdf");
+  await expect(opens.nth(0)).toHaveAttribute("href", "/community/presentations/computer-building-2023");
+  await expect(opens.nth(1)).toHaveAttribute("href", "/community/presentations/what-is-docker");
+  await expect(opens.nth(2)).toHaveAttribute("href", "/community/presentations/ai-for-makers-workshop-2026-08-17");
   await expect(opens.nth(0)).toHaveAttribute("target", "_blank");
-  await expect(downloads.nth(0)).toHaveAttribute("href", "/presentations/makerspace/computer-building-2023.pptx");
-  await expect(downloads.nth(1)).toHaveAttribute("href", "/presentations/makerspace/what-is-docker.pptm");
-  await expect(downloads.nth(2)).toHaveAttribute("href", "/presentations/makerspace/ai-for-makers-workshop-2026-08-17.pptx");
-  await expect(downloads.nth(0)).toHaveAttribute("download", "");
 
   for (const href of [
-    "/presentations/makerspace/computer-building-2023.pdf",
-    "/presentations/makerspace/what-is-docker.pdf",
-    "/presentations/makerspace/ai-for-makers-workshop-2026-08-17.pdf",
-    "/presentations/makerspace/computer-building-2023.pptx",
-    "/presentations/makerspace/what-is-docker.pptm",
-    "/presentations/makerspace/ai-for-makers-workshop-2026-08-17.pptx",
+    "/community/presentations/computer-building-2023",
+    "/community/presentations/what-is-docker",
+    "/community/presentations/ai-for-makers-workshop-2026-08-17",
   ]) {
-    const response = await page.request.head(href);
+    const response = await page.request.get(href);
     expect(response.ok(), `${href} should be served`).toBe(true);
-    expect(Number(response.headers()["content-length"] ?? 0)).toBeGreaterThan(0);
   }
 
+  await page.goto("/community/presentations/computer-building-2023");
+  await expect(page.getByRole("heading", { name: "How to Build a Desktop Computer" })).toBeVisible();
+  await expect(page.locator("[data-presentation-slide]")).toHaveAttribute("src", /Slide1\.JPG/);
+  await page.getByRole("button", { name: "Next →" }).click();
+  await expect(page.locator("[data-presentation-slide]")).toHaveAttribute("src", /Slide2\.JPG/);
 });
 
 test("personal visual motion yields to reduced-motion preferences", async ({ page }) => {

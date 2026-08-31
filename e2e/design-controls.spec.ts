@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { communityData } from "@/lib/data/community";
 import { primaryNavigation, publicRoutes } from "@/lib/data/siteRoutes";
 
 const publicCaseStudies = [
@@ -6,6 +7,7 @@ const publicCaseStudies = [
   "/projects/reliable-financial-integration",
   "/projects/ai-engineering-workflow-lab",
 ] as const;
+const publicPresentationDecks = communityData.presentations.map((presentation) => `/community/presentations/${presentation.slug}`);
 
 test("principal desktop controls remain measurable", async ({ page }) => {
   await page.setViewportSize({ width: 2540, height: 1345 });
@@ -50,7 +52,7 @@ test("principal desktop controls remain measurable", async ({ page }) => {
 });
 
 test("all public pages remain reachable and fit narrow and wide viewports", async ({ page }) => {
-  const routes = [...publicRoutes.map((route) => route.href), ...publicCaseStudies];
+  const routes = [...publicRoutes.map((route) => route.href), ...publicCaseStudies, ...publicPresentationDecks];
   for (const viewport of [
     { width: 320, height: 640 },
     { width: 1440, height: 1000 },
@@ -95,6 +97,7 @@ test("every public content route has contextual motion that honors reduced-motio
     "/resume",
     "/contact",
     ...publicCaseStudies,
+    ...publicPresentationDecks,
   ];
 
   for (const route of routesWithKineticMotion) {

@@ -42,9 +42,22 @@ if (writeMaps) {
     dependencies: ["portfolio-routes", "portfolio-components", "playwright"],
     test_coverage: "high"
   };
+  const presentationModule = {
+    id: "community-presentation-viewers",
+    name: "Browser-native Makerspace presentation viewers",
+    path: "src/app/community/presentations/[slug], src/components/community/PresentationViewer.tsx, src/lib/data/community.ts",
+    type: "ui",
+    description: "Static in-browser slide decks for community presentations. Each deck renders source-slide images with keyboard, button, and range controls instead of asking visitors to download documents.",
+    public_api: [
+      { name: "/community/presentations/[slug]", signature: "GET /community/presentations/:slug", description: "Renders a browser-native Makerspace slide deck.", inputs: "published presentation slug", outputs: "HTML or 404" }
+    ],
+    dependencies: ["personal-life", "portfolio-components", "next", "react"],
+    test_coverage: "high"
+  };
   map.generated_at = now;
-  map.modules = [...map.modules.filter((module) => module.id !== designModule.id), designModule];
+  map.modules = [...map.modules.filter((module) => module.id !== designModule.id && module.id !== presentationModule.id), designModule, presentationModule];
   if (!map.entry_points.includes("design-governance")) map.entry_points.push("design-governance");
+  if (!map.entry_points.includes("community-presentation-viewers")) map.entry_points.push("community-presentation-viewers");
   await writeFile(resolve(root, ".ai-engineering/functionality-map.json"), `${JSON.stringify(map, null, 2)}\n`);
 }
 

@@ -25,17 +25,13 @@ describe("person-first portfolio content", () => {
     expect(personalData.interests).toHaveLength(3);
   });
 
-  it("publishes the three Makerspace presentations as explicit PowerPoint downloads", () => {
-    expect(communityData.presentations.map((presentation) => presentation.href)).toEqual([
-      "/presentations/makerspace/computer-building-2023.pptx",
-      "/presentations/makerspace/what-is-docker.pptm",
-      "/presentations/makerspace/ai-for-makers-workshop-2026-08-17.pptx",
+  it("publishes the three Makerspace presentations as browser-native slide viewers", () => {
+    expect(communityData.presentations.map((presentation) => presentation.slug)).toEqual([
+      "computer-building-2023",
+      "what-is-docker",
+      "ai-for-makers-workshop-2026-08-17",
     ]);
     expect(communityData.presentations.map((presentation) => presentation.slides)).toEqual([16, 10, 27]);
-    expect(communityData.presentations.map((presentation) => presentation.pdfHref)).toEqual([
-      "/presentations/makerspace/computer-building-2023.pdf",
-      "/presentations/makerspace/what-is-docker.pdf",
-      "/presentations/makerspace/ai-for-makers-workshop-2026-08-17.pdf",
-    ]);
+    expect(communityData.presentations.every((presentation) => presentation.slideImageDirectory.startsWith("/images/community/presentations/"))).toBe(true);
   });
 });
