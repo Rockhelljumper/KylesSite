@@ -9,7 +9,7 @@ test("critical portfolio journeys render and navigate", async ({ page }) => {
   await page.waitForTimeout(500);
   await page.getByRole("button", { name: "AI engineering" }).click();
   await expect(page.getByText("1 project shown")).toBeVisible();
-  await page.getByRole("link", { name: "Read case study" }).click();
+  await page.getByRole("link", { name: "Open case study" }).click();
   await expect(page).toHaveURL(/\/projects\/ai-engineering-workflow-lab$/);
   await expect(page.getByRole("heading", { name: "AI Engineering Workflow Lab" })).toBeVisible();
 });

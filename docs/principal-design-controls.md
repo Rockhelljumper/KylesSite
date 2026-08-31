@@ -33,6 +33,20 @@ Measured at a 2540 × 1345 viewport on 2026-08-31:
    widths, motion, and route coverage are governed by CSS tokens plus
    Playwright measurements. A change that falls below a threshold fails CI.
 
+## Page-level behavior contract
+
+1. **Every route earns its movement.** Home keeps its editorial orbit; work
+   and case studies use moving system signals; About, Life, Community, Contact,
+   and Résumé use a small contextual kinetic motif. These elements are
+   decorative, never carry information, and stop under reduced-motion.
+2. **Actions look actionable.** Primary actions use a filled, elevated button;
+   secondary actions use a high-contrast tinted surface and two-pixel border;
+   inline links are consistently underlined. Interactive actions are at least
+   44px tall.
+3. **Project media has a job.** A wide, product-specific banner introduces a
+   case study. Mobile app screens are secondary evidence in an accessible,
+   user-controlled carousel—never the case-study hero.
+
 ## Automated checks
 
 - `npm run check:design` checks the documented CSS design tokens and the
@@ -40,7 +54,9 @@ Measured at a 2540 × 1345 viewport on 2026-08-31:
 - `npm run control-plane:refresh` updates the control-plane verification
   manifest and map timestamps for a reviewable current-state artifact.
 - Playwright measures navigation coverage, desktop typography/shell/image
-  thresholds, visible motion, mobile overflow, and reduced-motion behavior.
+  thresholds, page-level motion, action hierarchy, mobile overflow, and
+  reduced-motion behavior. It also checks the Bathroom Buddy banner and
+  carousel controls.
 - The GitHub workflow runs these on every PR and feature-branch update, and
   uploads the refreshed control-plane artifact for review.
 
@@ -56,6 +72,15 @@ following values after this change:
 | Hero heading | 60px | 88px | +28px / 46.7% |
 | Hero portrait | 238px | 384px | +146px / 61.3% |
 | Hero movement | 6px over 8s | 15px over 5.5s, plus three kinetic forms | visibly active; reduced-motion safe |
+
+The page-level control pass adds these independently checked outcomes:
+
+| Control | Required outcome | Current outcome |
+| --- | --- | --- |
+| Contextual page motion | Every content route has relevant decorative movement | 9 non-home public/case-study routes have their own kinetic motif; the home hero retains its orbit |
+| Action hierarchy | Primary and secondary actions read as controls, not prose | Filled/elevated primary actions, tinted two-pixel secondary actions, and underlined inline links; project actions are tested at ≥44px |
+| Bathroom Buddy hero media | Wide product visual, not a mobile screen | A 1200×720 map-results banner introduces the case study |
+| Bathroom Buddy mobile proof | User-controlled app-screen walkthrough | 3 labelled mobile screens with previous/next and direct slide controls |
 
 The same browser check confirms every public route and case study loads without
 horizontal overflow at 320px and 1440px. Screenshot evidence is deliberately

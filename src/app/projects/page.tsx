@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ProjectExplorer from "@/components/projects/ProjectExplorer";
+import PageKinetic from "@/components/layout/PageKinetic";
 import { publishedProjects } from "@/lib/data/projects";
 
 export const metadata: Metadata = {
@@ -10,7 +11,8 @@ export const metadata: Metadata = {
 
 export default function ProjectsPage() {
   return (
-    <div className="pt-28 sm:pt-32">
+    <div className="page-stage pt-28 sm:pt-32">
+      <PageKinetic variant="work" />
       <section className="site-shell py-14 sm:py-20">
         <p className="eyebrow">Selected work</p>
         <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.04em] text-primary sm:text-5xl">

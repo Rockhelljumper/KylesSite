@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import PersonalShelf from "@/components/life/PersonalShelf";
+import PageKinetic from "@/components/layout/PageKinetic";
 import { personalData } from "@/lib/data/personal";
 import { profile } from "@/lib/data/profile";
 
@@ -19,7 +20,8 @@ const workModes = [
 
 export default function AboutPage() {
   return (
-    <div className="pt-28 sm:pt-32">
+    <div className="page-stage pt-28 sm:pt-32">
+      <PageKinetic variant="about" />
       <section className="site-shell grid gap-10 py-14 lg:grid-cols-[0.7fr_1.3fr] lg:items-start sm:py-20">
         <figure className="justify-self-start motion-float lg:sticky lg:top-24">
           <div className="relative aspect-[4/5] w-56 overflow-hidden border border-card-border bg-card-alt sm:w-72">

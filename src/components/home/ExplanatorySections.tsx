@@ -21,7 +21,7 @@ export default function ExplanatorySections({
             <p className="mt-5 max-w-md leading-7 text-secondary">
               A public product, a deliberately conservative integration reference, and a workflow lab. The details live one click away; this page keeps the introduction short.
             </p>
-            <Link href="/projects" className="text-link mt-6 inline-flex">
+            <Link href="/projects" className="button-secondary button-compact mt-6">
               See all work <span aria-hidden="true">→</span>
             </Link>
           </div>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="720" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0A1623"/>
+      <stop offset="1" stop-color="#001126"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="720" fill="url(#bg)"/>
+  <rect x="48" y="44" width="1104" height="632" rx="20" fill="#0F2234" stroke="#73E2FE" stroke-opacity="0.35"/>
+  <rect x="84" y="84" width="420" height="552" rx="14" fill="#122A40"/>
+  <rect x="534" y="84" width="582" height="552" rx="14" fill="#0C1C2D"/>
+  <path d="M560 132L640 176L604 220L692 266L648 318L740 368L690 428L776 482L732 550" stroke="#204563" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="724" cy="332" r="18" fill="#73E2FE"/>
+  <circle cx="642" cy="256" r="14" fill="#31C26A"/>
+  <circle cx="804" cy="470" r="16" fill="#73E2FE"/>
+  <rect x="116" y="124" width="360" height="18" rx="6" fill="#73E2FE" fill-opacity="0.22"/>
+  <rect x="116" y="158" width="300" height="14" rx="6" fill="#F6FBFF" fill-opacity="0.45"/>
+  <rect x="116" y="220" width="356" height="122" rx="10" fill="#17344D"/>
+  <rect x="132" y="244" width="214" height="14" rx="6" fill="#FFFFFF" fill-opacity="0.7"/>
+  <rect x="132" y="270" width="180" height="12" rx="6" fill="#FFFFFF" fill-opacity="0.45"/>
+  <rect x="132" y="300" width="132" height="10" rx="5" fill="#73E2FE" fill-opacity="0.5"/>
+  <rect x="116" y="360" width="356" height="122" rx="10" fill="#17344D"/>
+  <rect x="132" y="384" width="194" height="14" rx="6" fill="#FFFFFF" fill-opacity="0.7"/>
+  <rect x="132" y="410" width="220" height="12" rx="6" fill="#FFFFFF" fill-opacity="0.45"/>
+  <rect x="132" y="440" width="120" height="10" rx="5" fill="#73E2FE" fill-opacity="0.5"/>
+  <text x="92" y="64" fill="#B5C7D8" font-family="Arial, sans-serif" font-size="18">BathroomBuddy - Live Map Results</text>
+</svg>

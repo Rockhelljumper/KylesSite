@@ -7,6 +7,7 @@ import ResumeSection from "@/components/resume/ResumeSection";
 import ResumeVariantSelector from "@/components/resume/ResumeVariantSelector";
 import SkillsList from "@/components/resume/SkillsList";
 import Toast from "@/components/ui/Toast";
+import PageKinetic from "@/components/layout/PageKinetic";
 import { trackFileDownload } from "@/lib/utils/googleAnalytics";
 
 export default function ResumePage() {
@@ -93,7 +94,9 @@ export default function ResumePage() {
   };
 
   return (
-    <div className='container mx-auto px-4 py-24 md:py-32'>
+    <div className='page-stage'>
+      <PageKinetic variant="resume" />
+      <div className='container mx-auto px-4 py-24 md:py-32'>
       <div className='max-w-4xl mx-auto px-4 pt-32 pb-20 sm:pt-40 sm:pb-24'>
         <h1 className='text-4xl sm:text-5xl font-bold mb-6'>
           <span className='text-gradient'>Resume</span>
@@ -128,11 +131,10 @@ export default function ResumePage() {
             onClick={handleDownloadPdf}
             disabled={isDownloading}
             className={`
-              bg-brand-primary hover:bg-brand-primary-hover transition-colors 
-              px-6 py-3 rounded-md text-white font-medium shadow-sm 
-              flex items-center
+              button-primary flex items-center
               ${isDownloading ? "opacity-75 cursor-not-allowed" : ""}
             `}
+            data-cta
           >
             <svg
               className={`w-5 h-5 mr-2 ${isDownloading ? "animate-spin" : ""}`}
@@ -311,7 +313,7 @@ export default function ResumePage() {
                   href={item.link}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='text-sm inline-flex items-center text-tertiary hover:text-brand-primary transition-colors mt-1'
+                  className='text-link mt-2 inline-flex text-sm'
                 >
                   <svg
                     className='w-4 h-4 mr-1'
@@ -336,12 +338,13 @@ export default function ResumePage() {
       </div>
 
       {/* Toast notification */}
-      <Toast
-        message={toastMessage}
-        type='info'
-        visible={toastVisible}
-        onClose={() => setToastVisible(false)}
-      />
+        <Toast
+          message={toastMessage}
+          type='info'
+          visible={toastVisible}
+          onClose={() => setToastVisible(false)}
+        />
+      </div>
     </div>
   );
 }

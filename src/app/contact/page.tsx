@@ -16,6 +16,7 @@ import {
   trackExternalLinkClick,
 } from "@/lib/utils/googleAnalytics";
 import { getTurnstileSiteKey } from "@/lib/utils/env";
+import PageKinetic from "@/components/layout/PageKinetic";
 
 // Form validation types
 type FormErrors = {
@@ -211,7 +212,9 @@ export default function ContactPage() {
   };
 
   return (
-    <div className='flex flex-col px-4 min-h-[calc(100vh-4rem)] md:px-8 max-w-7xl mx-auto w-full py-24 md:py-32'>
+    <div className='page-stage'>
+      <PageKinetic variant="contact" />
+      <div className='flex min-h-[calc(100vh-4rem)] w-full max-w-7xl flex-col px-4 py-24 md:mx-auto md:px-8 md:py-32'>
       <div className='max-w-4xl mx-auto w-full'>
         <h1 className='text-3xl md:text-4xl font-bold mb-4'>
           Say hello
@@ -229,8 +232,9 @@ export default function ContactPage() {
 
               <div className='space-y-4'>
                 {/* Email */}
-                <div
-                  className='flex items-center cursor-pointer hover:text-blue-500 transition-colors'
+                <button
+                  type='button'
+                  className='flex min-h-11 w-full items-center text-left transition-colors hover:text-brand-primary'
                   onClick={() => copyToClipboard(profile.email)}
                 >
                   <div className='bg-primary/10 rounded-full p-2 mr-3'>
@@ -242,7 +246,7 @@ export default function ContactPage() {
                       {profile.email}
                     </div>
                   </div>
-                </div>
+                </button>
 
                 {/* Social Links */}
                 <div className='pt-4 border-t'>
@@ -254,7 +258,7 @@ export default function ContactPage() {
                         href={link.url}
                         target='_blank'
                         rel='noopener noreferrer'
-                        className='bg-card hover:bg-muted rounded-full p-2 transition-colors'
+                        className='inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border-2 border-card-border bg-card p-2 transition-colors hover:border-brand-primary hover:bg-card-alt'
                         aria-label={`Visit ${link.platform}`}
                         onClick={() =>
                           trackExternalLinkClick(link.url, link.platform)
@@ -387,7 +391,7 @@ export default function ContactPage() {
                   <div className='pt-2'>
                     <button
                       type='submit'
-                      className='w-full py-2.5 px-4 bg-primary hover:bg-primary/90 text-primary-foreground rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:opacity-50 disabled:cursor-not-allowed'
+                      className='button-primary w-full disabled:cursor-not-allowed disabled:opacity-50'
                       disabled={!isFormValid() || isSubmitting}
                     >
                       {isSubmitting ? (
@@ -427,12 +431,13 @@ export default function ContactPage() {
       </div>
 
       {/* Toast Notification */}
-      <Toast
-        message={toastMessage}
-        visible={toastVisible}
-        onClose={() => setToastVisible(false)}
-        type='success'
-      />
+        <Toast
+          message={toastMessage}
+          visible={toastVisible}
+          onClose={() => setToastVisible(false)}
+          type='success'
+        />
+      </div>
     </div>
   );
 }

@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import PageKinetic from "@/components/layout/PageKinetic";
+import AppScreenshotCarousel from "@/components/projects/AppScreenshotCarousel";
 import type { Project } from "@/lib/data/projects";
 
 type CaseStudyProps = { project: Project };
@@ -9,7 +11,8 @@ export default function CaseStudy({ project }: CaseStudyProps) {
   if (!study) return null;
 
   return (
-    <article className="pt-28 sm:pt-32">
+    <article className="page-stage pt-28 sm:pt-32">
+      <PageKinetic variant="case-study" />
       <header className="border-b border-card-border bg-card-alt">
         <div className="site-shell grid gap-10 py-14 lg:grid-cols-[1fr_0.7fr] lg:items-end sm:py-20">
           <div>
@@ -19,12 +22,12 @@ export default function CaseStudy({ project }: CaseStudyProps) {
             <p className="mt-4 max-w-3xl text-xl leading-8 text-secondary">{project.subtitle}</p>
             <p className="mt-6 max-w-3xl leading-7 text-secondary">{project.overview}</p>
           </div>
-          {project.image && (
-            <figure className="justify-self-start lg:justify-self-end">
-              <div className="relative aspect-[9/16] w-48 overflow-hidden border border-card-border bg-ink sm:w-56">
-                <Image src={project.image.src} alt={project.image.alt} fill sizes="(max-width: 640px) 192px, 224px" className="object-cover" priority />
+          {project.banner && (
+            <figure className="project-banner justify-self-start overflow-hidden border border-card-border bg-ink lg:justify-self-end" data-project-banner>
+              <div className="relative aspect-[16/10] w-full min-w-[18rem] max-w-[38rem]">
+                <Image src={project.banner.src} alt={project.banner.alt} fill sizes="(max-width: 1024px) calc(100vw - 2.5rem), 608px" className="object-cover" priority />
               </div>
-              <figcaption className="mt-2 max-w-56 text-xs leading-5 text-tertiary">Public product UI, shown as product evidence rather than a mockup.</figcaption>
+              <figcaption className="border-t border-card-border px-4 py-3 font-mono text-xs leading-5 text-tertiary">Public product map-and-results visual.</figcaption>
             </figure>
           )}
         </div>
@@ -39,8 +42,8 @@ export default function CaseStudy({ project }: CaseStudyProps) {
 
         {project.publicLinks && (
           <div className="mt-8 flex flex-wrap gap-3">
-            {project.publicLinks.map((link) => (
-              <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className="button-secondary">
+            {project.publicLinks.map((link, index) => (
+              <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className={index === 0 ? "button-primary" : "button-secondary"} data-project-action>
                 {link.label} <span className="ml-2" aria-hidden="true">↗</span>
               </a>
             ))}
@@ -53,6 +56,14 @@ export default function CaseStudy({ project }: CaseStudyProps) {
           </aside>
         )}
       </div>
+
+      {project.gallery && (
+        <section className="border-y border-card-border bg-card-alt">
+          <div className="site-shell py-14 sm:py-20">
+            <AppScreenshotCarousel {...project.gallery} />
+          </div>
+        </section>
+      )}
 
       <section aria-labelledby="problem-heading" className="border-y border-card-border bg-card-alt">
         <div className="site-shell grid gap-10 py-14 lg:grid-cols-[0.75fr_1.25fr] sm:py-20">

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { personalData } from "@/lib/data/personal";
 import { communityData } from "@/lib/data/community";
+import PageKinetic from "@/components/layout/PageKinetic";
 
 function CommunityList({ items }: { items: typeof communityData.speaking }) {
   return (
@@ -22,7 +23,8 @@ function CommunityList({ items }: { items: typeof communityData.speaking }) {
 
 export default function CommunityPage() {
   return (
-    <div className="pt-28 sm:pt-32">
+    <div className="page-stage pt-28 sm:pt-32">
+      <PageKinetic variant="community" />
       <section className="site-shell grid gap-10 py-14 lg:grid-cols-[1fr_0.75fr] lg:items-end sm:py-20">
         <div>
           <p className="eyebrow">Community</p>

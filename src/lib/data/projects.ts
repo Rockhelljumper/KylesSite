@@ -47,6 +47,22 @@ export type ProjectCaseStudy = {
   lessons: string[];
 };
 
+export type ProjectMedia = {
+  src: string;
+  alt: string;
+};
+
+export type ProjectScreenshot = ProjectMedia & {
+  title: string;
+  description: string;
+};
+
+export type ProjectGallery = {
+  title: string;
+  introduction: string;
+  screenshots: readonly ProjectScreenshot[];
+};
+
 export type Project = {
   slug: string;
   title: string;
@@ -62,7 +78,8 @@ export type Project = {
   publicLinks?: ProjectLink[];
   confidentialityNote?: string;
   caseStudy?: ProjectCaseStudy;
-  image?: { src: string; alt: string };
+  banner?: ProjectMedia;
+  gallery?: ProjectGallery;
 };
 
 export type ProjectCategory = {
@@ -145,9 +162,34 @@ export const projects: Project[] = [
     ],
     confidentialityNote:
       "Architecture is intentionally shown at a product-boundary level. Private repositories, provider configuration, security controls, admin routes, and operating topology are not published here.",
-    image: {
-      src: "/images/bathroom-buddy/mobile-welcome.png",
-      alt: "Bathroom Buddy mobile welcome screen",
+    banner: {
+      src: "/images/bathroom-buddy/map-results-banner.svg",
+      alt: "Bathroom Buddy map-results interface illustration",
+    },
+    gallery: {
+      title: "A few screens from a public product",
+      introduction:
+        "The app is designed around a fast, informed decision: start quickly, find what is nearby, and filter for the practical details that matter before walking inside.",
+      screenshots: [
+        {
+          src: "/images/bathroom-buddy/mobile-welcome.png",
+          alt: "Bathroom Buddy mobile welcome screen",
+          title: "Start with the decision, not an account wall",
+          description: "A clear entry point for exploring, finding, or contributing without burying the useful path.",
+        },
+        {
+          src: "/images/bathroom-buddy/mobile-map.png",
+          alt: "Bathroom Buddy mobile map interface",
+          title: "Find nearby options on a map",
+          description: "Map-first discovery keeps location, proximity, and the next useful action together.",
+        },
+        {
+          src: "/images/bathroom-buddy/mobile-amenities.png",
+          alt: "Bathroom Buddy amenity filter interface",
+          title: "Filter for practical needs",
+          description: "Amenities and accessibility details turn a generic search result into a more confident choice.",
+        },
+      ],
     },
     caseStudy: {
       problem:

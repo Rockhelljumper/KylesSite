@@ -23,6 +23,10 @@ const captures: readonly EvidenceCapture[] = [
   { route: "/projects", name: "work-desktop", viewport: { width: 1440, height: 1000 } },
   { route: "/projects/bathroom-buddy", name: "bathroom-buddy-desktop", viewport: { width: 1440, height: 1000 } },
   { route: "/about", name: "about-desktop", viewport: { width: 1440, height: 1000 } },
+  { route: "/now", name: "life-desktop", viewport: { width: 1440, height: 1000 } },
+  { route: "/community", name: "community-desktop", viewport: { width: 1440, height: 1000 } },
+  { route: "/resume", name: "resume-desktop", viewport: { width: 1440, height: 1000 } },
+  { route: "/contact", name: "contact-desktop", viewport: { width: 1440, height: 1000 } },
 ];
 
 test.skip(process.env.CAPTURE_DESIGN_EVIDENCE !== "true", "Evidence capture runs only in the design-governance workflow.");

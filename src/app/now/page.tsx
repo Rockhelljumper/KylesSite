@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { nowData } from "@/lib/data/now";
 import SectionBlock from "@/components/now/SectionBlock";
+import PageKinetic from "@/components/layout/PageKinetic";
 
 export const metadata: Metadata = { title: "Life Lately", description: "A small, human snapshot of what Kyle Simmons is building, reading, making, and sharing.", alternates: { canonical: "/now" } };
 
 export default function NowPage() {
   return (
-    <div className="pt-28 sm:pt-32">
+    <div className="page-stage pt-28 sm:pt-32">
+      <PageKinetic variant="life" />
       <section className="site-shell py-14 sm:py-20">
         <p className="eyebrow">Life lately</p>
         <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] text-primary sm:text-5xl">A quiet snapshot, not a status feed.</h1>

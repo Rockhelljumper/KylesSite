@@ -11,12 +11,16 @@
     "body_copy_min_px": 18,
     "navigation_copy_min_px": 18,
     "interactive_target_min_px": 44,
+    "page_motion_routes": ["/projects", "/about", "/now", "/community", "/resume", "/contact", "/projects/bathroom-buddy", "/projects/reliable-financial-integration", "/projects/ai-engineering-workflow-lab"],
+    "primary_action_min_px": 44,
+    "bathroom_buddy_banner": "/images/bathroom-buddy/map-results-banner.svg",
+    "bathroom_buddy_carousel_min_screens": 3,
     "mobile_viewports": [320, 390, 768],
     "desktop_viewports": [1440, 1920, 2540]
   },
-  "evidence_routes": ["/", "/projects", "/projects/bathroom-buddy", "/about"],
+  "evidence_routes": ["/", "/projects", "/projects/bathroom-buddy", "/about", "/now", "/community", "/resume", "/contact"],
   "update_policy": {
-    "automatically_refresh": ["verification manifest", "functionality-map design-governance module", "non-baseline screenshot evidence"],
+    "automatically_refresh": ["verification manifest", "functionality-map design-governance module", "non-baseline screenshot evidence", "page-motion and project-media control checks"],
     "human_review_required": ["threshold changes", "route inventory changes", "visual baseline approval", "production deployment"],
     "auto_update_policy": false
   }

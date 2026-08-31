@@ -85,3 +85,50 @@ test("motion is visible by default and neutralized for reduced-motion users", as
   await page.reload();
   await expect(page.locator(".motion-float").first()).toHaveCSS("animation-duration", "1e-05s");
 });
+
+test("every public content route has contextual motion that honors reduced-motion", async ({ page }) => {
+  const routesWithKineticMotion = [
+    "/projects",
+    "/about",
+    "/now",
+    "/community",
+    "/resume",
+    "/contact",
+    ...publicCaseStudies,
+  ];
+
+  for (const route of routesWithKineticMotion) {
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.goto(route);
+    const kinetic = page.locator("[data-page-kinetic]");
+    await expect(kinetic).toHaveCount(1);
+    expect(await kinetic.locator("span").evaluateAll((elements) =>
+      elements.some((element) => getComputedStyle(element).animationName !== "none"),
+    )).toBe(true);
+  }
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.reload();
+  await expect(page.locator("[data-page-kinetic] .kinetic-line").first()).toHaveCSS("animation-duration", "1e-05s");
+});
+
+test("project actions are visually distinct and Bathroom Buddy uses a banner plus controllable app carousel", async ({ page }) => {
+  await page.goto("/projects");
+  const projectAction = page.locator("[data-project-action]").first();
+  await expect(projectAction).toHaveClass(/button-secondary/);
+  await expect(projectAction).toHaveCSS("border-top-width", "2px");
+  expect((await projectAction.boundingBox())?.height).toBeGreaterThanOrEqual(44);
+
+  await page.goto("/projects/bathroom-buddy");
+  const banner = page.locator("[data-project-banner]");
+  await expect(banner).toBeVisible();
+  await expect(banner.getByRole("img")).toHaveAttribute("src", /map-results-banner\.svg/);
+
+  const carousel = page.locator("[data-project-gallery]");
+  await expect(carousel).toBeVisible();
+  await expect(carousel.getByRole("button", { name: "Show next app screen" })).toBeVisible();
+  await expect(carousel.getByRole("button", { name: "Show previous app screen" })).toBeVisible();
+  await expect(carousel.getByRole("heading", { name: "Start with the decision, not an account wall" })).toBeVisible();
+  await carousel.getByRole("button", { name: "Show next app screen" }).click();
+  await expect(carousel.getByRole("heading", { name: "Find nearby options on a map" })).toBeVisible();
+});
