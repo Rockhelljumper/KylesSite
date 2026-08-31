@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "repo": "https://github.com/Rockhelljumper/KylesSite",
   "primary_language": "TypeScript",
-  "generated_at": "2026-08-31T20:34:01.091Z",
+  "generated_at": "2026-08-31T21:39:59.844Z",
   "modules": [
     {
       "id": "portfolio-routes",
@@ -195,6 +195,32 @@
         "design-governance"
       ],
       "test_coverage": "high"
+    },
+    {
+      "id": "container-deployment",
+      "name": "Reproducible Coolify container deployment",
+      "path": "Dockerfile, scripts/check-container-build.mjs, docs/coolify-deployment.md, .github/workflows/quality.yml",
+      "type": "deployment-governance",
+      "description": "A Node 20, lockfile-only, standalone Next build that retains build dependencies such as Tailwind and verifies the same Docker path Coolify uses.",
+      "public_api": [
+        {
+          "name": "check:container",
+          "signature": "npm run check:container",
+          "description": "Rejects unsupported Node versions, mutable installs, and incomplete standalone image output."
+        },
+        {
+          "name": "Docker build",
+          "signature": "docker build --tag kyles-site:ci .",
+          "description": "Builds the production container in CI before deployment."
+        }
+      ],
+      "dependencies": [
+        "next",
+        "npm-lockfile",
+        "docker",
+        "coolify"
+      ],
+      "test_coverage": "high"
     }
   ],
   "entry_points": [
@@ -202,7 +228,8 @@
     "contact-api",
     "design-governance",
     "community-presentation-viewers",
-    "career-positioning"
+    "career-positioning",
+    "container-deployment"
   ],
   "known_limitations": [
     "Resume PDFs are served by a separate backend and require an environment-specific API URL.",
