@@ -3,6 +3,7 @@ import Link from "next/link";
 import { personalData } from "@/lib/data/personal";
 import { communityData } from "@/lib/data/community";
 import PageKinetic from "@/components/layout/PageKinetic";
+import PresentationLibrary from "@/components/community/PresentationLibrary";
 
 function CommunityList({ items }: { items: typeof communityData.speaking }) {
   return (
@@ -43,6 +44,13 @@ export default function CommunityPage() {
           <h2 id="teaching-heading" className="mt-3 text-3xl font-semibold tracking-tight text-primary">Practical topics for people who are curious.</h2>
           <div className="mt-10"><CommunityList items={communityData.speaking} /></div>
         </div>
+      </section>
+
+      <section aria-labelledby="presentations-heading" className="site-shell py-14 sm:py-20">
+        <p className="eyebrow">Makerspace presentation library</p>
+        <h2 id="presentations-heading" className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight text-primary">Take a workshop home.</h2>
+        <p className="mt-4 max-w-2xl text-lg leading-8 text-secondary">The slide decks from these public Makerspace sessions are available as PowerPoint downloads for anyone who wants to revisit the material or share it with a curious friend.</p>
+        <div className="mt-10"><PresentationLibrary presentations={communityData.presentations} /></div>
       </section>
 
       <section className="site-shell grid gap-12 py-14 lg:grid-cols-2 sm:py-20">
