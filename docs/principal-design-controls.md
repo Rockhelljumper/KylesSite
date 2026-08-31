@@ -43,7 +43,8 @@ Measured at a 2540 × 1345 viewport on 2026-08-31:
    and case studies use moving system signals; About, Life, Community, Contact,
    and Résumé use a small contextual kinetic motif. These elements are
    decorative, never carry information, and stop under reduced-motion.
-2. **Actions look actionable.** Primary actions use a filled, elevated button;
+2. **Actions look actionable.** Primary actions use a solid, high-contrast button
+   with no glow or drop shadow;
    secondary actions use a high-contrast tinted surface and two-pixel border;
    inline links are consistently underlined. Interactive actions are at least
    44px tall.
@@ -96,7 +97,7 @@ The page-level control pass adds these independently checked outcomes:
 | Control | Required outcome | Current outcome |
 | --- | --- | --- |
 | Contextual page motion | Every content route has relevant decorative movement | 9 non-home public/case-study routes have their own kinetic motif; the home hero retains its orbit |
-| Action hierarchy | Primary and secondary actions read as controls, not prose | Filled/elevated primary actions, tinted two-pixel secondary actions, and underlined inline links; project actions are tested at ≥44px |
+| Action hierarchy | Primary and secondary actions read as controls, not prose | Solid, no-glow primary actions, tinted two-pixel secondary actions, and underlined inline links; project actions are tested at ≥44px |
 | Featured leadership media | NDA-safe, labelled case-study evidence | Three leadership case studies use governed sanitized models and show résumé-sourced outcomes |
 | Bathroom Buddy mobile proof | User-controlled app-screen walkthrough | 3 labelled mobile screens with previous/next and direct slide controls |
 

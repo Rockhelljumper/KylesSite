@@ -47,6 +47,11 @@ for (const value of requiredCss) {
   if (!css.includes(value)) failures.push(`Missing design CSS control: ${value}`);
 }
 
+const buttonRules = css.match(/\.button-(?:primary|secondary|on-dark)[\s\S]*?\}/g) ?? [];
+if (buttonRules.some((rule) => rule.includes("box-shadow"))) {
+  failures.push("Buttons must not use a glow or drop shadow; hierarchy comes from fill, border, and contrast");
+}
+
 const featuredVisuals = Object.entries(config.controls.featured_project_visuals ?? {});
 if (featuredVisuals.length !== 3) {
   failures.push("Design governance must define visual evidence for all three featured case studies");
