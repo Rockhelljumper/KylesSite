@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef, FormEvent, ChangeEvent } from "react";
+import { useState, useRef, FormEvent, ChangeEvent } from "react";
 import Link from "next/link";
-import { homeData } from "@/lib/data/homeData";
+import { profile } from "@/lib/data/profile";
 import FormInput from "@/components/ui/FormInput";
 import Toast from "@/components/ui/Toast";
 import { submitContactForm } from "@/lib/api/emailService";
@@ -15,6 +15,7 @@ import {
   trackFormSubmission,
   trackExternalLinkClick,
 } from "@/lib/utils/googleAnalytics";
+import { getTurnstileSiteKey } from "@/lib/utils/env";
 
 // Form validation types
 type FormErrors = {
@@ -25,6 +26,8 @@ type FormErrors = {
 };
 
 export default function ContactPage() {
+  const turnstileSiteKey = getTurnstileSiteKey();
+
   // Form state
   const [formValues, setFormValues] = useState<ContactFormData>({
     fullName: "",
@@ -37,13 +40,8 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const [formVisible, setFormVisible] = useState(false);
+  const [formVisible] = useState(true);
   const formRef = useRef<HTMLFormElement>(null);
-
-  // Initialize form animation
-  useEffect(() => {
-    setFormVisible(true);
-  }, []);
 
   // Form field change handler
   const handleChange = (
@@ -213,9 +211,16 @@ export default function ContactPage() {
   };
 
   return (
-    <div className='flex flex-col px-4 min-h-[calc(100vh-4rem)] md:px-8 max-w-7xl mx-auto w-full py-12'>
+    <div className='flex flex-col px-4 min-h-[calc(100vh-4rem)] md:px-8 max-w-7xl mx-auto w-full py-24 md:py-32'>
       <div className='max-w-4xl mx-auto w-full'>
-        <h1 className='text-3xl md:text-4xl font-bold mb-8'>Get in Touch</h1>
+        <h1 className='text-3xl md:text-4xl font-bold mb-4'>
+          Let&apos;s Talk
+        </h1>
+        <p className='mb-8 max-w-2xl text-secondary leading-relaxed'>
+          I am interested in engineering leadership and senior platform roles
+          where reliable delivery, production ownership, and practical technical
+          judgment matter.
+        </p>
 
         <div className='grid md:grid-cols-3 gap-10'>
           {/* Contact Info */}
@@ -227,7 +232,7 @@ export default function ContactPage() {
                 {/* Email */}
                 <div
                   className='flex items-center cursor-pointer hover:text-blue-500 transition-colors'
-                  onClick={() => copyToClipboard("kyle7simmons1994@gmail.com")}
+                  onClick={() => copyToClipboard(profile.email)}
                 >
                   <div className='bg-primary/10 rounded-full p-2 mr-3'>
                     {renderSocialIcon("email")}
@@ -235,7 +240,7 @@ export default function ContactPage() {
                   <div>
                     <div className='font-medium'>Email</div>
                     <div className='text-sm text-muted-foreground'>
-                      kyle7simmons1994@gmail.com
+                      {profile.email}
                     </div>
                   </div>
                 </div>
@@ -244,7 +249,7 @@ export default function ContactPage() {
                 <div className='pt-4 border-t'>
                   <h3 className='text-sm font-medium mb-3'>Connect with me</h3>
                   <div className='flex space-x-3'>
-                    {homeData.socialLinks.map((link) => (
+                    {profile.socialLinks.map((link) => (
                       <Link
                         key={link.icon}
                         href={link.url}
@@ -344,10 +349,9 @@ export default function ContactPage() {
                   {/* Turnstile Widget */}
                   <div className='flex justify-center my-4'>
                     {(() => {
-                      const siteKey = "0x4AAAAAABd79ktcgMBQGBJy";
-                      return siteKey ? (
+                      return turnstileSiteKey ? (
                         <Turnstile
-                          siteKey={siteKey}
+                          siteKey={turnstileSiteKey}
                           onSuccess={(token) =>
                             setFormValues((prev) => ({
                               ...prev,

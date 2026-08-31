@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { contactFormSchema } from "@/lib/validation/contactSchema";
 import * as postmark from "postmark";
 import { getTurnstileSecretKey } from "@/lib/utils/env";
+import { escapeHtml } from "@/lib/utils/escapeHtml";
 
 // Initialize Postmark client lazily to avoid build issues
 const getPostmarkClient = () => {
@@ -38,22 +39,27 @@ async function verifyTurnstileToken(token: string) {
   return data.success;
 }
 
-// Format contact form data into HTML email
+// Format contact form data into HTML email. All user supplied content is escaped
+// before being interpolated into HTML.
 const formatContactEmail = (
   fullName: string,
   email: string,
   subject: string,
   message: string
 ) => {
+  const safeName = escapeHtml(fullName);
+  const safeEmail = escapeHtml(email);
+  const safeSubject = escapeHtml(subject);
+  const safeMessage = escapeHtml(message).replace(/\n/g, "<br/>");
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <h2 style="color: #333;">New Contact Form Submission</h2>
-      <p><strong>Name:</strong> ${fullName}</p>
-      <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
-      <p><strong>Subject:</strong> ${subject}</p>
+      <p><strong>Name:</strong> ${safeName}</p>
+      <p><strong>Email:</strong> <a href="mailto:${safeEmail}">${safeEmail}</a></p>
+      <p><strong>Subject:</strong> ${safeSubject}</p>
       <h3 style="color: #555;">Message:</h3>
       <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px;">
-        ${message.replace(/\n/g, "<br/>")}
+        ${safeMessage}
       </div>
       <p style="font-size: 12px; color: #999; margin-top: 20px;">
         This message was sent from your website's contact form.
@@ -61,6 +67,9 @@ const formatContactEmail = (
     </div>
   `;
 };
+
+const formatContactText = (fullName: string, email: string, subject: string, message: string) =>
+  `New Contact Form Submission\n\nName: ${fullName}\nEmail: ${email}\nSubject: ${subject}\n\nMessage:\n${message}`;
 
 // Format auto-reply email
 const formatAutoReplyEmail = (fullName: string, senderEmail: string) => {
@@ -127,6 +136,7 @@ export async function POST(request: NextRequest) {
       To: receiverEmail,
       Subject: `New Contact Form Submission: ${subject}`,
       HtmlBody: formatContactEmail(fullName, email, subject, message),
+      TextBody: formatContactText(fullName, email, subject, message),
       ReplyTo: email,
       MessageStream: "outbound",
     });
@@ -137,6 +147,7 @@ export async function POST(request: NextRequest) {
       To: email,
       Subject: "Thank you for your message",
       HtmlBody: formatAutoReplyEmail(fullName, senderEmail),
+      TextBody: `Thank you for contacting Kyle Simmons, ${fullName}. Your message was received.`,
       MessageStream: "outbound",
     });
 

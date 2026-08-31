@@ -1,117 +1,54 @@
-"use client";
-
 import Link from "next/link";
-import { NavLink, SocialLink } from "@/lib/data/homeData";
-import { trackExternalLinkClick } from "@/lib/utils/googleAnalytics";
+import { profile } from "@/lib/data/profile";
 
-type FooterProps = {
-  navLinks: NavLink[];
-  socialLinks: SocialLink[];
-};
-
-export default function Footer({ navLinks, socialLinks }: FooterProps) {
+export default function Footer() {
   const currentYear = new Date().getFullYear();
 
-  const renderSocialIcon = (icon: string) => {
-    switch (icon) {
-      case "github":
-        return (
-          <svg
-            className='w-5 h-5'
-            fill='currentColor'
-            viewBox='0 0 24 24'
-            aria-hidden='true'
-          >
-            <path
-              fillRule='evenodd'
-              d='M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z'
-              clipRule='evenodd'
-            />
-          </svg>
-        );
-      case "linkedin":
-        return (
-          <svg
-            className='w-5 h-5'
-            fill='currentColor'
-            viewBox='0 0 24 24'
-            aria-hidden='true'
-          >
-            <path d='M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z' />
-          </svg>
-        );
-      default:
-        return <span className='w-5 h-5' />;
-    }
-  };
-
   return (
-    <footer className='bg-card-alt transition-colors'>
-      <div className='container mx-auto px-4 py-12 md:py-16'>
-        <div className='grid grid-cols-1 md:grid-cols-4 gap-8'>
-          {/* Logo and description */}
-          <div className='md:col-span-2'>
-            <Link
-              href='/'
-              className='text-xl font-bold text-primary transition-colors'
-            >
-              KS
-            </Link>
-            <p className='mt-4 text-sm text-tertiary max-w-md transition-colors'>
-              Software engineer and community leader focused on building
-              impactful solutions and empowering tech communities.
-            </p>
-          </div>
-
-          {/* Navigation */}
-          <div>
-            <h3 className='text-sm font-semibold uppercase tracking-wider mb-4 text-secondary transition-colors'>
-              Navigation
-            </h3>
-            <ul className='space-y-2'>
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className='text-sm text-tertiary hover:text-primary transition-colors'
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Connect */}
-          <div>
-            <h3 className='text-sm font-semibold uppercase tracking-wider mb-4 text-secondary transition-colors'>
-              Connect
-            </h3>
-            <div className='flex space-x-4'>
-              {socialLinks.map((social) => (
-                <a
-                  key={social.platform}
-                  href={social.url}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='text-tertiary hover:text-primary transition-colors'
-                  aria-label={social.platform}
-                  onClick={() =>
-                    trackExternalLinkClick(social.url, social.platform)
-                  }
-                >
-                  {renderSocialIcon(social.icon)}
+    <footer className="border-t border-card-border bg-card">
+      <div className="site-shell grid gap-10 py-12 sm:grid-cols-[1.2fr_0.8fr_0.8fr] sm:py-16">
+        <div>
+          <Link href="/" className="font-semibold tracking-tight text-primary">
+            Kyle Simmons<span className="text-brand-primary">.</span>
+          </Link>
+          <p className="mt-4 max-w-sm text-sm leading-6 text-secondary">{profile.shortSummary}</p>
+        </div>
+        <div>
+          <p className="eyebrow">Navigate</p>
+          <ul className="mt-4 space-y-2">
+            {profile.navigation.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="text-sm text-secondary hover:text-primary">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link href="/community" className="text-sm text-secondary hover:text-primary">Community</Link>
+            </li>
+            <li>
+              <Link href="/now" className="text-sm text-secondary hover:text-primary">Now</Link>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <p className="eyebrow">Connect</p>
+          <ul className="mt-4 space-y-2">
+            {profile.socialLinks.map((link) => (
+              <li key={link.platform}>
+                <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-sm text-secondary hover:text-primary">
+                  {link.platform}
                 </a>
-              ))}
-            </div>
-          </div>
+              </li>
+            ))}
+            <li>
+              <a href={`mailto:${profile.email}`} className="text-sm text-secondary hover:text-primary">Email Kyle</a>
+            </li>
+          </ul>
         </div>
-
-        <div className='mt-12 pt-8 border-t border-card-border'>
-          <p className='text-sm text-tertiary transition-colors'>
-            © {currentYear} Kyle Simmons. All rights reserved.
-          </p>
-        </div>
+      </div>
+      <div className="border-t border-card-border">
+        <div className="site-shell py-5 font-mono text-xs text-tertiary">© {currentYear} Kyle Simmons</div>
       </div>
     </footer>
   );

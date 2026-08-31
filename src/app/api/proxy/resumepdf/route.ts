@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import fetch from "node-fetch";
+import { resumeData } from "@/lib/data/resume";
 
-export const revalidate = 3600; // Cache for 1 hour
+const allowedResumeFiles = new Set(
+  Object.values(resumeData.variants).map((variant) => variant.pdfFileName)
+);
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,6 +15,10 @@ export async function GET(request: NextRequest) {
         { error: "No PDF filename provided" },
         { status: 400 }
       );
+    }
+
+    if (!allowedResumeFiles.has(filename)) {
+      return NextResponse.json({ error: "Unknown resume file" }, { status: 404 });
     }
 
     // Get and sanitize the API base URL
@@ -29,9 +35,18 @@ export async function GET(request: NextRequest) {
       apiBaseUrl = apiBaseUrl.substring(1);
     }
 
-    const pdfUrl = `${apiBaseUrl}/api/ResumePDF/${filename}`;
+    let parsedBaseUrl: URL;
+    try {
+      parsedBaseUrl = new URL(apiBaseUrl);
+    } catch {
+      return NextResponse.json({ error: "Resume service is misconfigured" }, { status: 503 });
+    }
 
-    console.log("Fetching PDF from:", pdfUrl);
+    if (parsedBaseUrl.protocol !== "https:" && process.env.NODE_ENV === "production") {
+      return NextResponse.json({ error: "Resume service is misconfigured" }, { status: 503 });
+    }
+
+    const pdfUrl = `${apiBaseUrl}/api/ResumePDF/${encodeURIComponent(filename)}`;
 
     const response = await fetch(pdfUrl);
 
@@ -47,6 +62,11 @@ export async function GET(request: NextRequest) {
         },
         { status: response.status }
       );
+    }
+
+    const contentType = response.headers.get("content-type") || "";
+    if (!contentType.includes("application/pdf")) {
+      return NextResponse.json({ error: "Resume service returned an unexpected response" }, { status: 502 });
     }
 
     const pdfBuffer = await response.arrayBuffer();
@@ -65,16 +85,4 @@ export async function GET(request: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-export async function OPTIONS() {
-  return new NextResponse(null, {
-    status: 204,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization, Accept",
-      "Access-Control-Max-Age": "86400",
-    },
-  });
 }

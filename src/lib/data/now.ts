@@ -10,48 +10,45 @@ export type NowData = {
 };
 
 export const nowData: NowData = {
-  updated: "May 2025",
+  updated: "August 2026",
   sections: [
     {
       title: "Professional",
-      icon: "💼",
+      icon: "Work",
       items: [
-        "Leading engineering initiatives in crypto/finance to generate revenue.",
-        "Scaling Dockerized infrastructure for infrastructure as cost reduction.",
-        "Refactoring legacy code to improve maintainability and scalability.",
-        "Working on creating new and fun retrospectives for my team.",
-        "Creating new processes and documentation automations to improve my team's productivity.",
-        "Prioritizing my team's backlog to ensure we are always building the right things and maintianing a healthy pace.",
+        "Positioning my work around platform engineering, SRE, DevSecOps, and developer experience roles in fintech and other regulated environments.",
+        "Improving this portfolio into a proof-of-work site with case studies, resume variants, and clearer production impact.",
+        "Studying practical AI use in engineering workflows: testing, documentation, code review, support automation, and platform governance.",
+        "Refining incident response, compliance automation, and internal platform patterns that reduce operational toil.",
       ],
     },
     {
       title: "Personal",
-      icon: "🌱",
+      icon: "Life",
       items: [
-        "Working on perfecting multiple recipes for my wife. Food is the heart of a home.",
+        "Perfecting recipes for my family. Food is the heart of a home.",
         "Improving my home automation setup to be more efficient and secure.",
-        "Reading: Finishign the Noobtown Serries by Ryan Rimmel.",
-        "Finishing a smoker for summer time BBQs.",
-        "Learning to grow a beard.",
+        "Reading technical, fiction, and personal growth books in parallel.",
+        "Finishing a smoker for summer BBQs.",
         "Fixing my 3D printer farm.",
       ],
     },
     {
       title: "Community",
-      icon: "🤝",
+      icon: "Community",
       items: [
         "Mentoring early-career engineers 1:1.",
-        "Working on creating new adult learning programs for the local makerspace.",
-        "Setting up new opportunities for the local makerspace to grow.",
+        "Creating adult learning programs for the local makerspace.",
+        "Helping people learn practical software, hardware, AI, security, and small business technology skills.",
       ],
     },
     {
       title: "Goals",
-      icon: "🎯",
+      icon: "Goals",
       items: [
-        "Soft-launch of Bathroom Buddy Mobile App.",
-        "Fixing Automated update services for my home lab.",
-        "Finding the next milestone in my career.",
+        "Continue improving Bathroom Buddy across product quality, data freshness, and release readiness.",
+        "Improve automated update services for my home lab.",
+        "Find the next career milestone where platform engineering, security, reliability, and leadership all matter.",
       ],
     },
   ],

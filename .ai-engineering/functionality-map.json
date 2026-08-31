@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Capability map for KyleSimmons.tech.",
+  "version": "1.0.0",
+  "repo": "https://github.com/Rockhelljumper/KylesSite",
+  "primary_language": "TypeScript",
+  "generated_at": "2026-08-31T00:00:00-05:00",
+  "modules": [
+    {
+      "id": "portfolio-routes",
+      "name": "Portfolio routes and metadata",
+      "path": "src/app",
+      "type": "ui",
+      "description": "Next.js App Router pages, route metadata, sitemap, robots directives, and server-side case-study rendering.",
+      "public_api": [
+        {"name": "/", "signature": "GET /", "description": "Leadership portfolio landing page.", "inputs": "none", "outputs": "HTML"},
+        {"name": "/projects/[slug]", "signature": "GET /projects/:slug", "description": "Evidence-led engineering case study.", "inputs": "project slug", "outputs": "HTML or 404"}
+      ],
+      "dependencies": ["portfolio-content", "portfolio-components", "next"],
+      "test_coverage": "low"
+    },
+    {
+      "id": "portfolio-content",
+      "name": "Canonical portfolio content",
+      "path": "src/lib/data",
+      "type": "library",
+      "description": "Canonical profile, resume, project taxonomy, claims, and page copy.",
+      "public_api": [
+        {"name": "getProjectBySlug", "signature": "(slug: string) => Project | undefined", "description": "Finds a published project case study.", "inputs": "slug", "outputs": "project or undefined"}
+      ],
+      "dependencies": [],
+      "test_coverage": "low"
+    },
+    {
+      "id": "portfolio-components",
+      "name": "Portfolio interface components",
+      "path": "src/components",
+      "type": "ui",
+      "description": "Accessible header, filters, home sections, project cards, and shared UI.",
+      "public_api": [],
+      "dependencies": ["portfolio-content", "react"],
+      "test_coverage": "low"
+    },
+    {
+      "id": "contact-api",
+      "name": "Contact and resume proxy routes",
+      "path": "src/app/api",
+      "type": "api",
+      "description": "Turnstile-protected contact delivery and restricted resume PDF proxy.",
+      "public_api": [
+        {"name": "contact", "signature": "POST /api/contact", "description": "Validates and delivers a contact message.", "inputs": "contact form JSON plus Turnstile token", "outputs": "JSON success or validation error"},
+        {"name": "resumePdf", "signature": "GET /api/proxy/resumepdf?filename=:filename", "description": "Downloads a declared resume PDF from the backend API.", "inputs": "whitelisted filename", "outputs": "PDF"}
+      ],
+      "dependencies": ["postmark", "Cloudflare Turnstile", "KylesSiteBackend"],
+      "test_coverage": "low"
+    }
+  ],
+  "entry_points": ["portfolio-routes", "contact-api"],
+  "known_limitations": ["Resume PDFs are served by a separate backend and require an environment-specific API URL.", "Contact delivery depends on configured Turnstile and Postmark credentials."],
+  "harness_hints": {
+    "bug_prone_modules": ["contact-api"],
+    "high_churn_modules": ["portfolio-content", "portfolio-components"],
+    "undocumented_modules": ["portfolio-content", "contact-api"]
+  }
+}

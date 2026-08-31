@@ -1,81 +1,78 @@
-export type SocialLink = {
-  platform: string;
-  url: string;
-  icon: string;
-};
+import { profile } from "@/lib/data/profile";
 
-export type NavLink = {
-  label: string;
-  href: string;
-  isExternal?: boolean;
-};
-
-export type HomeData = {
-  name: string;
-  tagline: string;
-  shortBio: string;
-  ctaLinks: Array<{
-    text: string;
-    href: string;
-    isPrimary?: boolean;
-  }>;
-  navLinks: NavLink[];
-  socialLinks: SocialLink[];
-  siteOverview: {
-    title: string;
-    description: string;
-    highlights: string[];
-  };
-};
-
-export const homeData: HomeData = {
-  name: "Kyle Simmons",
-  tagline: "Software Engineer & Community Leader",
-  shortBio:
-    "Building impactful software solutions and empowering tech communities. Specializing in full-stack development with modern technologies.",
+export const homeData = {
+  name: profile.name,
+  title: profile.title,
+  summary: profile.summary,
+  roleKeywords: [
+    "Engineering leadership",
+    "Platform & SRE",
+    "Backend architecture",
+    "Data integrations",
+  ],
+  proofPoints: [
+    {
+      value: "40%",
+      label: "deployment-time reduction",
+      claimId: "payments-deployment-improvement",
+    },
+    {
+      value: "20%",
+      label: "Azure spend reduction",
+      claimId: "payments-azure-cost",
+    },
+    {
+      value: "50+",
+      label: "partner API integrations supported",
+      claimId: "payments-partner-integrations",
+    },
+  ],
   ctaLinks: [
+    { text: "View selected work", href: "/projects", isPrimary: true },
+    { text: "View résumé", href: "/resume" },
+  ],
+  capabilities: [
     {
-      text: "View Projects",
-      href: "/projects",
-      isPrimary: true,
+      eyebrow: "Leadership in practice",
+      title: "Set direction, make ownership clear, and remove the friction that slows delivery.",
+      body: "I connect technical decisions to business risk, make incidents blameless but accountable, mentor through real work, and document the paths teams need to repeat.",
+      evidence: [
+        "Technical roadmaps and tradeoff decisions",
+        "Incident leadership, RCA, and recovery planning",
+        "Mentoring, hiring, and cross-functional execution",
+      ],
     },
     {
-      text: "Learn More About Me",
-      href: "/about",
+      eyebrow: "Platform & reliability",
+      title: "Treat production ownership as part of the build, not a handoff after it.",
+      body: "The work spans delivery paths, observability, incident response, cloud cost, security findings, and the operational detail needed to recover a system under pressure.",
+      evidence: [
+        "CI/CD, containers, cloud, and automation",
+        "Monitoring, alerting, runbooks, and health signals",
+        "Security and compliance-sensitive delivery",
+      ],
+    },
+    {
+      eyebrow: "Software & integration architecture",
+      title: "Build durable service boundaries around the data, failure modes, and people involved.",
+      body: "I work across Go, C#, Python, TypeScript, React, React Native, SQL Server, PostgreSQL, APIs, and the integration seams where correctness matters most.",
+      evidence: [
+        "Backend services and partner adapters",
+        "Data lifecycle, reconciliation, and SQL performance",
+        "Testing designed around realistic failure states",
+      ],
     },
   ],
-  navLinks: [
-    { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Projects", href: "/projects" },
-    { label: "Resume", href: "/resume" },
-    { label: "Now", href: "/now" },
-    { label: "Community", href: "/community" },
-    { label: "Contact", href: "/contact" },
-  ],
-  socialLinks: [
-    {
-      platform: "GitHub",
-      url: "https://github.com/rockhelljumper",
-      icon: "github",
-    },
-    {
-      platform: "LinkedIn",
-      url: "https://www.linkedin.com/in/kyle-simmons19478/",
-      icon: "linkedin",
-    },
-  ],
-  siteOverview: {
-    title: "Beyond the Traditional Resume",
-    description:
-      "This site serves as an interactive extension of my professional resume, offering a comprehensive view of my experience, projects, and community involvement. While a traditional resume provides a snapshot, this platform allows me to share the full scope of my technical journey and professional impact.",
-    highlights: [
-      "Detailed project showcases with technical deep-dives",
-      "In-depth look at my community involvement and leadership in tech spaces",
-      "Current focus areas and ongoing professional development through the Now page",
-      "Comprehensive overview of my technical expertise and professional experience",
-      "Multiple resume variants tailored to different roles and opportunities",
-      "This site is constantly evolving, so check back often to see the latest updates!",
+  aiPractice: {
+    title: "AI accelerates implementation; engineering discipline controls correctness.",
+    body: "I use AI to narrow research, decompose work, draft implementation and tests, and make review more repeatable. Requirements, architecture, security boundaries, test results, and production approval remain human responsibilities.",
+    loop: [
+      "Requirements",
+      "Architecture",
+      "Task decomposition",
+      "Implementation and tests",
+      "Review and verification",
+      "Human approval",
     ],
   },
-};
+} as const;

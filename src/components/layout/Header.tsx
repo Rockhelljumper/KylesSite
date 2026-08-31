@@ -1,143 +1,84 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
-import { NavLink } from "@/lib/data/homeData";
+import { profile } from "@/lib/data/profile";
 import ThemeToggle from "./ThemeToggle";
-import { trackButtonClick } from "@/lib/utils/googleAnalytics";
 
-type HeaderProps = {
-  navLinks: NavLink[];
-};
+export default function Header() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuId = useId();
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-export default function Header({ navLinks }: HeaderProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const [scrolled, setScrolled] = useState<boolean>(false);
-
-  // Handle scrolling effect
   useEffect(() => {
-    const handleScroll = (): void => {
-      const offset = window.scrollY;
-      setScrolled(offset > 10);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileMenuOpen]);
 
   return (
-    <header
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-card backdrop-blur-lg shadow-sm py-3"
-          : "bg-transparent py-5"
-      }`}
-    >
-      <div className='container mx-auto px-4 md:px-6'>
-        <div className='flex items-center justify-between'>
-          <Link
-            href='/'
-            className='text-lg font-bold text-primary transition-colors hover:opacity-80'
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-card-border bg-card/95 backdrop-blur">
+      <div className="site-shell flex min-h-16 items-center justify-between gap-4">
+        <Link href="/" className="font-semibold tracking-tight text-primary" aria-label="Kyle Simmons home">
+          Kyle Simmons<span className="text-brand-primary">.</span>
+        </Link>
+
+        <nav aria-label="Primary" className="hidden items-center gap-7 md:flex">
+          {profile.navigation.map((link) => (
+            <Link key={link.href} href={link.href} className="text-sm font-medium text-secondary hover:text-primary">
+              {link.label}
+            </Link>
+          ))}
+          <ThemeToggle />
+        </nav>
+
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeToggle />
+          <button
+            ref={menuButtonRef}
+            type="button"
+            aria-controls={menuId}
+            aria-expanded={mobileMenuOpen}
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            className="inline-flex min-h-11 min-w-11 items-center justify-center text-primary"
+            onClick={() => setMobileMenuOpen((open) => !open)}
           >
-            KS
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className='hidden md:flex md:items-center md:space-x-8'>
-            <ul className='flex space-x-8'>
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className='text-sm font-medium nav-link transition-colors hover:opacity-80 relative after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-current after:transition-all hover:after:w-full'
-                    onClick={() =>
-                      trackButtonClick(
-                        `nav_${link.label.toLowerCase()}`,
-                        "header"
-                      )
-                    }
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <ThemeToggle />
-          </nav>
-
-          {/* Mobile menu button and theme toggle */}
-          <div className='md:hidden flex items-center space-x-2'>
-            <ThemeToggle />
-            <button
-              onClick={() => {
-                setMobileMenuOpen(!mobileMenuOpen);
-                trackButtonClick("mobile_menu_toggle", "header");
-              }}
-              aria-label={
-                mobileMenuOpen ? "Close mobile menu" : "Open mobile menu"
-              }
-              className='p-2 rounded-md hover:bg-card-alt transition-colors'
-            >
-              {mobileMenuOpen ? (
-                <svg
-                  className='h-6 w-6'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M6 18L18 6M6 6l12 12'
-                  />
-                </svg>
-              ) : (
-                <svg
-                  className='h-6 w-6'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M4 6h16M4 12h16M4 18h16'
-                  />
-                </svg>
-              )}
-            </button>
-          </div>
+            <span className="sr-only">Menu</span>
+            {mobileMenuOpen ? (
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18" />
+              </svg>
+            ) : (
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path d="M4 7h16M4 12h16M4 17h16" />
+              </svg>
+            )}
+          </button>
         </div>
-
-        {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <nav className='md:hidden mt-4 pb-4 border-t border-card-border'>
-            <ul className='space-y-2 pt-4'>
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className='block text-sm font-medium nav-link transition-colors hover:opacity-80 py-2'
-                    onClick={() => {
-                      trackButtonClick(
-                        `nav_${link.label.toLowerCase()}`,
-                        "mobile_menu"
-                      );
-                      setMobileMenuOpen(false);
-                    }}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        )}
       </div>
+
+      {mobileMenuOpen && (
+        <nav id={menuId} aria-label="Mobile primary" className="border-t border-card-border bg-card md:hidden">
+          <div className="site-shell flex flex-col py-3">
+            {profile.navigation.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="py-3 text-base font-medium text-primary"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </nav>
+      )}
     </header>
   );
 }

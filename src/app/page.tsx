@@ -1,17 +1,12 @@
-import Hero from "@/components/home/Hero";
 import ExplanatorySections from "@/components/home/ExplanatorySections";
-import { homeData } from "@/lib/data/homeData";
+import Hero from "@/components/home/Hero";
+import { featuredProjects } from "@/lib/data/projects";
 
 export default function Home() {
   return (
     <>
-      <Hero
-        name={homeData.name}
-        tagline={homeData.tagline}
-        shortBio={homeData.shortBio}
-        ctaLinks={homeData.ctaLinks}
-      />
-      <ExplanatorySections overview={homeData.siteOverview} />
+      <Hero />
+      <ExplanatorySections featuredProjects={featuredProjects} />
     </>
   );
 }

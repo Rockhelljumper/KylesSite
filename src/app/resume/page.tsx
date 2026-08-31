@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { resumeData } from "@/lib/data/resume";
 import Link from "next/link";
 import ResumeSection from "@/components/resume/ResumeSection";
@@ -14,13 +14,9 @@ export default function ResumePage() {
     useState<string>("engineeringLeader");
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const [isPageLoaded, setIsPageLoaded] = useState(false);
+  const [isPageLoaded] = useState(true);
   const [isDownloading, setIsDownloading] = useState(false);
 
-  // Animation on page load
-  useEffect(() => {
-    setIsPageLoaded(true);
-  }, []);
 
   const variant = resumeData.variants[selectedVariant];
 
@@ -29,12 +25,8 @@ export default function ResumePage() {
     try {
       setIsDownloading(true);
 
-      // Get the PDF filename from the selected variant
       const pdfFileName = variant.pdfFileName;
-      console.log("Requesting PDF:", pdfFileName);
 
-      // Always use proxy endpoint to avoid CORS issues
-      console.log("Using proxy endpoint");
       const response = await fetch(
         `/api/proxy/resumepdf?filename=${encodeURIComponent(pdfFileName)}`,
         {
@@ -43,12 +35,6 @@ export default function ResumePage() {
             Accept: "application/pdf",
           },
         }
-      );
-
-      console.log("Response status:", response.status);
-      console.log(
-        "Response headers:",
-        Object.fromEntries(response.headers.entries())
       );
 
       if (!response.ok) {
@@ -62,37 +48,28 @@ export default function ResumePage() {
         throw new Error(errorText || `HTTP error! status: ${response.status}`);
       }
 
-      // Check content type
       const contentType = response.headers.get("content-type");
       if (!contentType?.includes("application/pdf")) {
-        console.warn("Unexpected content type:", contentType);
         throw new Error(`Unexpected content type: ${contentType}`);
       }
 
-      // Convert the response to a blob
       const blob = await response.blob();
-      console.log("Blob size:", blob.size, "bytes");
-      console.log("Blob type:", blob.type);
 
       if (blob.size === 0) {
         throw new Error("Received empty PDF file");
       }
 
-      // Create a URL for the blob
       const url = window.URL.createObjectURL(blob);
 
-      // Create a temporary link and click it to download
       const link = document.createElement("a");
       link.href = url;
       link.download = pdfFileName;
       document.body.appendChild(link);
       link.click();
 
-      // Clean up
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
 
-      // Track the successful download
       trackFileDownload(pdfFileName, "pdf");
 
       setToastMessage("PDF downloaded successfully!");
@@ -122,9 +99,9 @@ export default function ResumePage() {
           <span className='text-gradient'>Resume</span>
         </h1>
         <p className='text-xl text-secondary max-w-2xl leading-relaxed transition-colors mb-8'>
-          My professional experience, skills, and qualifications. Select a
-          resume variant below to see different aspects of my career and
-          expertise.
+          Select the version that matches the role you are evaluating. Each
+          variant emphasizes the same career through a different hiring lens:
+          platform leadership, senior engineering, SRE/DevOps, or DevSecOps.
         </p>
       </div>
 

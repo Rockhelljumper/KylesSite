@@ -12,6 +12,17 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        card: "var(--card-bg)",
+        "card-alt": "var(--card-bg-alt)",
+        "card-border": "var(--card-border)",
+        primary: "var(--brand-primary)",
+        "primary-foreground": "var(--text-inverted)",
+        muted: "var(--card-bg-alt)",
+        "muted-foreground": "var(--text-tertiary)",
+        input: "var(--card-border)",
+        "brand-primary": "var(--brand-primary)",
+        "brand-secondary": "var(--brand-secondary)",
+        "text-inverted": "var(--text-inverted)",
       },
       fontFamily: {
         sans: ["var(--font-geist-sans)"],

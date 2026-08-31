@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { communityData } from "@/lib/data/community";
 import Section from "@/components/community/Section";
 import ItemCard from "@/components/community/ItemCard";
-import { MentoringIcon, SpeakingIcon, WritingIcon, OpenSourceIcon, LeadershipIcon } from "@/components/icons/Icons";
+import { MentoringIcon, SpeakingIcon, LeadershipIcon } from "@/components/icons/Icons";
 
 export default function CommunityPage() {
   const yearRange = useMemo(() => {
@@ -40,9 +40,9 @@ export default function CommunityPage() {
           </div>
           <div className='bg-card-alt rounded-lg p-5 text-center border border-card-border'>
             <div className='text-3xl md:text-4xl font-bold text-brand-primary mb-2'>
-              {communityData.openSource.length}+
+              {communityData.leadership.length}+
             </div>
-            <div className='text-tertiary text-sm'>Mentoring Projects</div>
+            <div className='text-tertiary text-sm'>Leadership Roles</div>
           </div>
           <div className='bg-card-alt rounded-lg p-5 text-center border border-card-border'>
             <div className='text-3xl md:text-4xl font-bold text-brand-primary mb-2'>
@@ -68,12 +68,6 @@ export default function CommunityPage() {
           Mentoring
         </a>
         <a
-          href='#opensource'
-          className='px-4 py-2 bg-card-alt hover:bg-card border border-card-border rounded-md text-primary transition-colors'
-        >
-          Open Source
-        </a>
-        <a
           href='#leadership'
           className='px-4 py-2 bg-card-alt hover:bg-card border border-card-border rounded-md text-primary transition-colors'
         >
@@ -90,15 +84,14 @@ export default function CommunityPage() {
         index={0}
       >
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          {communityData.mentoring.map((item, index) => (
+          {communityData.mentoring.map((item) => (
             <ItemCard
-              key={index}
+              key={item.title}
               title={item.title}
               subtitle={item.subtitle}
               description={item.description}
               years={item.years}
               link={item.link}
-              index={index}
             />
           ))}
         </div>
@@ -113,61 +106,14 @@ export default function CommunityPage() {
         index={1}
       >
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          {communityData.speaking.map((item, index) => (
+          {communityData.speaking.map((item) => (
             <ItemCard
-              key={index}
+              key={item.title}
               title={item.title}
               subtitle={item.subtitle}
               description={item.description}
               years={item.years}
               link={item.link}
-              index={index}
-            />
-          ))}
-        </div>
-      </Section>
-
-      {/* Writing Section */}
-      <Section
-        title='Writing & Content'
-        description='Creating educational content and sharing insights through various platforms.'
-        anchor='writing'
-        icon={<WritingIcon />}
-        index={2}
-      >
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          {communityData.writing.map((item, index) => (
-            <ItemCard
-              key={index}
-              title={item.title}
-              subtitle={item.subtitle}
-              description={item.description}
-              years={item.years}
-              link={item.link}
-              index={index}
-            />
-          ))}
-        </div>
-      </Section>
-
-      {/* Open Source Section */}
-      <Section
-        title='Open Source & Projects'
-        description='Contributing to and maintaining open source projects that benefit the community.'
-        anchor='open-source'
-        icon={<OpenSourceIcon />}
-        index={3}
-      >
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          {communityData.openSource.map((item, index) => (
-            <ItemCard
-              key={index}
-              title={item.title}
-              subtitle={item.subtitle}
-              description={item.description}
-              years={item.years}
-              link={item.link}
-              index={index}
             />
           ))}
         </div>
@@ -179,18 +125,17 @@ export default function CommunityPage() {
         description='Taking on leadership roles to help grow and support developer communities.'
         anchor='leadership'
         icon={<LeadershipIcon />}
-        index={4}
+        index={2}
       >
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          {communityData.leadership.map((item, index) => (
+          {communityData.leadership.map((item) => (
             <ItemCard
-              key={index}
+              key={item.title}
               title={item.title}
               subtitle={item.subtitle}
               description={item.description}
               years={item.years}
               link={item.link}
-              index={index}
             />
           ))}
         </div>
