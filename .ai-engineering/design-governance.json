@@ -32,6 +32,7 @@
     "browser_native_presentation_slugs": ["computer-building-2023", "what-is-docker", "ai-for-makers-workshop-2026-08-17"],
     "presentation_navigation": "same-tab",
     "presentation_slide_guides_required": true,
+    "presentation_guide_audience": "participant",
     "mobile_viewports": [320, 390, 768],
     "desktop_viewports": [1440, 1920, 2540]
   },

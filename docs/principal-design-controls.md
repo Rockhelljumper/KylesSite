@@ -52,8 +52,8 @@ Measured at a 2540 × 1345 viewport on 2026-08-31:
 4. **Presentations are webpages, not downloads.** Community presentation cards
    navigate directly to the real rendered slides, visible previous/next controls,
    a slide picker, and left/right keyboard navigation. Every active slide also
-   has an adjacent guide; source-grounded notes and editable drafts are visibly
-   distinguished. The public portfolio does not offer PDF, PowerPoint, or
+   has a participant-facing “Your slide guide”; source-grounded notes and
+   editable drafts are visibly distinguished. The public portfolio does not offer PDF, PowerPoint, or
    macro-enabled file downloads.
 
 ## Automated checks

@@ -86,7 +86,7 @@ export default function PresentationViewer({ presentation }: PresentationViewerP
             aria-live="polite"
           >
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="eyebrow">Slide guide · {currentSlide + 1}</p>
+              <p className="eyebrow">Your slide guide · {currentSlide + 1}</p>
               <span className="border border-brand-primary px-2 py-1 font-mono text-xs text-brand-primary">
                 {documentation.provenance}
               </span>

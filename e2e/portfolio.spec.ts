@@ -78,6 +78,7 @@ test("community publishes the Makerspace presentation library as browser-native 
   await expect(page).toHaveURL(/\/community\/presentations\/computer-building-2023$/);
   await expect(page.getByRole("heading", { name: "How to Build a Desktop Computer" })).toBeVisible();
   await expect(page.locator("[data-presentation-slide]")).toHaveAttribute("src", /Slide1\.JPG/);
+  await expect(page.locator("[data-presentation-documentation]")).toContainText("Your slide guide");
   await expect(page.locator("[data-presentation-documentation]")).toContainText("Build with a plan");
   await expect(page.locator("[data-presentation-documentation]")).toContainText("Provided workshop notes");
   await page.getByRole("button", { name: "Next →" }).click();
