@@ -12,6 +12,17 @@ describe("portfolio project data", () => {
     expect(featuredProjects.every((project) => project.caseStudy)).toBe(true);
   });
 
+  it("gives every flagship case study a source-led project visual", () => {
+    expect(featuredProjects.map((project) => project.banner?.src)).toEqual([
+      "/images/bathroom-buddy/bathroom-buddy-press-hero.jpg",
+      "/images/projects/vantaca-architecture-overview.svg",
+      "/images/projects/ai-engineering-workflow.svg",
+    ]);
+    expect(featuredProjects.every((project) => project.banner?.caption)).toBe(true);
+    expect(featuredProjects.find((project) => project.slug === "reliable-financial-integration")?.banner?.fullSize?.href)
+      .toBe("/images/projects/vantaca-runtime-architecture.svg");
+  });
+
   it("uses only declared capabilities and does not expose archives as published work", () => {
     expect(publishedProjects.every((project) => project.classification !== "archive")).toBe(true);
     expect(projects.flatMap((project) => project.capabilities).every((capability) => projectCapabilities.includes(capability))).toBe(true);

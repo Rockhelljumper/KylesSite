@@ -1,0 +1,23 @@
+%% Readable portfolio rendition of EngineeringTasks/README.md's runtime dependency map.
+flowchart LR
+    Customer["Customer"] --> Web
+    Identity["Vantaca identity\nand tenant context"] -.-> Web
+
+    subgraph Vantaca["Vantaca application boundary"]
+      direction LR
+      Web["Next.js\nweb application"] --> API["HTTP API"]
+      API --> Services["Account + transfer services"]
+      Jobs["Sync + reconciliation workers"] --> Services
+      Hooks["Webhook processor"] --> Services
+      Services --> Data[("SQL Server\nstate, read model, outbox")]
+      Services --> Adapter["Northwind adapter"]
+      Data --> Publisher["Outbox publisher"]
+      Publisher -.-> Notify["Frontend invalidation"]
+      Notify -.-> Web
+    end
+
+    Adapter --> Partner["Northwind Connect API"]
+    Adapter -.-> Mock["Local Northwind mock"]
+    Partner --> Hooks
+    Scheduler["n8n / approved scheduler"] -.-> Jobs
+    Platform["Secrets, encryption keys,\nlogs, metrics, and alerts"] -.-> Services

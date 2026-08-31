@@ -112,17 +112,42 @@ test("every public content route has contextual motion that honors reduced-motio
   await expect(page.locator("[data-page-kinetic] .kinetic-line").first()).toHaveCSS("animation-duration", "1e-05s");
 });
 
-test("project actions are visually distinct and Bathroom Buddy uses a banner plus controllable app carousel", async ({ page }) => {
+test("project actions are visually distinct and every featured case study carries source-led visual evidence", async ({ page }) => {
   await page.goto("/projects");
   const projectAction = page.locator("[data-project-action]").first();
   await expect(projectAction).toHaveClass(/button-secondary/);
   await expect(projectAction).toHaveCSS("border-top-width", "2px");
   expect((await projectAction.boundingBox())?.height).toBeGreaterThanOrEqual(44);
 
+  const featuredVisuals = [
+    ["bathroom-buddy", /bathroom-buddy-press-hero\.jpg/],
+    ["reliable-financial-integration", /vantaca-architecture-overview\.svg/],
+    ["ai-engineering-workflow-lab", /ai-engineering-workflow\.svg/],
+  ] as const;
+
+  for (const [slug, source] of featuredVisuals) {
+    const cardVisual = page.locator(`[data-project-card-visual="${slug}"]`);
+    await expect(cardVisual).toBeVisible();
+    await expect(cardVisual.getByRole("img")).toHaveAttribute("src", source);
+  }
+
+  for (const [slug, source] of featuredVisuals) {
+    await page.goto(`/projects/${slug}`);
+    const caseStudyVisual = page.locator(`[data-project-banner][data-project-slug="${slug}"]`);
+    await expect(caseStudyVisual).toBeVisible();
+    await expect(caseStudyVisual.getByRole("img")).toHaveAttribute("src", source);
+  }
+
+  await page.goto("/projects/reliable-financial-integration");
+  await expect(page.getByRole("link", { name: "Open full architecture diagram" })).toHaveAttribute(
+    "href",
+    "/images/projects/vantaca-runtime-architecture.svg",
+  );
+
   await page.goto("/projects/bathroom-buddy");
   const banner = page.locator("[data-project-banner]");
   await expect(banner).toBeVisible();
-  await expect(banner.getByRole("img")).toHaveAttribute("src", /map-results-banner\.svg/);
+  await expect(banner.getByRole("img")).toHaveAttribute("src", /bathroom-buddy-press-hero\.jpg/);
 
   const carousel = page.locator("[data-project-gallery]");
   await expect(carousel).toBeVisible();

@@ -13,7 +13,21 @@
     "interactive_target_min_px": 44,
     "page_motion_routes": ["/projects", "/about", "/now", "/community", "/resume", "/contact", "/projects/bathroom-buddy", "/projects/reliable-financial-integration", "/projects/ai-engineering-workflow-lab"],
     "primary_action_min_px": 44,
-    "bathroom_buddy_banner": "/images/bathroom-buddy/map-results-banner.svg",
+    "featured_project_visuals": {
+      "bathroom-buddy": {
+        "asset": "/images/bathroom-buddy/bathroom-buddy-press-hero.jpg",
+        "source": "approved Bathroom Buddy brand identity package"
+      },
+      "reliable-financial-integration": {
+        "asset": "/images/projects/vantaca-architecture-overview.svg",
+        "full_asset": "/images/projects/vantaca-runtime-architecture.svg",
+        "source": "public repository Mermaid architecture"
+      },
+      "ai-engineering-workflow-lab": {
+        "asset": "/images/projects/ai-engineering-workflow.svg",
+        "source": "AI Engineering new-feature harness manifest"
+      }
+    },
     "bathroom_buddy_carousel_min_screens": 3,
     "mobile_viewports": [320, 390, 768],
     "desktop_viewports": [1440, 1920, 2540]

@@ -452,6 +452,11 @@ select {
   box-shadow: 0 0.7rem 1.5rem color-mix(in srgb, var(--ink) 16%, transparent);
 }
 
+.project-card-banner--contain,
+.project-banner--contain {
+  background: #f4fcfe;
+}
+
 .project-banner {
   box-shadow: 1.2rem 1.2rem 0 color-mix(in srgb, var(--brand-secondary) 20%, transparent), 0 1rem 2rem color-mix(in srgb, var(--ink) 15%, transparent);
   animation: project-banner-settle 7s ease-in-out infinite;

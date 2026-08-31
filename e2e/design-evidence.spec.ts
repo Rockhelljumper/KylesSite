@@ -22,6 +22,8 @@ const captures: readonly EvidenceCapture[] = [
   },
   { route: "/projects", name: "work-desktop", viewport: { width: 1440, height: 1000 } },
   { route: "/projects/bathroom-buddy", name: "bathroom-buddy-desktop", viewport: { width: 1440, height: 1000 } },
+  { route: "/projects/reliable-financial-integration", name: "financial-integration-desktop", viewport: { width: 1440, height: 1000 } },
+  { route: "/projects/ai-engineering-workflow-lab", name: "ai-workflow-desktop", viewport: { width: 1440, height: 1000 } },
   { route: "/about", name: "about-desktop", viewport: { width: 1440, height: 1000 } },
   { route: "/now", name: "life-desktop", viewport: { width: 1440, height: 1000 } },
   { route: "/community", name: "community-desktop", viewport: { width: 1440, height: 1000 } },

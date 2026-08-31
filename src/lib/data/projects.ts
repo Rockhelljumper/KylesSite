@@ -50,6 +50,12 @@ export type ProjectCaseStudy = {
 export type ProjectMedia = {
   src: string;
   alt: string;
+  caption?: string;
+  presentation?: "cover" | "contain";
+  fullSize?: {
+    href: string;
+    label: string;
+  };
 };
 
 export type ProjectScreenshot = ProjectMedia & {
@@ -163,8 +169,9 @@ export const projects: Project[] = [
     confidentialityNote:
       "Architecture is intentionally shown at a product-boundary level. Private repositories, provider configuration, security controls, admin routes, and operating topology are not published here.",
     banner: {
-      src: "/images/bathroom-buddy/map-results-banner.svg",
-      alt: "Bathroom Buddy map-results interface illustration",
+      src: "/images/bathroom-buddy/bathroom-buddy-press-hero.jpg",
+      alt: "Bathroom Buddy approved press hero with the message Know before you go",
+      caption: "Approved Bathroom Buddy press hero and product branding.",
     },
     gallery: {
       title: "A few screens from a public product",
@@ -294,6 +301,16 @@ export const projects: Project[] = [
     ],
     confidentialityNote:
       "This is a synthetic technical reference implementation, not a production financial integration, banking product, or evidence of customer data processing.",
+    banner: {
+      src: "/images/projects/vantaca-architecture-overview.svg",
+      alt: "Architecture overview showing the Vantaca application boundary, partner adapter, SQL Server, and integration dependencies",
+      caption: "Readable runtime overview derived from the public repository’s Mermaid source.",
+      presentation: "contain",
+      fullSize: {
+        href: "/images/projects/vantaca-runtime-architecture.svg",
+        label: "Open full architecture diagram",
+      },
+    },
     caseStudy: {
       problem:
         "Partner integrations create a tension between a responsive product experience and uncertain external state. A transfer request can time out after submission, webhooks can duplicate, and upstream reads can be stale. The system must be safe when it does not know the answer yet.",
@@ -376,6 +393,12 @@ export const projects: Project[] = [
     ],
     confidentialityNote:
       "This is an engineering lab and workflow-governance feature, not a claim of autonomous production deployment, measured token savings, or a live multi-agent platform.",
+    banner: {
+      src: "/images/projects/ai-engineering-workflow.svg",
+      alt: "Four-stage AI engineering workflow from feature request through triage, implementation, testing, review, and human approval",
+      caption: "New-feature workflow rendered from the AI Engineering harness manifest.",
+      presentation: "contain",
+    },
     caseStudy: {
       problem:
         "AI can accelerate research and implementation, but unbounded context and unreviewed output make correctness, cost, and security harder to control. Teams need a repeatable way to benefit from assistance without delegating accountability.",

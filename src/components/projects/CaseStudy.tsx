@@ -23,11 +23,35 @@ export default function CaseStudy({ project }: CaseStudyProps) {
             <p className="mt-6 max-w-3xl leading-7 text-secondary">{project.overview}</p>
           </div>
           {project.banner && (
-            <figure className="project-banner justify-self-start overflow-hidden border border-card-border bg-ink lg:justify-self-end" data-project-banner>
+            <figure
+              className={`project-banner project-banner--${project.banner.presentation ?? "cover"} justify-self-start overflow-hidden border border-card-border bg-ink lg:justify-self-end`}
+              data-project-banner
+              data-project-slug={project.slug}
+            >
               <div className="relative aspect-[16/10] w-full min-w-[18rem] max-w-[38rem]">
-                <Image src={project.banner.src} alt={project.banner.alt} fill sizes="(max-width: 1024px) calc(100vw - 2.5rem), 608px" className="object-cover" priority />
+                <Image
+                  src={project.banner.src}
+                  alt={project.banner.alt}
+                  fill
+                  sizes="(max-width: 1024px) calc(100vw - 2.5rem), 608px"
+                  className={project.banner.presentation === "contain" ? "object-contain" : "object-cover"}
+                  priority
+                />
               </div>
-              <figcaption className="border-t border-card-border px-4 py-3 font-mono text-xs leading-5 text-tertiary">Public product map-and-results visual.</figcaption>
+              <figcaption className="border-t border-card-border px-4 py-3 font-mono text-xs leading-5 text-tertiary">
+                {project.banner.caption ?? "Project visual."}
+              </figcaption>
+              {project.banner.fullSize && (
+                <a
+                  href={project.banner.fullSize.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="button-secondary button-compact m-4 justify-center"
+                  data-project-visual-detail
+                >
+                  {project.banner.fullSize.label} <span className="ml-2" aria-hidden="true">↗</span>
+                </a>
+              )}
             </figure>
           )}
         </div>

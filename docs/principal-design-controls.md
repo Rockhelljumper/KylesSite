@@ -43,9 +43,12 @@ Measured at a 2540 × 1345 viewport on 2026-08-31:
    secondary actions use a high-contrast tinted surface and two-pixel border;
    inline links are consistently underlined. Interactive actions are at least
    44px tall.
-3. **Project media has a job.** A wide, product-specific banner introduces a
-   case study. Mobile app screens are secondary evidence in an accessible,
-   user-controlled carousel—never the case-study hero.
+3. **Project media has a job.** Every featured case study opens with source-led
+   visual evidence: approved product branding for Bathroom Buddy, the public
+   Vantaca Mermaid runtime architecture (with the full source rendering one
+   explicit action away), and the AI Engineering harness flow.
+   Mobile app screens are secondary evidence in an accessible, user-controlled
+   carousel—never the case-study hero.
 
 ## Automated checks
 
@@ -55,8 +58,8 @@ Measured at a 2540 × 1345 viewport on 2026-08-31:
   manifest and map timestamps for a reviewable current-state artifact.
 - Playwright measures navigation coverage, desktop typography/shell/image
   thresholds, page-level motion, action hierarchy, mobile overflow, and
-  reduced-motion behavior. It also checks the Bathroom Buddy banner and
-  carousel controls.
+  reduced-motion behavior. It also checks all three featured project visuals,
+  the Bathroom Buddy press hero, and carousel controls.
 - The GitHub workflow runs these on every PR and feature-branch update, and
   uploads the refreshed control-plane artifact for review.
 
@@ -79,7 +82,7 @@ The page-level control pass adds these independently checked outcomes:
 | --- | --- | --- |
 | Contextual page motion | Every content route has relevant decorative movement | 9 non-home public/case-study routes have their own kinetic motif; the home hero retains its orbit |
 | Action hierarchy | Primary and secondary actions read as controls, not prose | Filled/elevated primary actions, tinted two-pixel secondary actions, and underlined inline links; project actions are tested at ≥44px |
-| Bathroom Buddy hero media | Wide product visual, not a mobile screen | A 1200×720 map-results banner introduces the case study |
+| Featured project media | Source-led work evidence, never a placeholder | Bathroom Buddy uses an approved press hero; Vantaca uses its runtime Mermaid chart; AI Engineering uses its new-feature harness flow |
 | Bathroom Buddy mobile proof | User-controlled app-screen walkthrough | 3 labelled mobile screens with previous/next and direct slide controls |
 
 The same browser check confirms every public route and case study loads without

@@ -22,8 +22,17 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
           {project.capabilities.slice(0, 4).join(" · ")}
         </p>
         {project.banner && (
-          <div className="project-card-banner mt-5 relative aspect-[16/7] overflow-hidden border border-card-border bg-ink">
-            <Image src={project.banner.src} alt={project.banner.alt} fill sizes="(max-width: 640px) calc(100vw - 4rem), 720px" className="object-cover" />
+          <div
+            className={`project-card-banner project-card-banner--${project.banner.presentation ?? "cover"} mt-5 relative aspect-[16/10] overflow-hidden border border-card-border bg-ink`}
+            data-project-card-visual={project.slug}
+          >
+            <Image
+              src={project.banner.src}
+              alt={project.banner.alt}
+              fill
+              sizes="(max-width: 640px) calc(100vw - 4rem), 720px"
+              className={project.banner.presentation === "contain" ? "object-contain" : "object-cover"}
+            />
           </div>
         )}
       </div>

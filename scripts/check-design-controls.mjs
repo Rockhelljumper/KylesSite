@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 const root = process.cwd();
@@ -37,11 +37,37 @@ for (const value of requiredCss) {
   if (!css.includes(value)) failures.push(`Missing design CSS control: ${value}`);
 }
 
-if (!projects.includes(config.controls.bathroom_buddy_banner)) {
-  failures.push("Bathroom Buddy does not use the required wide product banner");
+const featuredVisuals = Object.entries(config.controls.featured_project_visuals ?? {});
+if (featuredVisuals.length !== 3) {
+  failures.push("Design governance must define visual evidence for all three featured case studies");
 }
 
-if (!caseStudy.includes("data-project-banner") || !caseStudy.includes("AppScreenshotCarousel")) {
+for (const [slug, visual] of featuredVisuals) {
+  if (!visual?.asset || !projects.includes(visual.asset)) {
+    failures.push(`${slug} does not use its governed source-led project visual`);
+    continue;
+  }
+
+  try {
+    await access(resolve(root, "public", visual.asset.replace(/^\//, "")));
+  } catch {
+    failures.push(`${slug} visual asset is missing from public media`);
+  }
+
+  if (visual.full_asset) {
+    try {
+      await access(resolve(root, "public", visual.full_asset.replace(/^\//, "")));
+    } catch {
+      failures.push(`${slug} full-size visual asset is missing from public media`);
+    }
+  }
+}
+
+if (projects.includes("map-results-banner.svg")) {
+  failures.push("Legacy Bathroom Buddy placeholder banner remains in project data");
+}
+
+if (!caseStudy.includes("data-project-banner") || !caseStudy.includes("data-project-slug") || !caseStudy.includes("AppScreenshotCarousel")) {
   failures.push("Case studies are missing the governed project banner or app carousel integration");
 }
 
@@ -66,5 +92,5 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `[design-controls] validated ${config.controls.desktop_navigation_labels.length} navigation destinations and ${requiredCss.length} visual controls.`,
+  `[design-controls] validated ${config.controls.desktop_navigation_labels.length} navigation destinations, ${featuredVisuals.length} featured project visuals, and ${requiredCss.length} visual controls.`,
 );
