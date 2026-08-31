@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { personalData } from "@/lib/data/personal";
 import { profile } from "@/lib/data/profile";
 
 export default function Footer() {
@@ -11,10 +12,10 @@ export default function Footer() {
           <Link href="/" className="font-semibold tracking-tight text-primary">
             Kyle Simmons<span className="text-brand-primary">.</span>
           </Link>
-          <p className="mt-4 max-w-sm text-sm leading-6 text-secondary">{profile.shortSummary}</p>
+          <p className="mt-4 max-w-sm text-sm leading-6 text-secondary">A personal home for systems work, maker projects, community teaching, and the occasional side quest.</p>
         </div>
         <div>
-          <p className="eyebrow">Navigate</p>
+          <p className="eyebrow">Explore</p>
           <ul className="mt-4 space-y-2">
             {profile.navigation.map((link) => (
               <li key={link.href}>
@@ -26,14 +27,14 @@ export default function Footer() {
             <li>
               <Link href="/community" className="text-sm text-secondary hover:text-primary">Community</Link>
             </li>
-            <li>
-              <Link href="/now" className="text-sm text-secondary hover:text-primary">Now</Link>
-            </li>
           </ul>
         </div>
         <div>
-          <p className="eyebrow">Connect</p>
+          <p className="eyebrow">Elsewhere</p>
           <ul className="mt-4 space-y-2">
+            <li>
+              <a href={personalData.podcast.href} target="_blank" rel="noopener noreferrer" className="text-sm text-secondary hover:text-primary">Into the Nerdverse</a>
+            </li>
             {profile.socialLinks.map((link) => (
               <li key={link.platform}>
                 <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-sm text-secondary hover:text-primary">
@@ -42,7 +43,7 @@ export default function Footer() {
               </li>
             ))}
             <li>
-              <a href={`mailto:${profile.email}`} className="text-sm text-secondary hover:text-primary">Email Kyle</a>
+              <Link href="/contact" className="text-sm text-secondary hover:text-primary">Say hello</Link>
             </li>
           </ul>
         </div>

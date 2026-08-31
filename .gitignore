@@ -15,6 +15,7 @@
 /playwright-report
 /test-results
 /.ai-engineering-output
+/undefined
 
 # next.js
 /.next/

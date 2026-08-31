@@ -155,6 +155,38 @@ select {
   text-decoration-line: underline;
 }
 
+.motion-float {
+  animation: quiet-float 8s ease-in-out infinite;
+}
+
+.motion-image {
+  transition: transform 240ms ease, filter 240ms ease;
+}
+
+.group:hover .motion-image,
+.motion-card:hover .motion-image {
+  transform: scale(1.025);
+}
+
+.motion-card {
+  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
+}
+
+.motion-card:hover {
+  transform: translateY(-3px);
+}
+
+@keyframes quiet-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
 .text-primary { color: var(--text-primary); }
 .text-secondary { color: var(--text-secondary); }
 .text-tertiary { color: var(--text-tertiary); }
@@ -185,5 +217,9 @@ select {
 
   html {
     scroll-behavior: auto;
+  }
+
+  .motion-card:hover {
+    transform: none;
   }
 }

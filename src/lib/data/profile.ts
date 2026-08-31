@@ -23,12 +23,13 @@ export const profile = {
     "Engineering leadership with hands-on depth in platform engineering, backend systems, reliability, secure delivery, and data integrations.",
   location: "Austin, Texas",
   headshotUrl: "/images/headshot.jpeg",
+  homePortraitUrl: "/images/HomeHeadshot.jpeg",
   email: "kyle7simmons1994@gmail.com",
   navigation: [
     { label: "Work", href: "/projects" },
     { label: "About", href: "/about" },
+    { label: "Life", href: "/now" },
     { label: "Résumé", href: "/resume" },
-    { label: "Contact", href: "/contact" },
   ] satisfies NavLink[],
   socialLinks: [
     {

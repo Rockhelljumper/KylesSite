@@ -10,6 +10,16 @@ Rebuilt the portfolio around one coherent identity: an engineering leader who re
 
 **After:** a concise engineering-leadership story that uses specific production, product, integration, and AI-workflow evidence. Platform, SRE, data/integration, security, and AI capabilities are connected to case studies instead of keyword clouds.
 
+## Person-first refresh
+
+This follow-up intentionally reduces the homepage to a short introduction,
+selected work, and one personal interlude. It restores the meaningful parts of
+the earlier personal site—makerspace work, outdoor life, home projects,
+reading, games, and the Into the Nerdverse podcast—without restoring generic
+project cards, technology clouds, or a corporate conversion funnel. Primary
+navigation now includes **Life**; contact remains available but is no longer a
+primary business CTA.
+
 ## Page changes
 
 - `/`: new executive-summary homepage, verified impact row, selected work, evidence-led capabilities, AI discipline, and a clear contact CTA.
@@ -64,6 +74,7 @@ Added server-first case-study pages, local image sizing, metadata base/canonical
 - `docs/screenshots/projects-desktop.png`
 - `docs/screenshots/bathroom-buddy.png`
 - `docs/screenshots/about.png`
+- `docs/screenshots/community.png`
 
 ## Claims requiring Kyle review
 

@@ -6,6 +6,13 @@ The design direction came from reviewing the [developer-portfolios collection](h
 
 This implementation uses an editorial layout: a compact primary navigation, thin rules, type-led hierarchy, one restrained teal/rust accent system, evidence rows, and detailed case-study routes. It intentionally avoids gradient text, animated counters, dashboard hero imagery, glass panels, and uniform card grids.
 
+The person-first follow-up keeps that restraint while returning some needed
+character: a genuine portrait, compact personal and community context, public
+podcast artwork, and gentle non-essential movement that yields entirely to
+`prefers-reduced-motion`. The home page now deliberately stops after a small
+set of work, a personal interlude, and a human invitation—details belong on
+their own routes.
+
 ## Information architecture
 
 - `/` — executive summary: role, verified proof points, selected work, capability evidence, and AI discipline.
@@ -14,6 +21,9 @@ This implementation uses an editorial layout: a compact primary navigation, thin
 - `/about` — leadership story, working domains, and personal context.
 - `/resume` — role-oriented resume variants served by the existing API.
 - `/contact` — public contact surface.
+
+`/now` is now labeled **Life** in primary navigation, while `/community`
+remains a supporting route for teaching, mentoring, and the hobby podcast.
 
 `/now` and `/community` remain available but are secondary navigation, not competing primary journeys.
 
@@ -35,6 +45,12 @@ This implementation uses an editorial layout: a compact primary navigation, thin
 - Bathroom Buddy uses only verified public links and one public product screenshot. It does not link private repositories or disclose infrastructure, admin paths, keys, providers, network topology, or specific security controls.
 - The financial integration project is consistently labelled a **synthetic reference implementation**, not production financial work.
 - The AI workflow is consistently labelled an **engineering lab**, not an autonomous production platform.
+- Into the Nerdverse is represented only with a verified Spotify link and
+  public-facing artwork. It is a community/personal surface, not a flagship
+  technical case study.
+- Personal interests are bounded descriptions based on existing site data; no
+  private home-lab data, schedule, specific current reading/watch lists, or
+  unverified hobby projects are published.
 
 ## Verification commands
 

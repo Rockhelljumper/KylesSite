@@ -214,19 +214,18 @@ export default function ContactPage() {
     <div className='flex flex-col px-4 min-h-[calc(100vh-4rem)] md:px-8 max-w-7xl mx-auto w-full py-24 md:py-32'>
       <div className='max-w-4xl mx-auto w-full'>
         <h1 className='text-3xl md:text-4xl font-bold mb-4'>
-          Let&apos;s Talk
+          Say hello
         </h1>
         <p className='mb-8 max-w-2xl text-secondary leading-relaxed'>
-          I am interested in engineering leadership and senior platform roles
-          where reliable delivery, production ownership, and practical technical
-          judgment matter.
+          If you want to talk about a role, a tricky systems problem, a makerspace
+          project, or a good book/podcast recommendation, I&apos;d be glad to hear from you.
         </p>
 
         <div className='grid md:grid-cols-3 gap-10'>
           {/* Contact Info */}
           <div className='md:col-span-1 order-2 md:order-1'>
             <div className='bg-card rounded-xl p-6 shadow-sm'>
-              <h2 className='text-xl font-semibold mb-4'>Contact Info</h2>
+              <h2 className='text-xl font-semibold mb-4'>A few ways to reach me</h2>
 
               <div className='space-y-4'>
                 {/* Email */}
@@ -247,7 +246,7 @@ export default function ContactPage() {
 
                 {/* Social Links */}
                 <div className='pt-4 border-t'>
-                  <h3 className='text-sm font-medium mb-3'>Connect with me</h3>
+                  <h3 className='text-sm font-medium mb-3'>Elsewhere on the internet</h3>
                   <div className='flex space-x-3'>
                     {profile.socialLinks.map((link) => (
                       <Link
@@ -277,7 +276,7 @@ export default function ContactPage() {
             }`}
           >
             <div className='bg-card rounded-xl p-6 shadow-sm'>
-              <h2 className='text-xl font-semibold mb-4'>Send a Message</h2>
+              <h2 className='text-xl font-semibold mb-4'>Drop a note</h2>
 
               <form ref={formRef} onSubmit={handleSubmit}>
                 <div className='space-y-4'>

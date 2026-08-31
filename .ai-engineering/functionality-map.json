@@ -24,12 +24,25 @@
       "name": "Canonical portfolio content",
       "path": "src/lib/data",
       "type": "library",
-      "description": "Canonical profile, resume, project taxonomy, claims, and page copy.",
+      "description": "Canonical profile, personal context, resume, project taxonomy, claims, and page copy.",
       "public_api": [
         {"name": "getProjectBySlug", "signature": "(slug: string) => Project | undefined", "description": "Finds a published project case study.", "inputs": "slug", "outputs": "project or undefined"}
       ],
       "dependencies": [],
       "test_coverage": "low"
+    },
+    {
+      "id": "personal-life",
+      "name": "Personal context and community surfaces",
+      "path": "src/lib/data/personal.ts, src/components/life, src/app/now, src/app/community",
+      "type": "ui",
+      "description": "Small, source-backed personal interests, community teaching, hobby-podcast, and life-lately surfaces that keep the portfolio human without exposing private detail.",
+      "public_api": [
+        {"name": "/now", "signature": "GET /now", "description": "A dated personal snapshot.", "inputs": "none", "outputs": "HTML"},
+        {"name": "/community", "signature": "GET /community", "description": "Community teaching, mentoring, and podcast context.", "inputs": "none", "outputs": "HTML"}
+      ],
+      "dependencies": ["portfolio-content", "next"],
+      "test_coverage": "moderate"
     },
     {
       "id": "portfolio-components",

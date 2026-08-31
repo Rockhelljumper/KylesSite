@@ -12,12 +12,12 @@ export default function ProjectsPage() {
   return (
     <div className="pt-28 sm:pt-32">
       <section className="site-shell py-14 sm:py-20">
-        <p className="eyebrow">Selected engineering work</p>
+        <p className="eyebrow">Selected work</p>
         <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.04em] text-primary sm:text-5xl">
-          Case studies for the work behind the résumé.
+          A small collection of work worth exploring.
         </h1>
         <p className="mt-6 max-w-3xl text-lg leading-8 text-secondary">
-          The collection is intentionally selective. Featured work shows product delivery, integration design, and AI-assisted engineering discipline; supporting work provides context for leadership, SRE, platform, and data-integration experience.
+          These are the stories I can share with useful detail: product delivery, careful integration design, platform experiments, and the engineering habits behind them.
         </p>
         <ProjectExplorer projects={publishedProjects} />
       </section>

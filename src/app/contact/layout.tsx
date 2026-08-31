@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Contact Kyle Simmons about engineering leadership, platform engineering, reliability, backend architecture, and data integrations.",
+    "Say hello to Kyle Simmons about engineering, maker projects, community work, or a good recommendation.",
   alternates: { canonical: "/contact" },
 };
 

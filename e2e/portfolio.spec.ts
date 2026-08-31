@@ -3,7 +3,7 @@ import AxeBuilder from "@axe-core/playwright";
 
 test("critical portfolio journeys render and navigate", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: "Engineering leadership that stays close to the systems." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Engineering that works in the real world." })).toBeVisible();
   await page.getByRole("link", { name: "View selected work" }).click();
   await expect(page).toHaveURL(/\/projects$/);
   await page.waitForTimeout(500);
@@ -38,10 +38,28 @@ test("primary routes stay within the viewport across target sizes", async ({ pag
 
 test("contact route exposes the public contact workflow without submitting a bot-protected form", async ({ page }) => {
   await page.goto("/contact");
-  await expect(page.getByRole("heading", { name: "Let's Talk" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Send a Message" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Say hello" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Drop a note" })).toBeVisible();
   await expect(page.getByLabel("Full Name")).toBeVisible();
   await expect(page.getByLabel("Email Address")).toBeVisible();
+});
+
+test("home and life surfaces include personal context without hiding the work", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByRole("img", { name: "Kyle Simmons" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "The rest of the context matters." })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Listen on Spotify" })).toHaveAttribute("href", "https://open.spotify.com/show/3CwC4tH9Yix6RIPuEo640u");
+  await page.getByRole("link", { name: "More of the human context" }).click();
+  await expect(page.getByRole("heading", { name: "A real person has side quests." })).toBeVisible();
+  await page.goto("/now");
+  await expect(page.getByRole("heading", { name: "A quiet snapshot, not a status feed." })).toBeVisible();
+});
+
+test("personal visual motion yields to reduced-motion preferences", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await expect(page.getByRole("heading", { name: "Engineering that works in the real world." })).toBeVisible();
+  await expect(page.locator(".motion-float").first()).toHaveCSS("animation-duration", "1e-05s");
 });
 
 test("home page has no automatically detectable critical accessibility violations", async ({ page }) => {

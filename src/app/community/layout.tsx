@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Community",
   description:
-    "Community speaking, mentoring, makerspace education, and developer support work from Kyle Simmons.",
+    "Community teaching, mentoring, makerspace education, and podcasting from Kyle Simmons.",
   alternates: { canonical: "/community" },
 };
 
