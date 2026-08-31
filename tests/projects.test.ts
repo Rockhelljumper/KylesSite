@@ -3,23 +3,25 @@ import { getClaim } from "@/lib/data/claims";
 import { featuredProjects, projectCapabilities, projects, publishedProjects } from "@/lib/data/projects";
 
 describe("portfolio project data", () => {
-  it("keeps the three flagship projects as detailed case studies", () => {
+  it("keeps the three flagship leadership projects as detailed case studies", () => {
     expect(featuredProjects.map((project) => project.slug)).toEqual([
-      "bathroom-buddy",
-      "reliable-financial-integration",
-      "ai-engineering-workflow-lab",
+      "resilient-platform-recovery",
+      "engineering-enablement-operations",
+      "regulated-platform-modernization",
     ]);
     expect(featuredProjects.every((project) => project.caseStudy)).toBe(true);
+    expect(featuredProjects.every((project) => project.portfolioLane === "leadership-case-study")).toBe(true);
   });
 
-  it("gives every flagship case study a source-led project visual", () => {
+  it("gives every flagship leadership case study a governed visual and keeps public work distinct", () => {
     expect(featuredProjects.map((project) => project.banner?.src)).toEqual([
-      "/images/bathroom-buddy/bathroom-buddy-press-hero.jpg",
-      "/images/projects/vantaca-architecture-overview.svg",
-      "/images/projects/ai-engineering-workflow.svg",
+      "/images/projects/platform-recovery.svg",
+      "/images/projects/engineering-enablement.svg",
+      "/images/projects/regulated-platform-delivery.svg",
     ]);
     expect(featuredProjects.every((project) => project.banner?.caption)).toBe(true);
-    expect(featuredProjects.find((project) => project.slug === "reliable-financial-integration")?.banner?.fullSize?.href)
+    expect(projects.find((project) => project.slug === "bathroom-buddy")?.portfolioLane).toBe("public-product");
+    expect(projects.find((project) => project.slug === "reliable-financial-integration")?.banner?.fullSize?.href)
       .toBe("/images/projects/vantaca-runtime-architecture.svg");
   });
 

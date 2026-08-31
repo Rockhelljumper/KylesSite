@@ -8,6 +8,7 @@ import ResumeVariantSelector from "@/components/resume/ResumeVariantSelector";
 import SkillsList from "@/components/resume/SkillsList";
 import Toast from "@/components/ui/Toast";
 import PageKinetic from "@/components/layout/PageKinetic";
+import RemoteRolePanel from "@/components/career/RemoteRolePanel";
 import { trackFileDownload } from "@/lib/utils/googleAnalytics";
 
 export default function ResumePage() {
@@ -99,13 +100,14 @@ export default function ResumePage() {
       <div className='container mx-auto px-4 py-24 md:py-32'>
       <div className='max-w-4xl mx-auto px-4 pt-32 pb-20 sm:pt-40 sm:pb-24'>
         <h1 className='text-4xl sm:text-5xl font-bold mb-6'>
-          <span className='text-gradient'>Resume</span>
+          <span className='text-gradient'>Leadership résumé</span>
         </h1>
         <p className='text-xl text-secondary max-w-2xl leading-relaxed transition-colors mb-8'>
-          Select the version that matches the role you are evaluating. Each
-          variant emphasizes the same career through a different hiring lens:
-          platform leadership, senior engineering, SRE/DevOps, or DevSecOps.
+          Select the version that matches the role you are evaluating. I am focused
+          on remote leadership roles across platform engineering, engineering
+          management, director-level scope, and technical team leadership.
         </p>
+        <RemoteRolePanel compact />
       </div>
 
       <div className='max-w-5xl mx-auto mb-16'>

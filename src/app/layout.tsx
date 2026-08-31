@@ -61,8 +61,7 @@ const personJsonLd = {
   "@type": "Person",
   name: profile.name,
   url: profile.siteUrl,
-  jobTitle: "Engineering leader and hands-on platform builder",
-  address: { "@type": "PostalAddress", addressLocality: "Austin", addressRegion: "TX", addressCountry: "US" },
+  jobTitle: "Platform Engineering Manager and Engineering Leader",
   sameAs: profile.socialLinks.map((link) => link.url),
   knowsAbout: ["Platform Engineering", "Site Reliability Engineering", "Software Architecture", "Backend Engineering", "Data Integration", "AI Engineering"],
 };

@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import CareerProof from "@/components/home/CareerProof";
+import { careerData } from "@/lib/data/career";
 import { homeData } from "@/lib/data/homeData";
 import { profile } from "@/lib/data/profile";
 
@@ -13,7 +15,7 @@ export default function Hero() {
       </div>
       <div className="site-shell hero-content grid gap-12 py-16 xl:grid-cols-[minmax(0,1.3fr)_minmax(22rem,0.7fr)] xl:items-center xl:py-28">
         <div>
-          <p className="eyebrow">Kyle Simmons · {profile.location} · Engineer, maker, mentor</p>
+          <p className="eyebrow">Kyle Simmons · {careerData.positioning.eyebrow}</p>
           <h1 className="hero-title mt-5 max-w-5xl font-semibold tracking-[-0.05em] text-primary">
             Engineering that works in the real world.
           </h1>
@@ -23,6 +25,7 @@ export default function Hero() {
           <p className="hero-summary mt-5 max-w-3xl text-secondary">
             {homeData.summary}
           </p>
+          <CareerProof />
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             {homeData.ctaLinks.map((link) => (
@@ -51,7 +54,7 @@ export default function Hero() {
           </div>
           <span className="hero-note" aria-hidden="true">WORK / MAKE / SHARE</span>
           <figcaption className="mt-3 font-mono text-xs text-tertiary">
-            Systems, side projects, and a good trail.
+            Remote leadership · systems · maker projects
           </figcaption>
         </figure>
       </div>

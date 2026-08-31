@@ -27,7 +27,7 @@ export default function AboutPage() {
           <div className="relative aspect-[4/5] w-56 overflow-hidden border border-card-border bg-card-alt sm:w-72">
             <Image src={profile.headshotUrl} alt="Kyle Simmons" fill sizes="(max-width: 640px) 224px, 288px" className="object-cover motion-image" priority />
           </div>
-          <figcaption className="mt-3 font-mono text-xs text-tertiary">Austin, Texas · coffee first</figcaption>
+          <figcaption className="mt-3 font-mono text-xs text-tertiary">Remote · United States · coffee first</figcaption>
         </figure>
         <div>
           <p className="eyebrow">About</p>

@@ -4,14 +4,11 @@ import AxeBuilder from "@axe-core/playwright";
 test("critical portfolio journeys render and navigate", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Engineering that works in the real world." })).toBeVisible();
-  await page.getByRole("link", { name: "View selected work" }).click();
+  await page.getByRole("link", { name: "Read leadership case studies" }).click();
   await expect(page).toHaveURL(/\/projects$/);
-  await page.waitForTimeout(500);
-  await page.getByRole("button", { name: "AI engineering" }).click();
-  await expect(page.getByText("1 project shown")).toBeVisible();
-  await page.getByRole("link", { name: "Open case study" }).click();
-  await expect(page).toHaveURL(/\/projects\/ai-engineering-workflow-lab$/);
-  await expect(page.getByRole("heading", { name: "AI Engineering Workflow Lab" })).toBeVisible();
+  await page.getByRole("link", { name: "Open case study" }).first().click();
+  await expect(page).toHaveURL(/\/projects\/(resilient-platform-recovery|engineering-enablement-operations|regulated-platform-modernization)$/);
+  await expect(page.getByRole("heading", { name: /Resilient Platform Recovery|Engineering Enablement|Regulated Platform Modernization/ })).toBeVisible();
 });
 
 test("Bathroom Buddy case study exposes only public product links", async ({ page }) => {

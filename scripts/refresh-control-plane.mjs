@@ -54,10 +54,24 @@ if (writeMaps) {
     dependencies: ["personal-life", "portfolio-components", "next", "react"],
     test_coverage: "high"
   };
+  const careerModule = {
+    id: "career-positioning",
+    name: "Remote leadership positioning",
+    path: "src/lib/data/career.ts, src/components/home/CareerProof.tsx, src/components/career/RemoteRolePanel.tsx, docs/linkedin-alignment.md",
+    type: "portfolio-governance",
+    description: "A single governed source for remote-only leadership availability, target roles, résumé-sourced proof points, public recruiter path, and a profile-owner LinkedIn alignment checklist.",
+    public_api: [
+      { name: "remote leadership focus", signature: "careerData", description: "Supplies the current role focus and verified proof-point identifiers to public portfolio routes." },
+      { name: "check:design", signature: "npm run check:design", description: "Prevents public positioning from reintroducing Austin or omitting the governed remote role focus." }
+    ],
+    dependencies: ["portfolio-routes", "claims-registry", "design-governance"],
+    test_coverage: "high"
+  };
   map.generated_at = now;
-  map.modules = [...map.modules.filter((module) => module.id !== designModule.id && module.id !== presentationModule.id), designModule, presentationModule];
+  map.modules = [...map.modules.filter((module) => module.id !== designModule.id && module.id !== presentationModule.id && module.id !== careerModule.id), designModule, presentationModule, careerModule];
   if (!map.entry_points.includes("design-governance")) map.entry_points.push("design-governance");
   if (!map.entry_points.includes("community-presentation-viewers")) map.entry_points.push("community-presentation-viewers");
+  if (!map.entry_points.includes("career-positioning")) map.entry_points.push("career-positioning");
   await writeFile(resolve(root, ".ai-engineering/functionality-map.json"), `${JSON.stringify(map, null, 2)}\n`);
 }
 

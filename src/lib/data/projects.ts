@@ -19,6 +19,7 @@ export const projectCapabilities = [
 
 export type ProjectCapability = (typeof projectCapabilities)[number];
 export type ProjectClassification = "featured" | "supporting" | "archive";
+export type ProjectPortfolioLane = "leadership-case-study" | "public-product" | "technical-reference" | "community" | "archive";
 
 export type ProjectLink = {
   label: string;
@@ -74,6 +75,7 @@ export type Project = {
   title: string;
   subtitle: string;
   classification: ProjectClassification;
+  portfolioLane: ProjectPortfolioLane;
   status: string;
   role: string;
   period?: string;
@@ -109,7 +111,8 @@ export const projects: Project[] = [
     slug: "bathroom-buddy",
     title: "Bathroom Buddy",
     subtitle: "Production restroom discovery across mobile, web, data quality, and operations",
-    classification: "featured",
+    classification: "supporting",
+    portfolioLane: "public-product",
     status: "Public product",
     role: "Hands-on engineering across mobile, web, backend, data workflows, and release readiness",
     period: "Ongoing",
@@ -258,7 +261,8 @@ export const projects: Project[] = [
     slug: "reliable-financial-integration",
     title: "Reliable Financial Integration & Transfer Architecture",
     subtitle: "A synthetic reference implementation for conservative integration design",
-    classification: "featured",
+    classification: "supporting",
+    portfolioLane: "technical-reference",
     status: "Public technical reference",
     role: "Architecture, implementation, test design, and technical documentation",
     overview:
@@ -371,7 +375,8 @@ export const projects: Project[] = [
     slug: "ai-engineering-workflow-lab",
     title: "AI Engineering Workflow Lab",
     subtitle: "Reusable AI-assisted delivery patterns with quality gates and human accountability",
-    classification: "featured",
+    classification: "supporting",
+    portfolioLane: "technical-reference",
     status: "Engineering lab",
     role: "Workflow design, harness implementation, and quality-governance patterns",
     overview:
@@ -460,6 +465,7 @@ export const projects: Project[] = [
     title: "Platform Engineering Lab: Automation & Observability",
     subtitle: "A safe environment for learning operational patterns before recommending them",
     classification: "supporting",
+    portfolioLane: "technical-reference",
     status: "Engineering lab",
     role: "Builder and operator",
     overview:
@@ -496,10 +502,157 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "resilient-platform-recovery",
+    title: "Resilient Platform Recovery & Hardening",
+    subtitle: "Confidential incident recovery, stability, and operational readiness work",
+    classification: "featured",
+    portfolioLane: "leadership-case-study",
+    status: "Confidential professional work",
+    role: "Platform Engineering Manager and incident-recovery leader",
+    period: "2021 – Present",
+    overview:
+      "A sanitized account of leading recovery and hardening work for critical regulated systems after a security incident. The public story focuses on operating decisions, recovery discipline, and team coordination—not customer details, topology, or security controls.",
+    technologies: ["Azure", "Infrastructure operations", "New Relic", "Cronitor", "GitHub Actions", "PCI DSS"],
+    capabilities: ["leadership", "platform", "sre", "devops", "security", "backend"],
+    outcomes: [
+      { value: "< 2 weeks", label: "infrastructure recovery", claimId: "payments-recovery" },
+      { value: "99.999%", label: "platform stability", claimId: "payments-platform-stability" },
+      { value: "Cross-functional", label: "incident and recovery coordination" },
+    ],
+    confidentialityNote:
+      "This case study intentionally removes customer names, attack details, host counts, service identities, recovery tooling, and security architecture. Outcomes are résumé-sourced and describe the scope that can be shared safely.",
+    banner: {
+      src: "/images/projects/platform-recovery.svg",
+      alt: "Abstract recovery path showing assess, restore, validate, and strengthen stages around a resilient platform",
+      caption: "A sanitized operating model for recovery and hardening—not a diagram of confidential systems.",
+      presentation: "contain",
+    },
+    caseStudy: {
+      problem:
+        "A security incident made the recovery path and the operating model just as important as the technology itself. The work had to restore secure service quickly while creating clear ownership, verification points, and a more resilient path forward.",
+      responsibilities: [
+        "Coordinated recovery priorities across engineering, operations, security, support, and leadership stakeholders.",
+        "Led infrastructure rebuild and validation work while keeping the public account free of sensitive technical detail.",
+        "Turned recovery lessons into clearer operational ownership, observability, and delivery practices.",
+      ],
+      architecture: {
+        summary: "The shared model is a repeatable operating loop: establish a safe baseline, restore the critical path, validate behavior, and use the resulting signals to harden future operations.",
+        layers: [
+          { label: "Priorities", detail: "Define critical services, recovery order, stakeholders, and decision owners." },
+          { label: "Recovery path", detail: "Rebuild and restore against a controlled baseline without exposing implementation details." },
+          { label: "Validation", detail: "Confirm service behavior, access boundaries, monitoring, and operational handoff." },
+          { label: "Hardening", detail: "Use lessons, signals, documentation, and rehearsal to strengthen the next response." },
+        ],
+      },
+      decisions: [
+        {
+          title: "Make the recovery order explicit",
+          context: "During an incident, every system can appear urgent and informal priorities create avoidable risk.",
+          options: "Restore components opportunistically, or align recovery to critical services, dependencies, and accountable owners.",
+          decision: "Used a staged recovery path with named priorities, verification points, and cross-functional communication.",
+          tradeoff: "A deliberate sequence can feel slower than parallel improvisation, but it avoids compounding uncertainty.",
+          result: "Recovery work stayed anchored to business-critical capability and safe validation rather than a scattered checklist.",
+        },
+        {
+          title: "Treat restoration and validation as separate gates",
+          context: "A rebuilt service is not automatically ready for reliable operation.",
+          options: "Declare success when systems start, or require observable behavior and operational handoff before closing the work.",
+          decision: "Separated restore activities from functional, security, monitoring, and ownership validation.",
+          tradeoff: "More explicit handoffs demand coordination, but make readiness visible to the people accountable for it.",
+          result: "The team could distinguish a recovered component from an operable platform.",
+        },
+      ],
+      operatingModel: [
+        "Use concise incident communication that names the decision, owner, current risk, and next verification point.",
+        "Keep monitoring and operational documentation close to the recovery path so the system can be supported after restoration.",
+        "Capture lessons as changes to ownership and practices, not only as retrospective notes.",
+      ],
+      lessons: [
+        "Resilience is a team behavior supported by systems, not a property of a dashboard.",
+        "A recovery plan earns trust when verification and decision ownership are visible.",
+        "The safest public case study can still explain how leaders made tradeoffs under pressure.",
+      ],
+    },
+  },
+  {
+    slug: "engineering-enablement-operations",
+    title: "Engineering Enablement & Support Automation",
+    subtitle: "Confidential delivery and support improvements that reduce operational drag",
+    classification: "featured",
+    portfolioLane: "leadership-case-study",
+    status: "Confidential professional work",
+    role: "Platform Engineering Manager and hands-on technical contributor",
+    period: "2021 – Present",
+    overview:
+      "A sanitized leadership case study about making delivery and support work easier to operate: clarify ownership, automate repeatable paths, and turn recurring friction into visible engineering work.",
+    technologies: ["GitHub Actions", "Azure", "C#", "SQL", "New Relic", "Cronitor", "Service and ticket workflows"],
+    capabilities: ["leadership", "platform", "devops", "sre", "backend", "data", "integrations"],
+    outcomes: [
+      { value: "90%", label: "faster support resolution", claimId: "payments-support-automation" },
+      { value: "80%", label: "less customer wait time", claimId: "payments-support-automation" },
+      { value: "3 / 30+", label: "direct leadership and influence", claimId: "payments-leadership-scope" },
+    ],
+    confidentialityNote:
+      "The systems, queues, workflow rules, customer data, and internal metrics behind this work are confidential. The case study describes reusable leadership and operating patterns rather than a customer environment.",
+    banner: {
+      src: "/images/projects/engineering-enablement.svg",
+      alt: "Abstract engineering enablement flow connecting developer delivery, observable operations, support feedback, and continuous improvement",
+      caption: "A sanitized feedback loop for delivery, operations, and support—not a representation of private tooling.",
+      presentation: "contain",
+    },
+    caseStudy: {
+      problem:
+        "Recurring delivery and support friction consumes senior engineering attention and makes customers wait. The durable fix is not a one-off script; it is a visible operating loop where teams can find the work, understand ownership, and improve the path together.",
+      responsibilities: [
+        "Managed and mentored engineers while influencing cross-functional partners across engineering, support, operations, product, security, and leadership.",
+        "Identified repeatable delivery and support paths suitable for automation, documentation, and better observability.",
+        "Connected technical changes to practical handoffs so the people receiving the work could operate and improve it.",
+      ],
+      architecture: {
+        summary: "The delivery system is treated as a product: developer workflows feed observable runtime behavior, support signals reveal friction, and prioritized improvements return to the teams who own the path.",
+        layers: [
+          { label: "Delivery", detail: "Repeatable build and release paths with ownership and feedback built in." },
+          { label: "Runtime signals", detail: "Operational context that lets teams see service behavior and recurring friction." },
+          { label: "Support loop", detail: "Structured intake, automation, and documentation for frequent issues and handoffs." },
+          { label: "Prioritization", detail: "Shared decisions that turn recurring signals into accountable engineering improvements." },
+        ],
+      },
+      decisions: [
+        {
+          title: "Optimize the whole handoff, not an isolated tool",
+          context: "Automating a step can move work to another queue if the owner, context, or escalation path is unclear.",
+          options: "Ship isolated automation, or define the handoff from request through resolution and learning.",
+          decision: "Paired automation with documentation, ownership, and feedback signals across the path.",
+          tradeoff: "This asks for collaboration beyond one team, but prevents a local optimization from creating downstream work.",
+          result: "The work focused on less waiting and clearer resolution rather than an automation count.",
+        },
+        {
+          title: "Use support signals as product and platform input",
+          context: "Support friction often exposes confusing behavior, missing operational context, or weak self-service paths.",
+          options: "Treat tickets as a separate service problem, or use trends to improve systems and developer experience.",
+          decision: "Made recurring issues visible to the teams that could remove the root cause or make the path more operable.",
+          tradeoff: "Trend review takes discipline, balanced by fewer repeat issues and more grounded priorities.",
+          result: "Support became a source of engineering insight instead of a terminal queue.",
+        },
+      ],
+      operatingModel: [
+        "Measure the outcome people feel—resolution and wait time—alongside delivery and operational activity.",
+        "Keep the decision owner, escalation route, and next action visible at each handoff.",
+        "Use regular cross-functional review to decide which recurring friction deserves product, platform, or process work.",
+      ],
+      lessons: [
+        "Developer experience and customer experience often share the same hidden handoffs.",
+        "Automation matters most when it clarifies responsibility and leaves a useful trail for the next person.",
+        "Leadership impact is visible in the operating system a team can sustain without heroics.",
+      ],
+    },
+  },
+  {
     slug: "regulated-platform-modernization",
     title: "Regulated Platform Modernization",
     subtitle: "Confidential payment-platform leadership and production ownership",
-    classification: "supporting",
+    classification: "featured",
+    portfolioLane: "leadership-case-study",
     status: "Confidential professional work",
     role: "Platform engineering manager and hands-on technical contributor",
     overview:
@@ -513,12 +666,65 @@ export const projects: Project[] = [
     ],
     confidentialityNote:
       "Customer names, architecture, code, data, incident details, and internal tools are intentionally omitted. The claims registry identifies résumé-sourced statements that require final source-PDF confirmation.",
+    banner: {
+      src: "/images/projects/regulated-platform-delivery.svg",
+      alt: "Abstract regulated platform delivery model showing secure delivery, reliable runtime, partner boundaries, and measured operations",
+      caption: "A sanitized view of the delivery and operations model for regulated platform work.",
+      presentation: "contain",
+    },
+    caseStudy: {
+      problem:
+        "Regulated payment systems need delivery speed, reliable operations, and careful security boundaries at the same time. The leadership challenge is turning that competing work into a repeatable platform capability without exposing customer or system details.",
+      responsibilities: [
+        "Set platform priorities and delivery practices while contributing hands-on across automation, observability, integration, and security-sensitive modernization.",
+        "Managed three engineers directly and influenced a broader cross-functional group across engineering, product, support, operations, security, and leadership.",
+        "Balanced delivery, operational risk, cloud cost, and partner needs in a confidential regulated environment.",
+      ],
+      architecture: {
+        summary: "The public model shows the essential boundaries: repeatable delivery reaches controlled runtime environments, services integrate through managed partner boundaries, and operational signals feed a shared improvement loop.",
+        layers: [
+          { label: "Engineering delivery", detail: "Build, test, and release paths that make change more repeatable across supported runtimes." },
+          { label: "Runtime platforms", detail: "Managed application and service environments with clear deployment and operational responsibilities." },
+          { label: "Partner boundaries", detail: "Security-conscious API and data-integration work without publishing customer or protocol details." },
+          { label: "Operations", detail: "Signals, incident response, cost stewardship, and feedback that guide reliability work." },
+        ],
+      },
+      decisions: [
+        {
+          title: "Standardize delivery paths without flattening runtime differences",
+          context: "A regulated platform can include different hosting models and service constraints.",
+          options: "Force every workload into one deployment shape, or standardize the controls while respecting runtime needs.",
+          decision: "Created GitHub-based delivery paths for supported environments with repeatable checks and ownership boundaries.",
+          tradeoff: "A shared platform needs deliberate exceptions, but reduces the cost and uncertainty of every release.",
+          result: "Résumé-sourced evidence indicates a 40% deployment-time reduction without claiming a single universal architecture.",
+        },
+        {
+          title: "Treat observability and cost as management signals",
+          context: "Reliability and cloud spend both need visible feedback rather than after-the-fact explanations.",
+          options: "Handle incidents and cost reviews separately, or use operational signals to guide prioritization together.",
+          decision: "Connected monitoring, operational review, and cloud stewardship to platform planning.",
+          tradeoff: "Shared review creates more coordination work, balanced by clearer investment decisions.",
+          result: "Résumé-sourced evidence includes 99.999% stability and a 20% Azure spend reduction.",
+        },
+      ],
+      operatingModel: [
+        "Make delivery, runtime, partner, and operational owners visible before an incident or release creates ambiguity.",
+        "Use audits, monitoring, and security-sensitive change review as ongoing engineering inputs—not end-of-project gates.",
+        "Share only the outcomes and decision patterns that are safe to publish; retain detailed system knowledge within the authorized team.",
+      ],
+      lessons: [
+        "Regulated delivery gets faster when reliable controls are part of the path, not a separate scavenger hunt.",
+        "Platform leadership is the work of making good decisions repeatable across teams.",
+        "NDA-safe storytelling can be specific about constraints, tradeoffs, and outcomes without exposing systems.",
+      ],
+    },
   },
   {
     slug: "into-the-nerdverse",
     title: "Into the Nerdverse",
     subtitle: "Community communication, mentoring, and a supporting web presence",
     classification: "supporting",
+    portfolioLane: "community",
     status: "Community project",
     role: "Host, technical mentor, and web contributor",
     overview:
@@ -538,6 +744,7 @@ export const projects: Project[] = [
     title: "Building This Site",
     subtitle: "The portfolio implementation",
     classification: "archive",
+    portfolioLane: "archive",
     status: "Archive",
     role: "Personal project",
     overview: "A Next.js portfolio and résumé implementation. It is retained as a small implementation note rather than featured work.",
@@ -550,6 +757,7 @@ export const projects: Project[] = [
     title: "Portfolio Backend API",
     subtitle: "Résumé-file delivery service",
     classification: "archive",
+    portfolioLane: "archive",
     status: "Archive",
     role: "Personal project",
     overview: "A small .NET resume-file service used by this portfolio. It is not positioned as a flagship engineering case study.",

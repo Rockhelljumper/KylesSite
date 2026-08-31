@@ -5,9 +5,10 @@ import type { Project } from "@/lib/data/projects";
 type ProjectCardProps = {
   project: Project;
   index: number;
+  primaryAction?: boolean;
 };
 
-export default function ProjectCard({ project, index }: ProjectCardProps) {
+export default function ProjectCard({ project, index, primaryAction = false }: ProjectCardProps) {
   const hasCaseStudy = Boolean(project.caseStudy);
 
   return (
@@ -31,6 +32,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
               alt={project.banner.alt}
               fill
               sizes="(max-width: 640px) calc(100vw - 4rem), 720px"
+              loading="eager"
               className={project.banner.presentation === "contain" ? "object-contain" : "object-cover"}
             />
           </div>
@@ -38,7 +40,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       </div>
       <div className="sm:pt-8">
         {hasCaseStudy ? (
-          <Link href={`/projects/${project.slug}`} className="button-secondary button-compact whitespace-nowrap" data-project-action>
+          <Link href={`/projects/${project.slug}`} className={`${primaryAction ? "button-primary" : "button-secondary"} button-compact whitespace-nowrap`} data-project-action>
             Open case study <span className="ml-2" aria-hidden="true">→</span>
           </Link>
         ) : project.publicLinks?.[0] ? (

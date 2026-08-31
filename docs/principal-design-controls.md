@@ -32,6 +32,10 @@ Measured at a 2540 × 1345 viewport on 2026-08-31:
 5. **Designers control the system, not one-off pages.** Typography, shell
    widths, motion, and route coverage are governed by CSS tokens plus
    Playwright measurements. A change that falls below a threshold fails CI.
+6. **The hiring signal is explicit without becoming corporate.** The homepage,
+   work, résumé, and contact routes consistently say remote-only and name the
+   current leadership-role focus. Claims are linked to the résumé data registry;
+   testimonials, customer names, and unsupported outcomes are never fabricated.
 
 ## Page-level behavior contract
 
@@ -43,12 +47,13 @@ Measured at a 2540 × 1345 viewport on 2026-08-31:
    secondary actions use a high-contrast tinted surface and two-pixel border;
    inline links are consistently underlined. Interactive actions are at least
    44px tall.
-3. **Project media has a job.** Every featured case study opens with source-led
-   visual evidence: approved product branding for Bathroom Buddy, the public
-   Vantaca Mermaid runtime architecture (with the full source rendering one
-   explicit action away), and the AI Engineering harness flow.
-   Mobile app screens are secondary evidence in an accessible, user-controlled
-   carousel—never the case-study hero.
+3. **Project media has a job.** Every featured leadership case study opens with
+   a clearly-labelled sanitized visual model, followed by visible outcomes,
+   decisions, operating model, and boundaries. Public Bathroom Buddy branding,
+   the Vantaca Mermaid runtime architecture, and the AI Engineering harness flow
+   remain source-led technical or product evidence. Mobile app screens are
+   secondary evidence in an accessible, user-controlled carousel—never the
+   case-study hero.
 4. **Presentations are webpages, not downloads.** Community presentation cards
    navigate directly to the real rendered slides, visible previous/next controls,
    a slide picker, and left/right keyboard navigation. Every active slide also
@@ -65,8 +70,9 @@ Measured at a 2540 × 1345 viewport on 2026-08-31:
   manifest and map timestamps for a reviewable current-state artifact.
 - Playwright measures navigation coverage, desktop typography/shell/image
   thresholds, page-level motion, action hierarchy, mobile overflow, and
-  reduced-motion behavior. It also checks all three featured project visuals,
-  the Bathroom Buddy press hero and carousel controls, plus every
+  reduced-motion behavior. It also checks all three featured leadership visuals
+  and their visible outcomes, the Bathroom Buddy press hero and carousel
+  controls, plus every
   browser-native Makerspace deck, same-tab navigation, slide controls, and
   per-slide documentation.
 - The GitHub workflow runs these on every PR and feature-branch update, and
@@ -91,7 +97,7 @@ The page-level control pass adds these independently checked outcomes:
 | --- | --- | --- |
 | Contextual page motion | Every content route has relevant decorative movement | 9 non-home public/case-study routes have their own kinetic motif; the home hero retains its orbit |
 | Action hierarchy | Primary and secondary actions read as controls, not prose | Filled/elevated primary actions, tinted two-pixel secondary actions, and underlined inline links; project actions are tested at ≥44px |
-| Featured project media | Source-led work evidence, never a placeholder | Bathroom Buddy uses an approved press hero; Vantaca uses its runtime Mermaid chart; AI Engineering uses its new-feature harness flow |
+| Featured leadership media | NDA-safe, labelled case-study evidence | Three leadership case studies use governed sanitized models and show résumé-sourced outcomes |
 | Bathroom Buddy mobile proof | User-controlled app-screen walkthrough | 3 labelled mobile screens with previous/next and direct slide controls |
 
 The same browser check confirms every public route and case study loads without

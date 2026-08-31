@@ -14,15 +14,15 @@ export default function ExplanatorySections({
       <section aria-labelledby="work-heading" className="site-shell py-16 sm:py-20">
         <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr]">
           <div>
-            <p className="eyebrow">Selected work</p>
+            <p className="eyebrow">Leadership case studies</p>
             <h2 id="work-heading" className="mt-3 text-3xl font-semibold tracking-tight text-primary sm:text-4xl">
-              A few things I&apos;m proud to put my name next to.
+              The operating work behind reliable teams and platforms.
             </h2>
             <p className="mt-5 max-w-md leading-7 text-secondary">
-              A public product, a deliberately conservative integration reference, and a workflow lab. The details live one click away; this page keeps the introduction short.
+              Three confidential, NDA-safe stories about platform modernization, incident recovery, and engineering enablement. The outcomes are résumé-sourced; the details focus on decisions and operating habits that are safe to share.
             </p>
-            <Link href="/projects" className="button-secondary button-compact mt-6">
-              See all work <span aria-hidden="true">→</span>
+            <Link href="/projects" className="button-primary button-compact mt-6">
+              Read the case studies <span aria-hidden="true">→</span>
             </Link>
           </div>
 

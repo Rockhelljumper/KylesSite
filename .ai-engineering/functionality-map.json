@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "repo": "https://github.com/Rockhelljumper/KylesSite",
   "primary_language": "TypeScript",
-  "generated_at": "2026-08-31T19:05:39.235Z",
+  "generated_at": "2026-08-31T20:22:27.023Z",
   "modules": [
     {
       "id": "portfolio-routes",
@@ -170,13 +170,39 @@
         "react"
       ],
       "test_coverage": "high"
+    },
+    {
+      "id": "career-positioning",
+      "name": "Remote leadership positioning",
+      "path": "src/lib/data/career.ts, src/components/home/CareerProof.tsx, src/components/career/RemoteRolePanel.tsx, docs/linkedin-alignment.md",
+      "type": "portfolio-governance",
+      "description": "A single governed source for remote-only leadership availability, target roles, résumé-sourced proof points, public recruiter path, and a profile-owner LinkedIn alignment checklist.",
+      "public_api": [
+        {
+          "name": "remote leadership focus",
+          "signature": "careerData",
+          "description": "Supplies the current role focus and verified proof-point identifiers to public portfolio routes."
+        },
+        {
+          "name": "check:design",
+          "signature": "npm run check:design",
+          "description": "Prevents public positioning from reintroducing Austin or omitting the governed remote role focus."
+        }
+      ],
+      "dependencies": [
+        "portfolio-routes",
+        "claims-registry",
+        "design-governance"
+      ],
+      "test_coverage": "high"
     }
   ],
   "entry_points": [
     "portfolio-routes",
     "contact-api",
     "design-governance",
-    "community-presentation-viewers"
+    "community-presentation-viewers",
+    "career-positioning"
   ],
   "known_limitations": [
     "Resume PDFs are served by a separate backend and require an environment-specific API URL.",

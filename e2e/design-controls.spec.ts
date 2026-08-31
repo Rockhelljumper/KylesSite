@@ -1,12 +1,9 @@
 import { expect, test } from "@playwright/test";
 import { communityData } from "@/lib/data/community";
+import { featuredProjects } from "@/lib/data/projects";
 import { primaryNavigation, publicRoutes } from "@/lib/data/siteRoutes";
 
-const publicCaseStudies = [
-  "/projects/bathroom-buddy",
-  "/projects/reliable-financial-integration",
-  "/projects/ai-engineering-workflow-lab",
-] as const;
+const publicCaseStudies = featuredProjects.map((project) => `/projects/${project.slug}`);
 const publicPresentationDecks = communityData.presentations.map((presentation) => `/community/presentations/${presentation.slug}`);
 
 test("principal desktop controls remain measurable", async ({ page }) => {
@@ -118,20 +115,23 @@ test("every public content route has contextual motion that honors reduced-motio
 test("project actions are visually distinct and every featured case study carries source-led visual evidence", async ({ page }) => {
   await page.goto("/projects");
   const projectAction = page.locator("[data-project-action]").first();
-  await expect(projectAction).toHaveClass(/button-secondary/);
-  await expect(projectAction).toHaveCSS("border-top-width", "2px");
+  await expect(projectAction).toHaveClass(/button-primary/);
   expect((await projectAction.boundingBox())?.height).toBeGreaterThanOrEqual(44);
 
   const featuredVisuals = [
-    ["bathroom-buddy", /bathroom-buddy-press-hero\.jpg/],
-    ["reliable-financial-integration", /vantaca-architecture-overview\.svg/],
-    ["ai-engineering-workflow-lab", /ai-engineering-workflow\.svg/],
+    ["regulated-platform-modernization", /regulated-platform-delivery\.svg/],
+    ["resilient-platform-recovery", /platform-recovery\.svg/],
+    ["engineering-enablement-operations", /engineering-enablement\.svg/],
   ] as const;
 
   for (const [slug, source] of featuredVisuals) {
     const cardVisual = page.locator(`[data-project-card-visual="${slug}"]`);
     await expect(cardVisual).toBeVisible();
     await expect(cardVisual.getByRole("img")).toHaveAttribute("src", source);
+    expect(await cardVisual.getByRole("img").evaluate((image) => {
+      const renderedImage = image as HTMLImageElement;
+      return renderedImage.complete && renderedImage.naturalWidth > 0;
+    })).toBe(true);
   }
 
   for (const [slug, source] of featuredVisuals) {
@@ -139,6 +139,11 @@ test("project actions are visually distinct and every featured case study carrie
     const caseStudyVisual = page.locator(`[data-project-banner][data-project-slug="${slug}"]`);
     await expect(caseStudyVisual).toBeVisible();
     await expect(caseStudyVisual.getByRole("img")).toHaveAttribute("src", source);
+    expect(await caseStudyVisual.getByRole("img").evaluate((image) => {
+      const renderedImage = image as HTMLImageElement;
+      return renderedImage.complete && renderedImage.naturalWidth > 0;
+    })).toBe(true);
+    await expect(page.locator("[data-project-outcomes]")).toBeVisible();
   }
 
   await page.goto("/projects/reliable-financial-integration");
@@ -151,6 +156,10 @@ test("project actions are visually distinct and every featured case study carrie
   const banner = page.locator("[data-project-banner]");
   await expect(banner).toBeVisible();
   await expect(banner.getByRole("img")).toHaveAttribute("src", /bathroom-buddy-press-hero\.jpg/);
+  expect(await banner.getByRole("img").evaluate((image) => {
+    const renderedImage = image as HTMLImageElement;
+    return renderedImage.complete && renderedImage.naturalWidth > 0;
+  })).toBe(true);
 
   const carousel = page.locator("[data-project-gallery]");
   await expect(carousel).toBeVisible();

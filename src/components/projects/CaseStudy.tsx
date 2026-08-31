@@ -58,6 +58,21 @@ export default function CaseStudy({ project }: CaseStudyProps) {
       </header>
 
       <div className="site-shell py-14 sm:py-20">
+        {project.outcomes.length > 0 && (
+          <section aria-labelledby="outcomes-heading" className="border-y border-card-border py-7" data-project-outcomes>
+            <p className="eyebrow">{project.status.includes("Confidential") ? "Résumé-sourced outcomes" : "Project outcomes"}</p>
+            <h2 id="outcomes-heading" className="mt-3 text-2xl font-semibold tracking-tight text-primary">What changed in the work.</h2>
+            <dl className="mt-7 grid gap-px border border-card-border bg-card-border sm:grid-cols-3">
+              {project.outcomes.map((outcome) => (
+                <div key={`${outcome.value}-${outcome.label}`} className="bg-card p-5">
+                  <dt className="text-3xl font-semibold tracking-tight text-brand-primary">{outcome.value}</dt>
+                  <dd className="mt-2 text-sm leading-6 text-secondary">{outcome.label}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
+
         <dl className="grid border-y border-card-border sm:grid-cols-3">
           <div className="py-5 sm:pr-6"><dt className="eyebrow">Role</dt><dd className="mt-2 text-sm leading-6 text-primary">{project.role}</dd></div>
           <div className="border-t border-card-border py-5 sm:border-l sm:border-t-0 sm:px-6"><dt className="eyebrow">Scope</dt><dd className="mt-2 text-sm leading-6 text-primary">{project.capabilities.join(" · ")}</dd></div>

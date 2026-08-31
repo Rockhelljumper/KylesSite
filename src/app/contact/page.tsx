@@ -17,6 +17,7 @@ import {
 } from "@/lib/utils/googleAnalytics";
 import { getTurnstileSiteKey } from "@/lib/utils/env";
 import PageKinetic from "@/components/layout/PageKinetic";
+import RemoteRolePanel from "@/components/career/RemoteRolePanel";
 
 // Form validation types
 type FormErrors = {
@@ -94,6 +95,12 @@ export default function ContactPage() {
   // Form submission handler
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    if (!turnstileSiteKey) {
+      setToastMessage("The contact form is unavailable in this environment. Please use the direct email link instead.");
+      setToastVisible(true);
+      return;
+    }
 
     if (!formValues.turnstileToken) {
       setToastMessage("Please complete the Turnstile verification");
@@ -220,9 +227,13 @@ export default function ContactPage() {
           Say hello
         </h1>
         <p className='mb-8 max-w-2xl text-secondary leading-relaxed'>
-          If you want to talk about a role, a tricky systems problem, a makerspace
-          project, or a good book/podcast recommendation, I&apos;d be glad to hear from you.
+          I&apos;m open to remote-only leadership opportunities. If you want to talk
+          about a role, a tricky systems problem, a makerspace project, or a good
+          book/podcast recommendation, I&apos;d be glad to hear from you.
         </p>
+        <div className='mb-10 max-w-3xl'>
+          <RemoteRolePanel compact />
+        </div>
 
         <div className='grid md:grid-cols-3 gap-10'>
           {/* Contact Info */}
@@ -379,16 +390,18 @@ export default function ContactPage() {
                           }}
                         />
                       ) : (
-                        <div className='p-4 text-red-500 bg-red-100 rounded-md'>
-                          Error: Turnstile site key is not configured. Please
-                          check your environment variables.
+                        <div className='border-l-2 border-brand-primary bg-card-alt p-4 text-sm leading-6 text-secondary' data-contact-form-unavailable>
+                          The form is unavailable in this environment. The quickest way to reach me is email.
+                          <a href={`mailto:${profile.email}`} className='button-secondary button-compact mt-3'>
+                            Email Kyle <span className='ml-2' aria-hidden='true'>→</span>
+                          </a>
                         </div>
                       );
                     })()}
                   </div>
 
                   {/* Submit Button */}
-                  <div className='pt-2'>
+                  {turnstileSiteKey && <div className='pt-2'>
                     <button
                       type='submit'
                       className='button-primary w-full disabled:cursor-not-allowed disabled:opacity-50'
@@ -422,7 +435,7 @@ export default function ContactPage() {
                         "Send Message"
                       )}
                     </button>
-                  </div>
+                  </div>}
                 </div>
               </form>
             </div>

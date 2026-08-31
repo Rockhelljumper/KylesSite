@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 
 const root = process.cwd();
 const read = (path) => readFile(resolve(root, path), "utf8");
-const [configRaw, css, routes, documentation, projects, caseStudy, carousel, community, presentationLibrary, presentationViewer] = await Promise.all([
+const [configRaw, css, routes, documentation, projects, caseStudy, carousel, community, presentationLibrary, presentationViewer, career, profile, hero, homePage, resumePage, contactPage, linkedinGuide] = await Promise.all([
   read(".ai-engineering/design-governance.json"),
   read("src/app/globals.css"),
   read("src/lib/data/siteRoutes.ts"),
@@ -14,6 +14,13 @@ const [configRaw, css, routes, documentation, projects, caseStudy, carousel, com
   read("src/lib/data/community.ts"),
   read("src/components/community/PresentationLibrary.tsx"),
   read("src/components/community/PresentationViewer.tsx"),
+  read("src/lib/data/career.ts"),
+  read("src/lib/data/profile.ts"),
+  read("src/components/home/Hero.tsx"),
+  read("src/app/page.tsx"),
+  read("src/app/resume/page.tsx"),
+  read("src/app/contact/page.tsx"),
+  read("docs/linkedin-alignment.md"),
 ]);
 const config = JSON.parse(configRaw);
 const failures = [];
@@ -110,6 +117,31 @@ for (const label of config.controls.desktop_navigation_labels) {
   }
 }
 
+const roleFocus = config.controls.remote_only_role_focus ?? [];
+if (!career.includes("remote-only") || profile.includes("Austin") || hero.includes("Austin") || homePage.includes("Austin") || resumePage.includes("Austin") || contactPage.includes("Austin")) {
+  failures.push("Public hiring positioning must remain remote-only and must not reintroduce an Austin location label");
+}
+
+for (const role of roleFocus) {
+  if (!career.includes(`"${role}"`)) {
+    failures.push(`Career positioning is missing governed role focus: ${role}`);
+  }
+}
+
+if (!hero.includes("CareerProof") || !homePage.includes("RemoteRolePanel") || !resumePage.includes("RemoteRolePanel") || !contactPage.includes("RemoteRolePanel")) {
+  failures.push("Homepage, résumé, and contact routes must expose the governed remote leadership path");
+}
+
+if (contactPage.includes("Error: Turnstile site key") || !contactPage.includes("data-contact-form-unavailable") || !contactPage.includes("mailto:${profile.email}")) {
+  failures.push("Contact must offer a professional direct-email fallback when bot verification is unavailable");
+}
+
+for (const requiredGuideText of ["LinkedIn alignment guide", "Remote-only", "Suggested headline", "Pre-publish review"]) {
+  if (!linkedinGuide.includes(requiredGuideText)) {
+    failures.push(`LinkedIn alignment guide is missing: ${requiredGuideText}`);
+  }
+}
+
 for (const requiredText of ["Baseline captured from localhost:3002", "Automated checks", "Design contract", "Page-level behavior contract"]) {
   if (!documentation.includes(requiredText)) {
     failures.push(`Design-control documentation is missing: ${requiredText}`);
@@ -121,5 +153,5 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `[design-controls] validated ${config.controls.desktop_navigation_labels.length} navigation destinations, ${featuredVisuals.length} featured project visuals, and ${requiredCss.length} visual controls.`,
+  `[design-controls] validated ${config.controls.desktop_navigation_labels.length} navigation destinations, ${featuredVisuals.length} featured project visuals, ${roleFocus.length} remote leadership roles, and ${requiredCss.length} visual controls.`,
 );

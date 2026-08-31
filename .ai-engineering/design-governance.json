@@ -1,7 +1,7 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "owner": "principal-design-review",
-  "intent": "Keep KyleSimmons.tech legible, personal, and route-complete as the portfolio evolves.",
+  "intent": "Keep KyleSimmons.tech legible, personal, recruiter-first, and route-complete as the portfolio evolves.",
   "desktop_viewport": { "width": 2540, "height": 1345 },
   "controls": {
     "desktop_navigation_labels": ["Home", "Work", "About", "Life", "Community", "Résumé", "Contact", "GitHub"],
@@ -11,23 +11,23 @@
     "body_copy_min_px": 18,
     "navigation_copy_min_px": 18,
     "interactive_target_min_px": 44,
-    "page_motion_routes": ["/projects", "/about", "/now", "/community", "/resume", "/contact", "/projects/bathroom-buddy", "/projects/reliable-financial-integration", "/projects/ai-engineering-workflow-lab"],
+    "page_motion_routes": ["/projects", "/about", "/now", "/community", "/resume", "/contact", "/projects/regulated-platform-modernization", "/projects/resilient-platform-recovery", "/projects/engineering-enablement-operations", "/projects/bathroom-buddy", "/projects/reliable-financial-integration", "/projects/ai-engineering-workflow-lab"],
     "primary_action_min_px": 44,
     "featured_project_visuals": {
-      "bathroom-buddy": {
-        "asset": "/images/bathroom-buddy/bathroom-buddy-press-hero.jpg",
-        "source": "approved Bathroom Buddy brand identity package"
+      "regulated-platform-modernization": {
+        "asset": "/images/projects/regulated-platform-delivery.svg",
+        "source": "sanitized leadership case-study model"
       },
-      "reliable-financial-integration": {
-        "asset": "/images/projects/vantaca-architecture-overview.svg",
-        "full_asset": "/images/projects/vantaca-runtime-architecture.svg",
-        "source": "public repository Mermaid architecture"
+      "resilient-platform-recovery": {
+        "asset": "/images/projects/platform-recovery.svg",
+        "source": "sanitized leadership case-study model"
       },
-      "ai-engineering-workflow-lab": {
-        "asset": "/images/projects/ai-engineering-workflow.svg",
-        "source": "AI Engineering new-feature harness manifest"
+      "engineering-enablement-operations": {
+        "asset": "/images/projects/engineering-enablement.svg",
+        "source": "sanitized leadership case-study model"
       }
     },
+    "remote_only_role_focus": ["Platform Engineering Manager", "Engineering Manager", "Director Opportunities", "Software Engineering Team Lead", "Platform Engineering Team Lead"],
     "bathroom_buddy_carousel_min_screens": 3,
     "browser_native_presentation_slugs": ["computer-building-2023", "what-is-docker", "ai-for-makers-workshop-2026-08-17"],
     "presentation_navigation": "same-tab",
@@ -37,7 +37,7 @@
     "mobile_viewports": [320, 390, 768],
     "desktop_viewports": [1440, 1920, 2540]
   },
-  "evidence_routes": ["/", "/projects", "/projects/bathroom-buddy", "/about", "/now", "/community", "/community/presentations/computer-building-2023", "/community/presentations/what-is-docker", "/community/presentations/ai-for-makers-workshop-2026-08-17", "/resume", "/contact"],
+  "evidence_routes": ["/", "/projects", "/projects/regulated-platform-modernization", "/projects/resilient-platform-recovery", "/projects/engineering-enablement-operations", "/projects/bathroom-buddy", "/about", "/now", "/community", "/community/presentations/computer-building-2023", "/community/presentations/what-is-docker", "/community/presentations/ai-for-makers-workshop-2026-08-17", "/resume", "/contact"],
   "update_policy": {
     "automatically_refresh": ["verification manifest", "functionality-map governed modules", "non-baseline screenshot evidence", "page-motion and project-media control checks"],
     "human_review_required": ["threshold changes", "route inventory changes", "visual baseline approval", "production deployment"],

@@ -13,12 +13,12 @@ export type SocialLink = {
 export const profile = {
   name: "Kyle Simmons",
   siteUrl: "https://kylesimmons.tech",
-  title: "Engineering leader and hands-on platform builder",
+  title: "Remote engineering leader and hands-on platform builder",
   summary:
     "I build reliable software platforms, make production work easier to operate, and help teams turn complicated technical work into repeatable delivery.",
   shortSummary:
     "Engineering leadership with hands-on depth in platform engineering, backend systems, reliability, secure delivery, and data integrations.",
-  location: "Austin, Texas",
+  location: "Remote · United States",
   headshotUrl: "/images/headshot.jpeg",
   homePortraitUrl: "/images/HomeHeadshot.jpeg",
   email: "kyle7simmons1994@gmail.com",

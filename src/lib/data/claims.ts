@@ -19,6 +19,13 @@ export type PortfolioClaim = {
  */
 export const portfolioClaims: PortfolioClaim[] = [
   {
+    id: "payments-platform-stability",
+    statement: "Maintained 99.999% platform stability for critical payment-system operations.",
+    status: "verified_from_resume_data",
+    source: "src/lib/data/resume.ts — USIO platform experience",
+    reviewNote: "Confirm against the current source résumé PDF before merge.",
+  },
+  {
     id: "payments-deployment-improvement",
     statement: "Reduced deployment time by 40% for payment-platform delivery paths.",
     status: "verified_from_resume_data",
@@ -31,6 +38,27 @@ export const portfolioClaims: PortfolioClaim[] = [
     status: "verified_from_resume_data",
     source: "src/lib/data/resume.ts — USIO platform experience",
     reviewNote: "Confirm against the current source résumé PDF before merge.",
+  },
+  {
+    id: "payments-recovery",
+    statement: "Rebuilt server infrastructure after a ransomware event in under two weeks while restoring secure operations.",
+    status: "verified_from_resume_data",
+    source: "src/lib/data/resume.ts — USIO platform experience",
+    reviewNote: "Keep customer, system, and security-sensitive details out of public case studies.",
+  },
+  {
+    id: "payments-support-automation",
+    statement: "Reduced support resolution time by 90% and customer wait time by 80% through automation, documentation, and ticketing practices.",
+    status: "verified_from_resume_data",
+    source: "src/lib/data/resume.ts — USIO platform experience",
+    reviewNote: "Confirm against the current source résumé PDF before merge.",
+  },
+  {
+    id: "payments-leadership-scope",
+    statement: "Managed 3 engineers directly and influenced 30+ cross-functional stakeholders across regulated platform work.",
+    status: "verified_from_resume_data",
+    source: "src/lib/data/resume.ts — USIO platform experience",
+    reviewNote: "Use as professional-scope context, not a claim about organizational headcount.",
   },
   {
     id: "payments-partner-integrations",

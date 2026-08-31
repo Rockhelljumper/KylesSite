@@ -50,7 +50,7 @@ const usioPlatformExperience: ExperienceItem = {
   company: "USIO",
   position: "Platform Engineering Manager",
   duration: "2021 - Present",
-  location: "Austin, TX",
+  location: "Remote · United States",
   description:
     "Built and led platform engineering capabilities for regulated fintech systems, managing 3 engineers directly and influencing 30+ stakeholders across engineering, product, support, operations, security, and executive teams.",
   achievements: [

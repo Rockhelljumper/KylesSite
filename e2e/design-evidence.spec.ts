@@ -28,6 +28,9 @@ const captures: readonly EvidenceCapture[] = [
     reducedMotion: "no-preference",
   },
   { route: "/projects", name: "work-desktop", viewport: { width: 1440, height: 1000 } },
+  { route: "/projects/regulated-platform-modernization", name: "regulated-platform-desktop", viewport: { width: 1440, height: 1000 } },
+  { route: "/projects/resilient-platform-recovery", name: "platform-recovery-desktop", viewport: { width: 1440, height: 1000 } },
+  { route: "/projects/engineering-enablement-operations", name: "engineering-enablement-desktop", viewport: { width: 1440, height: 1000 } },
   { route: "/projects/bathroom-buddy", name: "bathroom-buddy-desktop", viewport: { width: 1440, height: 1000 } },
   { route: "/projects/reliable-financial-integration", name: "financial-integration-desktop", viewport: { width: 1440, height: 1000 } },
   { route: "/projects/ai-engineering-workflow-lab", name: "ai-workflow-desktop", viewport: { width: 1440, height: 1000 } },
@@ -56,6 +59,11 @@ test("captures reviewable design evidence without establishing a visual baseline
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     if (colorScheme === "dark") await expect(page.locator("html")).toHaveClass(/dark/);
     await page.evaluate(() => document.fonts.ready);
+    await page.waitForFunction(
+      () => [...document.images].every((image) => image.complete && image.naturalWidth > 0),
+      undefined,
+      { timeout: 10_000 },
+    );
     await page.screenshot({ path: resolve(outputDirectory, `${capture.name}.png`), fullPage: true });
     const metrics = capture.name === "home-ultrawide-dark-motion"
       ? await page.evaluate(() => ({
