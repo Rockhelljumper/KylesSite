@@ -16,8 +16,8 @@ describe("portfolio project data", () => {
   it("gives every flagship leadership case study a governed visual and keeps public work distinct", () => {
     expect(featuredProjects.map((project) => project.banner?.src)).toEqual([
       "/images/projects/platform-recovery.svg",
-      "/images/projects/engineering-enablement.svg",
-      "/images/projects/regulated-platform-delivery.svg",
+      "/images/projects/engineering-enablement.svg?v=20260901-remove-pins",
+      "/images/projects/regulated-platform-delivery.svg?v=20260901-remove-pins",
     ]);
     expect(featuredProjects.every((project) => project.banner?.caption)).toBe(true);
     expect(projects.find((project) => project.slug === "bathroom-buddy")?.portfolioLane).toBe("public-product");
