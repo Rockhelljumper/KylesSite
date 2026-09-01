@@ -595,7 +595,7 @@ export const projects: Project[] = [
     confidentialityNote:
       "The systems, queues, workflow rules, customer data, and internal metrics behind this work are confidential. The case study describes reusable leadership and operating patterns rather than a customer environment.",
     banner: {
-      src: "/images/projects/engineering-enablement.svg",
+      src: "/images/projects/engineering-enablement.svg?v=20260901-remove-pins",
       alt: "Abstract engineering enablement flow connecting developer delivery, observable operations, support feedback, and continuous improvement",
       caption: "A sanitized feedback loop for delivery, operations, and support—not a representation of private tooling.",
       presentation: "contain",
@@ -667,7 +667,7 @@ export const projects: Project[] = [
     confidentialityNote:
       "Customer names, architecture, code, data, incident details, and internal tools are intentionally omitted. The claims registry identifies résumé-sourced statements that require final source-PDF confirmation.",
     banner: {
-      src: "/images/projects/regulated-platform-delivery.svg",
+      src: "/images/projects/regulated-platform-delivery.svg?v=20260901-remove-pins",
       alt: "Abstract regulated platform delivery model showing secure delivery, reliable runtime, partner boundaries, and measured operations",
       caption: "A sanitized view of the delivery and operations model for regulated platform work.",
       presentation: "contain",
