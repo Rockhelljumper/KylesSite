@@ -522,7 +522,7 @@ export const projects: Project[] = [
     confidentialityNote:
       "This case study intentionally removes customer names, attack details, host counts, service identities, recovery tooling, and security architecture. Outcomes are résumé-sourced and describe the scope that can be shared safely.",
     banner: {
-      src: "/images/projects/platform-recovery.svg",
+      src: "/images/projects/platform-recovery.svg?v=20260901-contained-copy",
       alt: "Abstract recovery path showing assess, restore, validate, and strengthen stages around a resilient platform",
       caption: "A sanitized operating model for recovery and hardening—not a diagram of confidential systems.",
       presentation: "contain",
@@ -667,7 +667,7 @@ export const projects: Project[] = [
     confidentialityNote:
       "Customer names, architecture, code, data, incident details, and internal tools are intentionally omitted. The claims registry identifies résumé-sourced statements that require final source-PDF confirmation.",
     banner: {
-      src: "/images/projects/regulated-platform-delivery.svg?v=20260901-remove-pins",
+      src: "/images/projects/regulated-platform-delivery.svg?v=20260901-contained-copy",
       alt: "Abstract regulated platform delivery model showing secure delivery, reliable runtime, partner boundaries, and measured operations",
       caption: "A sanitized view of the delivery and operations model for regulated platform work.",
       presentation: "contain",
