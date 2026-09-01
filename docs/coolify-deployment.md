@@ -33,8 +33,7 @@ keep it available at runtime for the résumé proxy.
 
 ## Immediate follow-up
 
-The failed-deployment log included sensitive build-time values. Rotate the
-affected Turnstile and legacy Postmark secrets in their providers, remove the
-old Postmark variables after confirming Resend delivery, and keep the Resend
-key runtime-only. Ensure the Resend sender domain is verified and that
-Turnstile permits the production domain before redeploying.
+The failed-deployment log included sensitive build-time values. Rotate any
+affected provider secrets, keep the Resend key runtime-only, and ensure the
+Resend sender domain is verified before redeploying. Turnstile must permit the
+production domain as well.
