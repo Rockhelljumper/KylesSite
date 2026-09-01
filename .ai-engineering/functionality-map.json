@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "repo": "https://github.com/Rockhelljumper/KylesSite",
   "primary_language": "TypeScript",
-  "generated_at": "2026-08-31T21:39:59.844Z",
+  "generated_at": "2026-09-01T16:59:18.563Z",
   "modules": [
     {
       "id": "portfolio-routes",
@@ -117,7 +117,7 @@
         }
       ],
       "dependencies": [
-        "postmark",
+        "Resend",
         "Cloudflare Turnstile",
         "KylesSiteBackend"
       ],
@@ -233,7 +233,7 @@
   ],
   "known_limitations": [
     "Resume PDFs are served by a separate backend and require an environment-specific API URL.",
-    "Contact delivery depends on configured Turnstile and Postmark credentials."
+    "Contact delivery depends on configured Turnstile and Resend credentials."
   ],
   "harness_hints": {
     "bug_prone_modules": [
