@@ -18,6 +18,7 @@ import {
 import { getTurnstileSiteKey } from "@/lib/utils/env";
 import PageKinetic from "@/components/layout/PageKinetic";
 import RemoteRolePanel from "@/components/career/RemoteRolePanel";
+import { CONTACT_TURNSTILE_ACTION } from "@/lib/contact/turnstile";
 
 // Form validation types
 type FormErrors = {
@@ -361,34 +362,56 @@ export default function ContactPage() {
                   </div>
 
                   {/* Turnstile Widget */}
-                  <div className='flex justify-center my-4'>
+                  <fieldset className='my-6 rounded-lg border border-card-border bg-card-alt p-4' data-contact-turnstile>
+                    <legend className='px-1 text-sm font-semibold'>Spam protection</legend>
+                    <p className='mb-3 text-sm leading-6 text-secondary'>
+                      Complete this short verification before sending. It helps keep this inbox human.
+                    </p>
                     {(() => {
                       return turnstileSiteKey ? (
-                        <Turnstile
-                          siteKey={turnstileSiteKey}
-                          onSuccess={(token) =>
-                            setFormValues((prev) => ({
-                              ...prev,
-                              turnstileToken: token,
-                            }))
-                          }
-                          onError={() => {
-                            setToastMessage(
-                              "Failed to load Turnstile verification. Please refresh the page."
-                            );
-                            setToastVisible(true);
-                          }}
-                          onExpire={() => {
-                            setFormValues((prev) => ({
-                              ...prev,
-                              turnstileToken: "",
-                            }));
-                            setToastMessage(
-                              "Verification expired. Please verify again."
-                            );
-                            setToastVisible(true);
-                          }}
-                        />
+                        <>
+                          <div className='max-w-full overflow-hidden'>
+                            <Turnstile
+                              siteKey={turnstileSiteKey}
+                              options={{
+                                action: CONTACT_TURNSTILE_ACTION,
+                                theme: "auto",
+                                size: "flexible",
+                              }}
+                              onSuccess={(token) =>
+                                setFormValues((prev) => ({
+                                  ...prev,
+                                  turnstileToken: token,
+                                }))
+                              }
+                              onError={() => {
+                                setFormValues((prev) => ({
+                                  ...prev,
+                                  turnstileToken: "",
+                                }));
+                                setToastMessage(
+                                  "Failed to load verification. Please refresh the page or use the email link."
+                                );
+                                setToastVisible(true);
+                              }}
+                              onExpire={() => {
+                                setFormValues((prev) => ({
+                                  ...prev,
+                                  turnstileToken: "",
+                                }));
+                                setToastMessage(
+                                  "Verification expired. Please verify again."
+                                );
+                                setToastVisible(true);
+                              }}
+                            />
+                          </div>
+                          <p className='mt-3 text-sm text-secondary' aria-live='polite'>
+                            {formValues.turnstileToken
+                              ? "Verification complete. You can send your message."
+                              : "Verification is required before sending."}
+                          </p>
+                        </>
                       ) : (
                         <div className='border-l-2 border-brand-primary bg-card-alt p-4 text-sm leading-6 text-secondary' data-contact-form-unavailable>
                           The form is unavailable in this environment. The quickest way to reach me is email.
@@ -398,14 +421,14 @@ export default function ContactPage() {
                         </div>
                       );
                     })()}
-                  </div>
+                  </fieldset>
 
                   {/* Submit Button */}
                   {turnstileSiteKey && <div className='pt-2'>
                     <button
                       type='submit'
                       className='button-primary w-full disabled:cursor-not-allowed disabled:opacity-50'
-                      disabled={!isFormValid() || isSubmitting}
+                      disabled={!isFormValid() || !formValues.turnstileToken || isSubmitting}
                     >
                       {isSubmitting ? (
                         <span className='flex items-center justify-center'>

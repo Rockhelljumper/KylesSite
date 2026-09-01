@@ -24,8 +24,8 @@ Set the following as **runtime only** variables. They must not be injected as
 Docker build arguments or printed in build logs:
 
 - `TURNSTILE_SECRET_KEY`
-- `POSTMARK_API_TOKEN`
-- `POSTMARK_FROM_EMAIL`
+- `RESEND_API_KEY`
+- `RESEND_FROM_EMAIL`
 - `CONTACT_RECEIVER_EMAIL`
 
 `NEXT_PUBLIC_BACKEND_API_URL` is not secret. Set it to the production API URL;
@@ -34,6 +34,7 @@ keep it available at runtime for the résumé proxy.
 ## Immediate follow-up
 
 The failed-deployment log included sensitive build-time values. Rotate the
-affected Postmark and Turnstile secrets in their providers, update Coolify's
-runtime-only variables, then redeploy after this Dockerfile change reaches the
-branch Coolify is configured to build.
+affected Turnstile and legacy Postmark secrets in their providers, remove the
+old Postmark variables after confirming Resend delivery, and keep the Resend
+key runtime-only. Ensure the Resend sender domain is verified and that
+Turnstile permits the production domain before redeploying.

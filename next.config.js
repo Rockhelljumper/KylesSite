@@ -25,7 +25,7 @@ const nextConfig = {
     domains: [],
   },
   // Handle external packages
-  serverExternalPackages: ['postmark'],
+  serverExternalPackages: ['resend'],
   webpack: (config) => {
     // Handle external package polyfills
     config.resolve.fallback = {
