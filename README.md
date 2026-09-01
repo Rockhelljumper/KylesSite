@@ -54,8 +54,9 @@ NEXT_PUBLIC_BACKEND_API_URL=https://api.example.com
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
 NEXT_PUBLIC_TURNSTILE_SITE_KEY=your_turnstile_site_key
 TURNSTILE_SECRET_KEY=your_turnstile_secret_key
-POSTMARK_API_TOKEN=your_postmark_server_token
-POSTMARK_FROM_EMAIL=you@example.com
+RESEND_API_KEY=re_your_resend_api_key
+RESEND_FROM_EMAIL="Kyle Simmons <hello@example.com>"
+CONTACT_RECEIVER_EMAIL=you@example.com
 ```
 
 Never commit live API keys or service tokens. The resume proxy accepts only resume filenames declared in `src/lib/data/resume.ts`.

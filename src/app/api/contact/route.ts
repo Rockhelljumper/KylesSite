@@ -1,43 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { contactFormSchema } from "@/lib/validation/contactSchema";
-import * as postmark from "postmark";
+import { Resend } from "resend";
 import { getTurnstileSecretKey } from "@/lib/utils/env";
 import { escapeHtml } from "@/lib/utils/escapeHtml";
+import { verifyTurnstileToken } from "@/lib/contact/turnstile";
 
-// Initialize Postmark client lazily to avoid build issues
-const getPostmarkClient = () => {
-  const token = process.env.POSTMARK_API_TOKEN;
-  if (!token) {
-    throw new Error("Postmark API token not configured");
+// Initialize Resend lazily so a missing runtime secret does not fail a build.
+const getResendClient = () => {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    throw new Error("Resend API key not configured");
   }
-  return new postmark.ServerClient(token);
+  return new Resend(apiKey);
 };
 
-// Verify Turnstile token
-async function verifyTurnstileToken(token: string) {
-  const secretKey = getTurnstileSecretKey();
-  if (!secretKey) {
-    console.error("Turnstile secret key not configured");
-    return false;
-  }
-
-  const response = await fetch(
-    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        secret: secretKey,
-        response: token,
-      }),
-    }
-  );
-
-  const data = await response.json();
-  return data.success;
-}
+const getRequestIp = (request: NextRequest) =>
+  request.headers.get("cf-connecting-ip") ??
+  request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
 
 // Format contact form data into HTML email. All user supplied content is escaped
 // before being interpolated into HTML.
@@ -73,14 +52,17 @@ const formatContactText = (fullName: string, email: string, subject: string, mes
 
 // Format auto-reply email
 const formatAutoReplyEmail = (fullName: string, senderEmail: string) => {
+  const safeName = escapeHtml(fullName);
+  const safeSenderEmail = escapeHtml(senderEmail);
+
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <h2 style="color: #333;">Thank You for Your Message</h2>
-      <p>Dear ${fullName},</p>
+      <p>Dear ${safeName},</p>
       <p>Thank you for contacting me. I have received your message and will get back to you as soon as possible.</p>
       <p>Thank you,<br/>Kyle Simmons</p>
       <p style="font-size: 12px; color: #999; margin-top: 20px;">
-        This is an automated response from ${senderEmail}
+        This is an automated response from ${safeSenderEmail}
       </p>
     </div>
   `;
@@ -88,8 +70,21 @@ const formatAutoReplyEmail = (fullName: string, senderEmail: string) => {
 
 export async function POST(request: NextRequest) {
   try {
-    // Parse and validate request body
-    const body = await request.json();
+    if (!request.headers.get("content-type")?.includes("application/json")) {
+      return NextResponse.json(
+        { error: "Expected a JSON request body" },
+        { status: 415 }
+      );
+    }
+
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON request body" }, { status: 400 });
+    }
+
+    // Parse and validate request body.
     const result = contactFormSchema.safeParse(body);
 
     if (!result.success) {
@@ -108,7 +103,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const isValidToken = await verifyTurnstileToken(turnstileToken);
+    const turnstileSecretKey = getTurnstileSecretKey();
+    if (!turnstileSecretKey) {
+      console.error("Turnstile secret key not configured");
+      return NextResponse.json(
+        { error: "Contact form not properly configured" },
+        { status: 503 }
+      );
+    }
+
+    const isValidToken = await verifyTurnstileToken({
+      token: turnstileToken,
+      secretKey: turnstileSecretKey,
+      remoteIp: getRequestIp(request),
+    });
     if (!isValidToken) {
       return NextResponse.json(
         { error: "Invalid Turnstile token" },
@@ -117,8 +125,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { fullName, email, subject, message } = formData;
-    const senderEmail = process.env.POSTMARK_FROM_EMAIL;
-    const receiverEmail = process.env.CONTACT_RECEIVER_EMAIL || senderEmail;
+    const senderEmail = process.env.RESEND_FROM_EMAIL;
 
     if (!senderEmail) {
       return NextResponse.json(
@@ -127,29 +134,44 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Initialize client only when needed
-    const client = getPostmarkClient();
+    const receiverEmail = process.env.CONTACT_RECEIVER_EMAIL || senderEmail;
 
-    // Send notification email to receiver
-    await client.sendEmail({
-      From: senderEmail,
-      To: receiverEmail,
-      Subject: `New Contact Form Submission: ${subject}`,
-      HtmlBody: formatContactEmail(fullName, email, subject, message),
-      TextBody: formatContactText(fullName, email, subject, message),
-      ReplyTo: email,
-      MessageStream: "outbound",
+    // Initialize client only when the request has passed server-side validation.
+    const client = getResendClient();
+
+    // The owner notification is the primary delivery. Do not report success if
+    // Resend rejects it.
+    const notification = await client.emails.send({
+      from: senderEmail,
+      to: receiverEmail,
+      subject: `New Contact Form Submission: ${subject}`,
+      html: formatContactEmail(fullName, email, subject, message),
+      text: formatContactText(fullName, email, subject, message),
+      replyTo: email,
+      tags: [{ name: "source", value: "portfolio-contact" }],
     });
 
-    // Send auto-reply to the sender
-    await client.sendEmail({
-      From: senderEmail,
-      To: email,
-      Subject: "Thank you for your message",
-      HtmlBody: formatAutoReplyEmail(fullName, senderEmail),
-      TextBody: `Thank you for contacting Kyle Simmons, ${fullName}. Your message was received.`,
-      MessageStream: "outbound",
+    if (notification.error) {
+      throw new Error(`Resend notification delivery failed: ${notification.error.message}`);
+    }
+
+    // An acknowledgement is useful, but a failure here must not invite a
+    // visitor to submit the form again after the owner already received it.
+    const autoReply = await client.emails.send({
+      from: senderEmail,
+      to: email,
+      subject: "Thank you for your message",
+      html: formatAutoReplyEmail(fullName, senderEmail),
+      text: `Thank you for contacting Kyle Simmons, ${fullName}. Your message was received.`,
+      tags: [{ name: "source", value: "portfolio-contact-autoreply" }],
     });
+
+    if (autoReply.error) {
+      console.error("Resend auto-reply delivery failed", {
+        message: autoReply.error.message,
+        name: autoReply.error.name,
+      });
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

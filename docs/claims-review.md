@@ -22,6 +22,6 @@ The canonical machine-readable registry is `src/lib/data/claims.ts`. New numeric
 
 ## Dependency review
 
-This refresh removes unused authentication, OAuth, Node fetch, and mailer dependencies; updates the Next.js, Postmark, Tailwind, and related packages within the existing major-version strategy; and adds test tooling.
+This refresh removes unused authentication, OAuth, Node fetch, and mailer dependencies; updates the Next.js, Resend, Tailwind, and related packages within the existing major-version strategy; and adds test tooling.
 
 At audit time, the remaining production audit report contains framework/toolchain advisory paths whose available remediation is a Next.js 16 major upgrade. That upgrade is intentionally deferred because it is a larger compatibility project than this portfolio refresh. Re-run `npm audit --omit=dev` before deployment and schedule the framework upgrade rather than suppressing the findings.
